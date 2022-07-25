@@ -7,7 +7,7 @@ interface Props {
 
 function HomeLayout({ children }: Props) {
   return (
-    <div className="flex flex-col w-full">
+    <div className="dark:bg-gray-800 bg-white flex flex-col w-full">
       <header className="flex">
           <Navbar />
       </header>
