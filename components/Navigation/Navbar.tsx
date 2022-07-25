@@ -54,7 +54,7 @@ function Navbar() {
       <div className="md:flex hidden flex-row items-center  h-16 lg:px-0 md:16 md:px-4 px-2 space-x-4 max-w-7xl mx-auto justify-between">
         <div
           onClick={() => history.push("/")}
-          className="uppercase cursor-pointer font-bold text-sm text-gray-700 flex flex-row items-center"
+          className="uppercase cursor-pointer font-bold text-sm text-gray-700 flex flex-row items-center dark:text-white"
         >
           {/* <Image width={100} objectFit='contain' src={logo} alt="logo representing the website icon" className="h-8 ml-2" /> */}
           logo
