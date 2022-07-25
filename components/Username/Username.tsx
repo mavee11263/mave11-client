@@ -9,7 +9,7 @@ interface Props{
 
 function Username({className, verified, username}:Props):ReactElement {
   return (
-    <div className={`${className} flex flex-row items-center`}>
+    <div className={`${className} flex flex-row items-center dark:text-gray-200 text-gray-700`}>
         <p>{username}</p>
         {verified && <BadgeCheckIcon className='text-blue-700' height={16} width={16} />}
     </div>

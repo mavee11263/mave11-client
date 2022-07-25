@@ -15,8 +15,6 @@ import { MenuIcon, ChevronRightIcon, ArrowLeftIcon } from '@heroicons/react/outl
 import {UserCircleIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
 import { data } from '../../utils/data'
-// import logo from '../../public/img/full_logo.png'
-import Image from 'next/image'
 import Username from '../Username/Username'
 
 interface Props {
@@ -31,7 +29,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
     return (
         <>
             <div onClick={onOpen}>
-                <MenuIcon height={20} width={20} className="text-gray-700" />
+                <MenuIcon height={20} width={20} className="text-gray-700 dark:text-white" />
             </div>
             <Drawer
                 isOpen={isOpen}
@@ -39,21 +37,21 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                 onClose={onClose}
             >
                 <DrawerOverlay />
-                <DrawerContent>
+                <DrawerContent className='dark:bg-gray-800 bg-white'>
                     <DrawerCloseButton />
-                    <DrawerHeader bg={'white'}>
+                    <DrawerHeader className="dark:bg-gray-700 bg-white">
 
                         {/* <p className="text-lg font-semibold text-gray-700 uppercase mx-auto text-center my-4">logo</p> */}
-                        <div className="flex py-2 text-black font-extrabold font-myriad-pro">
+                        <div className="flex py-2 text-black dark:text-white font-extrabold font-myriad-pro">
                             {/* <Image height={20} objectFit="contain" src={logo} alt="logo for mobile drawer"/> */}
                             logo
                         </div>
                     </DrawerHeader>
                     {
                         show_category ? (
-                            <DrawerBody bg={'white'} p={0}>
+                            <DrawerBody className="dark:bg-gray-700 bg-white" p={0}>
                                 <Divider />
-                                <div className="flex flex-row items-center py-4 bg-white px-4 gap-8">
+                                <div className="flex flex-row items-center py-4 bg-white dark:bg-gray-700 px-4 gap-8">
                                     <Avatar size="sm" name={user?.name} />
                                     {
                                         user ? (
@@ -90,9 +88,9 @@ function MobileNavDrawers({ user }: Props): ReactElement {
 
                             </DrawerBody>
                         ) : (
-                            <DrawerBody bg={'gray.200'} p={0}>
+                            <DrawerBody className='bg-gray-200 dark:bg-gray-800' p={0}>
                                 <Divider />
-                                <div className="flex flex-row items-center py-4 bg-white mt-4 space-x-2 px-4 mb-4">
+                                <div className="flex flex-row items-center py-4 bg-white dark:bg-gray-700 mt-4 space-x-2 px-4 mb-4">
                                     <Avatar size="sm" name={user?.name} />
                                     {
                                         user ? (
@@ -105,30 +103,30 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                                 <Divider />
                                 {
                                     user?.role === 'seller' ? (
-                                        <div onClick={() => history.push('/dashboard')} className="capitalize text-gray-700 py-4 text-sm bg-white px-4 font-semibold flex flex-row items-center justify-between">
-                                            <p>Sell on trolliey</p>
+                                        <div onClick={() => history.push('/dashboard')} className="capitalize text-gray-700 dark:text-gray-200 py-4 text-sm bg-white dark:bg-gray-700 px-4 font-semibold flex flex-row items-center justify-between">
+                                            <p>Become A Creator</p>
                                             <ChevronRightIcon height={20} width={20} />
                                         </div>
                                     ) : (
-                                        <div onClick={() => history.push('/become-a-seller')} className="capitalize text-gray-700 py-4 text-sm bg-white px-4 font-semibold flex flex-row items-center justify-between">
-                                            <p>Sell on trolliey</p>
+                                        <div onClick={() => history.push('/become-a-seller')} className="capitalize text-gray-700 dark:text-gray-200 py-4 text-sm bg-white dark:bg-gray-700 px-4 font-semibold flex flex-row items-center justify-between">
+                                            <p>Become A Creator</p>
                                             <ChevronRightIcon height={20} width={20} />
                                         </div>
                                     )
                                 }
                                 <Divider />
-                                <div onClick={() => history.push('/explore')} className="capitalize text-gray-700 py-4 bg-white px-4 text-sm font-semibold flex flex-row items-center justify-between">
-                                    <p>explore products</p>
+                                <div onClick={() => history.push('/explore')} className="capitalize text-gray-700 dark:text-gray-200 py-4 bg-white dark:bg-gray-700 px-4 text-sm font-semibold flex flex-row items-center justify-between">
+                                    <p>explore trending</p>
                                     <ChevronRightIcon height={20} width={20} />
                                 </div>
                                 <Divider />
-                                <div onClick={() => setShowCotegory(true)} className="capitalize text-gray-700 py-4 bg-white px-4 text-sm font-semibold flex flex-row items-center justify-between">
-                                    <p>shop by categories</p>
+                                <div onClick={() => setShowCotegory(true)} className="capitalize text-gray-700 dark:text-gray-200 py-4 bg-white dark:bg-gray-700 px-4 text-sm font-semibold flex flex-row items-center justify-between">
+                                    <p>view by categories</p>
                                     <ChevronRightIcon height={20} width={20} />
                                 </div>
                                 <Divider />
                                
-                                <div onClick={() => history.push('/help')} className="capitalize text-gray-700 py-4 bg-white px-4 text-sm font-semibold flex flex-row items-center justify-between">
+                                <div onClick={() => history.push('/help')} className="capitalize text-gray-700 dark:text-gray-200 py-4 bg-white dark:bg-gray-700 px-4 text-sm font-semibold flex flex-row items-center justify-between">
                                     <p>Help</p>
                                     <ChevronRightIcon height={20} width={20} />
                                 </div>
@@ -139,9 +137,9 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                         )
                     }
                     <Divider />
-                    <DrawerFooter width={'full'} borderTopColor={'gray.200'}>
+                    <DrawerFooter width={'full'} className="bg-white dark:bg-gray-800" borderTopColor={'gray.200'}>
                         <div className="flex flex-row items-center justify-between">
-                            <div className='flex flex-row items-center border border-gray-300 rounded-full'>
+                            <div className='flex flex-row items-center border border-gray-300 dark:border-gray-500 rounded-full'>
                                 <UserCircleIcon height={28} width={28} className='text-gray-700' />
                                 <div className='pr-2 font-semibold '>
                                     {
