@@ -4,10 +4,14 @@ import { useRouter } from "next/router";
 import React from "react";
 import image_video from "../../public/images/video.png";
 
-function SingleVideo() {
+interface Props{
+  _id:string
+}
+
+function SingleVideo({_id}:Props) {
   const router = useRouter()
   return (
-    <div onClick={()=> router.push(`/video/asdfjasdasdyuy`)} className="col-span-1 cursor-pointer flex flex-col">
+    <div onClick={()=> router.push(`/video/${_id}`)} className="col-span-1 cursor-pointer flex flex-col">
       <div className="relative">
         <Image src={image_video} layout="responsive" objectFit="cover" />
       </div>

@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import Pagination from "../components/Pagination/Pagination";
 import SingleVideo from "../components/SingleVideo/SingleVideo";
@@ -10,6 +11,7 @@ import { apiUrl } from "../utils/apiUrl";
 const PER_PAGE = 16;
 
 const Home: NextPage = () => {
+
   const [page, setPage] = useState<number>(1);
   const { state: store_state } = useContext(Store);
   const { search_category, search_query } = store_state;
@@ -46,7 +48,7 @@ const Home: NextPage = () => {
               <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1  gap-6">
                 {state?.data?.videos?.map((item: any, key: number) => (
                   <div key={key} className="col-span-1">
-                    <SingleVideo />
+                    <SingleVideo _id={item._id} />
                   </div>
                 ))}
               </div>
