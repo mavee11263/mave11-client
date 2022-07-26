@@ -10,6 +10,8 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@heroicons/react": "^1.0.6",
+    "@types/js-cookie": "^3.0.2",
+    "axios": "^0.27.2",
     "cloudinary-react": "^1.8.1",
     "framer-motion": "^6",
     "js-cookie": "^3.0.1",

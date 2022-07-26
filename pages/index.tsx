@@ -6,7 +6,7 @@ import HomeLayout from "../layouts/HomeLayout";
 const Home: NextPage = () => {
   return (
     <HomeLayout>
-      <div className="flex flex-col w-full ">
+      <div className="flex flex-col w-full lg:px-0 md:px-4 px-4 ">
         <div className="flex flex-row items-center space-x-6 overflow-y-scroll py-4 scrollbar-hide">
           {
             [1,2,3,4,5,6,7,8,9,4,4,3,3,3,3,3,3,3,3,3,3].map((item, index)=>(
