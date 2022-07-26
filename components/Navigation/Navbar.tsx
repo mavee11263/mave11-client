@@ -1,29 +1,23 @@
-import React, { useState } from "react";
-import {
-  MenuAlt3Icon,
-  MoonIcon,
-  SearchIcon,
-  SunIcon,
-} from "@heroicons/react/solid";
+import React, { useContext } from "react";
+import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import MobileNavDrawers from "../Drawers/MobileNavDrawers";
 import NavSearch from "../NavSearch/NavSearch";
+import { Store } from "../../Context/Store";
+import { Avatar } from "@chakra-ui/react";
+import { UploadIcon } from "@heroicons/react/outline";
 
 function Navbar() {
   const { systemTheme, theme, setTheme } = useTheme();
   const history = useRouter();
+  const { state, dispatch } = useContext(Store);
+  const { mavee_11_user } = state;
 
-  const [mobile_nav, setMobileNav] = useState(false);
-  const router = useRouter();
-  const toggle_mobile_nav = () => {
-    mobile_nav ? setMobileNav(false) : setMobileNav(true);
-  };
-
-  const userInfo = {
-    name: "tatendaZw",
-    role: "user",
+  const logout_user = () => {
+    dispatch({ type: "USER_LOGOUT" });
+    history.push("/");
   };
 
   const renderThemeToggle = () => {
@@ -66,16 +60,33 @@ function Navbar() {
         </>
 
         {renderThemeToggle()}
-        <Link href={"/login"}>
-          <a className="">Sign In</a>
-        </Link>
-        <Link href={"/register"}>
-          <a>Register</a>
-        </Link>
+
+        {/* // right side navbar options */}
+        {mavee_11_user ? (
+          <div className="flex flex-row items-start space-x-4">
+            <div className="flex flex-col my-auto">
+              <Link href={"/upload"}>
+                <a ><UploadIcon height={20} width={20} /></a>
+              </Link>
+            </div>
+            <div className="flex flex-row" onClick={logout_user}>
+              <Avatar name={mavee_11_user?.name} size="sm" />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <Link href={"/login"}>
+              <a className="">Sign In</a>
+            </Link>
+            <Link href={"/register"}>
+              <a>Register</a>
+            </Link>
+          </div>
+        )}
 
         {/* //drawer when on moblie view */}
         <div className="md:hidden flex">
-          <MobileNavDrawers user={userInfo} />
+          <MobileNavDrawers user={mavee_11_user} />
         </div>
       </div>
 
@@ -83,7 +94,7 @@ function Navbar() {
         <div className="flex flex-row items-center space-x-2">
           {/* //drawer when on moblie view */}
           <div className="md:hidden flex pl-4">
-            <MobileNavDrawers user={userInfo} />
+            <MobileNavDrawers user={mavee_11_user} />
           </div>
           <div className="relative flex p-4"> </div>
         </div>

@@ -7,12 +7,12 @@ import { StoreProvider } from "../Context/Store";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider enableSystem={true} attribute="class">
-      <ChakraProvider>
         <StoreProvider>
+        <ChakraProvider>
           <Component {...pageProps} />
-        </StoreProvider>
-      </ChakraProvider>
-    </ThemeProvider>
+        </ChakraProvider>
+    </StoreProvider>
+      </ThemeProvider>
   );
 }
 
