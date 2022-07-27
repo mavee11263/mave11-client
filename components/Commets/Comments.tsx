@@ -23,9 +23,12 @@ function Comments({ videoId }: Props) {
   const [loading, setLoading] = useState(false);
   const [comments, setComments] = useState<any>();
   const [comment, setComment] = useState("");
+  const [number_of_comments, setNumberOfComments] = useState(1);
 
   const { state, dispatch } = useContext(Store);
   const { mavee_11_user } = state;
+
+  console.log("video id is ", videoId);
 
   const create_comment = async () => {
     try {
@@ -59,7 +62,7 @@ function Comments({ videoId }: Props) {
       setLoading(true);
       try {
         const { data } = await axios.get(
-          `${apiUrl}/api/comment/all?videoId=${query?.id}`
+          `${apiUrl}/api/comment/all?videoId=${videoId}`
         );
         console.log(data);
         setComments(data.comments);
@@ -70,13 +73,17 @@ function Comments({ videoId }: Props) {
       }
     };
     getReviews();
-  }, []);
+  }, [videoId]);
 
   useEffect(() => {
     socket.on("comment", (data) => {
       setComments((old_comments: any) => [...old_comments, data.comment]);
     });
   }, [socket]);
+
+  const comments_to_show = (comments: any, number_on_comments: number) => {
+    return comments?.slice(0, number_on_comments);
+  };
 
   return (
     <div className="flex flex-col space-y-4 md:py-4 py-2 col-span-7 dark:text-gray-200 text-gray-700 w-full">
@@ -102,19 +109,33 @@ function Comments({ videoId }: Props) {
         <p className="text-gray-400 w-full text-center">Loading ...</p>
       ) : (
         <>
-          {comments?.map((item: any, index: number) => (
-            <CommentItem name={item?.sentFromId} comment={item?.comment} />
-          ))}
+          {comments_to_show(comments, number_of_comments)?.map(
+            (item: any, index: number) => (
+              <CommentItem name={item?.sentFromId} comment={item?.comment} />
+            )
+          )}
         </>
       )}
       <div className="flex mx-auto">
-        <div className="flex flex-col bg-gray-200 dark:bg-gray-700 cursor-pointer px-1 rounded">
-          <DotsHorizontalIcon
-            height={20}
-            width={20}
-            className="text-gray-700 dark:text-gray-300"
-          />
-        </div>
+        {number_of_comments < 8 ? (
+          <div
+            onClick={() => setNumberOfComments(8)}
+            className="flex flex-col bg-gray-200 dark:bg-gray-700 cursor-pointer px-1 rounded"
+          >
+            <DotsHorizontalIcon
+              height={20}
+              width={20}
+              className="text-gray-700 dark:text-gray-300"
+            />
+          </div>
+        ) : (
+          <div
+            onClick={() => setNumberOfComments(8)}
+            className="flex flex-col bg-gray-200 text-sm font-semibold hover:bg-gray-300 dark:bg-gray-700 cursor-pointer p-1 rounded"
+          >
+            Show More
+          </div>
+        )}
       </div>
     </div>
   );

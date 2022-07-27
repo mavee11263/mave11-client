@@ -1,20 +1,37 @@
-import {  ThumbDownIcon, ThumbUpIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
-import React from "react";
-import SingleVideo from "../../components/SingleVideo/SingleVideo";
+import React, { useEffect, useState } from "react";
 import VideoPlayer from "../../components/VideoPlayer/VideoPlayer";
 import HomeLayout from "../../layouts/HomeLayout";
 import dynamic from 'next/dynamic'
 import RelatedVideos from '../../components/PageSections/RelatedVideos'
-
+import LikeAndDislike from "../../components/LikeAndDislike/LikeAndDislike";
+import axios from "axios";
+import { apiUrl } from "../../utils/apiUrl";
+import { connect, convertDocToObj, disconnect } from '../../utils/mongo'
+import Video from '../../models/Video'
 
 const Comments = dynamic(() => import('../../components/Commets/Comments'), {
   ssr: false,
 })
 
-function SinglePost() {
+function SinglePost(props: any) {
   const router = useRouter()
   const {query} = router
+
+  // from server side props
+  const { video } = props
+
+  console.log(video)
+  
+  useEffect(()=>{
+    const getVideo = async () =>{
+      const {data} = await axios.get(`${apiUrl}/api/video/single/${query.id}`)
+      console.log(data)
+    }
+    getVideo()
+  },[])
+
+
   return (
     <HomeLayout>
       <main className="lg:px-20 md:px-12 px-4 flex flex-col w-full">
@@ -23,15 +40,12 @@ function SinglePost() {
             <VideoPlayer />
             <div className="flex pb-8 pt-2 dark:text-gray-200 text-gray-900 w-full md:flex-row flex-col-reverse md:items-center">
               <p className="font-semibold flex-1">
-                Iam a video added by a user click me to play
+                {video?.title}
               </p>
               <div className="flex flex-row items-center md:justify-between justify-end py-2 space-x-2 dark:text-gray-200 text-gray-700">
-                <span>
-                  <ThumbUpIcon height={20} width={20} />
-                </span>
-                <span>
-                  <ThumbDownIcon height={20} width={20} />
-                </span>
+                <>
+                  <LikeAndDislike video_id={video._id} likes={video.likes ? video.likes : ""} />
+                </>
                 <div className="flex self-end bg-blue-700 hover:bg-blue-800 cursor-pointer uppercase text-white py-1 px-2 md:text-sm text-xs rounded">
                   Subscribe - 12M
                 </div>
@@ -61,6 +75,19 @@ function SinglePost() {
       </main>
     </HomeLayout>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const { params } = context
+  const { id } = params
+  await connect()
+  const video = await Video.findOne({ _id: id }).lean()
+  await disconnect()
+  return {
+    props: {
+      video: convertDocToObj(video),
+    },
+  }
 }
 
 export default SinglePost;
