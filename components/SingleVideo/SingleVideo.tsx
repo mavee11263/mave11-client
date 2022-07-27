@@ -5,10 +5,13 @@ import React from "react";
 import image_video from "../../public/images/video.png";
 
 interface Props{
-  _id:string
+  _id:string,
+  title: string,
+  likes: number,
+  numberOfViews: number
 }
 
-function SingleVideo({_id}:Props) {
+function SingleVideo({_id, title, likes, numberOfViews}:Props) {
   const router = useRouter()
   return (
     <div onClick={()=> router.push(`/video/${_id}`)} className="col-span-1 cursor-pointer flex flex-col">
@@ -21,13 +24,19 @@ function SingleVideo({_id}:Props) {
           noOfLines={2}
           className="font-semibold dark:text-gray-200 text-gray-700 pt-2"
         >
-          Iam a video added by a user click me to play
+          {title}
         </Text>
       </div>
       <div className="flex flex-row items-center justify-left space-x-2 dark:text-gray-500 text-gray-500 text-sm py-2 md:px-0 px-2">
-        <Text>100 Views</Text>
+        <Text>{numberOfViews} {numberOfViews < 1 ? "View" : "Views"}</Text>
         <span className="text-xl">&#183;</span>
-        <Text>143 likes</Text>
+        {
+          likes < 1 ?(
+            <Text></Text>
+          ):(
+            <Text>{likes} {likes > 1 ? "likes" : "like"}</Text>
+          )
+        }
       </div>
     </div>
   );

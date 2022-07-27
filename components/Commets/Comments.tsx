@@ -28,8 +28,6 @@ function Comments({ videoId }: Props) {
   const { state, dispatch } = useContext(Store);
   const { mavee_11_user } = state;
 
-  console.log("video id is ", videoId);
-
   const create_comment = async () => {
     try {
       const { data } = await axios.post(
@@ -45,7 +43,6 @@ function Comments({ videoId }: Props) {
         }
       );
       setComments((old_comments: any) => [...old_comments, data.comments]);
-      console.log(data);
       toast({
         title: "Comment added.",
         status: "success",
@@ -64,7 +61,6 @@ function Comments({ videoId }: Props) {
         const { data } = await axios.get(
           `${apiUrl}/api/comment/all?videoId=${videoId}`
         );
-        console.log(data);
         setComments(data.comments);
         setLoading(false);
       } catch (error) {

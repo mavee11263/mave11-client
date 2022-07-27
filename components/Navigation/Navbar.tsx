@@ -62,7 +62,7 @@ function Navbar() {
         {renderThemeToggle()}
 
         {/* // right side navbar options */}
-        {/* {mavee_11_user ? (
+        {mavee_11_user ? (
           <div className="flex flex-row items-start space-x-4">
             <div className="flex flex-col my-auto">
               <Link href={"/upload"}>
@@ -82,7 +82,7 @@ function Navbar() {
               <a>Register</a>
             </Link>
           </div>
-        )} */}
+        )}
 
         {/* //drawer when on moblie view */}
         <div className="md:hidden flex">

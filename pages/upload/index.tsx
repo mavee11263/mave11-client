@@ -4,15 +4,16 @@ import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
 import { Store } from "../../Context/Store";
 import { getError } from "../../utils/error";
-import { Select } from "@chakra-ui/react";
+import { Select, useToast } from "@chakra-ui/react";
 
 function Upload() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const { mavee_11_user } = state;
 
   const upload_video = async () => {
@@ -31,11 +32,18 @@ function Upload() {
           },
         }
       );
-
+      toast({
+        title: "Video Uploaded",
+        status: "success",
+        position: "top-right",
+        duration: 9000,
+        isClosable: true,
+      });
       console.log(data);
       setLoading(false);
     } catch (error) {
       console.log(getError(error));
+      setLoading(false);
     }
   };
   return (
@@ -75,12 +83,18 @@ function Upload() {
             />
           </div>
           <div className="ml-auto flex-1 col-span-4 flex flex-col">
-            <div
-              onClick={upload_video}
-              className="flex self-end bg-blue-700 p-1 rounded text-white font-semibold hover:bg-blue-800 cursor-pointer"
-            >
-              Upload
-            </div>
+            {loading ? (
+              <div className="flex self-end bg-blue-700 p-1 rounded text-white font-semibold hover:bg-blue-800 cursor-pointer">
+                Uploading...
+              </div>
+            ) : (
+              <div
+                onClick={upload_video}
+                className="flex self-end bg-blue-700 p-1 rounded text-white font-semibold hover:bg-blue-800 cursor-pointer"
+              >
+                Upload
+              </div>
+            )}
           </div>
         </div>
       </div>

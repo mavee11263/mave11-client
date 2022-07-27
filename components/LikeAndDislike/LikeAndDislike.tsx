@@ -59,7 +59,6 @@ const LikeAndDislike = (props: Props) => {
       const { data } = await axios.get(
         `${apiUrl}/api/like/video/all/${props?.video_id}?user_id=${mavee_11_user?._id}`
       );
-      console.log("all likes", data);
       setAllLikes({
         likes: data.likes,
         user_liked: data.user_liked,

@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import Pagination from "../components/Pagination/Pagination";
 import SingleVideo from "../components/SingleVideo/SingleVideo";
@@ -7,17 +6,22 @@ import { Store } from "../Context/Store";
 import { useFetch } from "../hooks/useFetch";
 import HomeLayout from "../layouts/HomeLayout";
 import { apiUrl } from "../utils/apiUrl";
+import not_found from '../public/images/not_found_video.svg'
+import Image from "next/image";
+import BlueButton from "../components/Buttons/BlueButton";
+import { useRouter } from "next/router";
 
 const PER_PAGE = 16;
 
 const Home: NextPage = () => {
-
   const [page, setPage] = useState<number>(1);
   const { state: store_state } = useContext(Store);
   const { search_category, search_query } = store_state;
   const url = `${apiUrl}/api/video/explore?page=${page}&category=${
     search_category ? search_category : ""
   }&keyword=${search_query ? search_query : ""}&perPage=${PER_PAGE}`;
+
+  const history = useRouter()
 
   // start the fetching using the useFetch hook
   const state = useFetch(url);
@@ -37,21 +41,30 @@ const Home: NextPage = () => {
             )
           )}
         </div>
-        {
-          state.status === 'fetching' && (
-            <p>loading </p>
-          )
-        }
+        {state.status === "fetching" && <p>loading </p>}
         {state.status === "fetched" && (
           <>
             <div className="flex flex-col w-full max-w-7xl mx-auto">
-              <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1  gap-6">
-                {state?.data?.videos?.map((item: any, key: number) => (
-                  <div key={key} className="col-span-1">
-                    <SingleVideo _id={item._id} />
+              {state?.data?.videos.length < 1 ? (
+                <div className="flex flex-col py-8 items-center max-w-7xl mx-auto">
+                  <div className="relative h-44 w-44">
+                    <Image src={not_found} layout="fill" objectFit="contain" />
                   </div>
-                ))}
-              </div>
+                  <p className="dark:text-gray-300 text-gray-800 text-lg py-4 font-semibold">No videos at the moment</p>
+                  <BlueButton 
+                    onClick={()=> history.push('/upload')}
+                    text="Click here to add a video"
+                  />
+                </div>
+              ) : (
+                <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1  gap-6">
+                  {state?.data?.videos?.map((item: any, key: number) => (
+                    <div key={key} className="col-span-1">
+                      <SingleVideo numberOfViews={item.numberOfViews} likes={item.numberOfLikes} title={item.title} _id={item._id} />
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <>
                 <Pagination

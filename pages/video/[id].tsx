@@ -1,36 +1,36 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import VideoPlayer from "../../components/VideoPlayer/VideoPlayer";
 import HomeLayout from "../../layouts/HomeLayout";
-import dynamic from 'next/dynamic'
-import RelatedVideos from '../../components/PageSections/RelatedVideos'
+import dynamic from "next/dynamic";
+import RelatedVideos from "../../components/PageSections/RelatedVideos";
 import LikeAndDislike from "../../components/LikeAndDislike/LikeAndDislike";
 import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
-import { connect, convertDocToObj, disconnect } from '../../utils/mongo'
-import Video from '../../models/Video'
+import { connect, convertDocToObj, disconnect } from "../../utils/mongo";
+import Video from "../../models/Video";
+import Subscribers from "../../components/Subscribers/Subscribers";
 
-const Comments = dynamic(() => import('../../components/Commets/Comments'), {
+const Comments = dynamic(() => import("../../components/Commets/Comments"), {
   ssr: false,
-})
+});
 
 function SinglePost(props: any) {
-  const router = useRouter()
-  const {query} = router
+  const router = useRouter();
+  const { query } = router;
 
   // from server side props
-  const { video } = props
+  const { video } = props;
 
-  console.log(video)
-  
-  useEffect(()=>{
-    const getVideo = async () =>{
-      const {data} = await axios.get(`${apiUrl}/api/video/single/${query.id}`)
-      console.log(data)
-    }
-    getVideo()
-  },[])
-
+  useEffect(() => {
+    const getVideo = async () => {
+      await axios.get(
+        `${apiUrl}/api/video/single?videoId=${query.id}`
+      );
+    };
+    getVideo();
+    console.log('the query item', query.id)
+  }, [query.id]);
 
   return (
     <HomeLayout>
@@ -39,16 +39,17 @@ function SinglePost(props: any) {
           <div className="lg:col-span-5 md:col-span-6 col-span-7">
             <VideoPlayer />
             <div className="flex pb-8 pt-2 dark:text-gray-200 text-gray-900 w-full md:flex-row flex-col-reverse md:items-center">
-              <p className="font-semibold flex-1">
-                {video?.title}
-              </p>
+              <p className="font-semibold flex-1">{video?.title}</p>
               <div className="flex flex-row items-center md:justify-between justify-end py-2 space-x-2 dark:text-gray-200 text-gray-700">
                 <>
-                  <LikeAndDislike video_id={video._id} likes={video.likes ? video.likes : ""} />
+                  <LikeAndDislike
+                    video_id={video._id}
+                    likes={video.likes ? video.likes : ""}
+                  />
                 </>
-                <div className="flex self-end bg-blue-700 hover:bg-blue-800 cursor-pointer uppercase text-white py-1 px-2 md:text-sm text-xs rounded">
-                  Subscribe - 12M
-                </div>
+                <>
+                  <Subscribers channel_id={video.author} video_id={video._id} />
+                </>
               </div>
             </div>
           </div>
@@ -69,25 +70,25 @@ function SinglePost(props: any) {
         </div>
 
         {/* // the video component */}
-       <>
-       <RelatedVideos />
-       </>
+        <>
+          <RelatedVideos />
+        </>
       </main>
     </HomeLayout>
   );
 }
 
 export async function getServerSideProps(context: any) {
-  const { params } = context
-  const { id } = params
-  await connect()
-  const video = await Video.findOne({ _id: id }).lean()
-  await disconnect()
+  const { params } = context;
+  const { id } = params;
+  await connect();
+  const video = await Video.findOne({ _id: id }).lean();
+  await disconnect();
   return {
     props: {
       video: convertDocToObj(video),
     },
-  }
+  };
 }
 
 export default SinglePost;
