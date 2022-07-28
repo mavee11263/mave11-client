@@ -1,17 +1,24 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import HomeLayout from "../../layouts/HomeLayout";
 import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
 import { Store } from "../../Context/Store";
 import { getError } from "../../utils/error";
 import { Select, useToast } from "@chakra-ui/react";
+import Head from "next/head";
+
+const CLOUD_NAME = "<name here>";
 
 function Upload() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [URL, setURL] = useState("");
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+
+  const [uploader, setUploader] = useState(null);
+
 
   const { state } = useContext(Store);
   const { mavee_11_user } = state;
@@ -46,8 +53,18 @@ function Upload() {
       setLoading(false);
     }
   };
+
   return (
     <HomeLayout>
+      <Head>
+        // this is Next.js specific, but if you're using something like Create
+        React App, // you could download the script in componentDidMount using
+        this method: https://stackoverflow.com/a/34425083/1424568
+        <script
+          src="https://widget.cloudinary.com/v2.0/global/all.js"
+          type="text/javascript"
+        />
+      </Head>
       <div className="max-w-7xl mx-auto py-16">
         <div className="grid grid-cols-6 gap-8">
           <div className=" col-span-4 p-16 border border-dashed border-gray-300 rounded">
