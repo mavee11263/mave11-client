@@ -21,10 +21,13 @@ function Upload() {
   const [category, setCategory] = useState("");
   const [videoAsset, setVideoAsset] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [video_loading, setVideoLoading] = useState(false)
   const [progress, setProgress] = useState(1);
   const [alert, setAlert] = useState(false);
   const [alertStatus, setAlertStatus] = useState<any>("");
   const [alertMsg, setAlertMsg] = useState("");
+  const [picture_progress, setPIctureProgress] = useState(1);
+
   const toast = useToast();
 
   const storage = getStorage(firebaseApp);
@@ -40,37 +43,85 @@ function Upload() {
   const sace_video = async () => {
     setLoading(true);
 
-    // creatin the form data to senf to api
-    const formData = new FormData();
-    pictures_for_upload.forEach((file: any | Blob) => {
-      formData.append('thumbnail_picture', file)
-    })
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("category", category);
-    formData.append('video_url', videoAsset)
-    
+    const pictureFile = pictures_for_upload[0];
+    const storageRef = ref(
+      storage,
+      `Thumbnails/${Date.now()}-${pictureFile.name}`
+    );
 
     try {
-      await axios.post(
-        `${apiUrl}/api/video/create`,
-        formData,
-        {
-          headers: {
-            Authorization: mavee_11_user?.token,
-            "Content-Type": "multipart/form-data",
-            "Access-Control-Allow-Origin": "*",
-          },
+      if (!title) {
+        toast({
+          title: "Enter the title",
+          status: "error",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      if (!description) {
+        toast({
+          title: "Enter the description",
+          status: "error",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      if (!videoAsset) {
+        toast({
+          title: "Upload Video First",
+          status: "error",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+
+      //upload picture
+      const uploadTask = uploadBytesResumable(storageRef, pictureFile);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const uploadProgress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setPIctureProgress(uploadProgress);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            await axios.post(
+              `${apiUrl}/api/video/create`,
+              {
+                title: title,
+                description,
+                category,
+                video_url: videoAsset,
+                picture_url: downloadURL,
+              },
+              {
+                headers: {
+                  Authorization: mavee_11_user?.token,
+                },
+              }
+            );
+            toast({
+              title: "Video Uploaded",
+              status: "success",
+              position: "top-right",
+              duration: 9000,
+              isClosable: true,
+            });
+            setLoading(false);
+          });
         }
       );
-      toast({
-        title: "Video Uploaded",
-        status: "success",
-        position: "top-right",
-        duration: 9000,
-        isClosable: true,
-      });
-      setLoading(false);
     } catch (error) {
       console.log(getError(error));
       setLoading(false);
@@ -78,7 +129,7 @@ function Upload() {
   };
 
   const upload_video = (e: any) => {
-    setLoading(true);
+    setVideoLoading(true);
     const videoFile = e.target.files[0];
     const storageRef = ref(storage, `Videos/${Date.now()}-${videoFile.name}`);
     try {
@@ -97,7 +148,7 @@ function Upload() {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setVideoAsset(downloadURL);
-            setLoading(false);
+            setVideoLoading(false);
             setAlert(true);
             setAlertStatus("success");
             setAlertMsg("Your video is uploaded to our server");
@@ -108,31 +159,35 @@ function Upload() {
         }
       );
     } catch (error) {
-      setLoading(false);
+      setVideoLoading(false);
     }
   };
 
-  const deleteVideo = () =>{
-    const deleteRef = ref(storage, videoAsset)
-    deleteObject(deleteRef).then(() =>{
-      setVideoAsset(null)
-    }).catch(error=>{
-      console.log(error)
-    })
-  }
+  const deleteVideo = () => {
+    const deleteRef = ref(storage, videoAsset);
+    deleteObject(deleteRef)
+      .then(() => {
+        setVideoAsset(null);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <HomeLayout>
       <div className="grid grid-cols-6 md:gap-8 max-w-7xl mx-auto md:pt-16 pt-8 gap-4 lg:px-16 md:px-8 px-2 dark:text-gray-200 text-gray-700">
-       
-      <div className="form-group w-full col-span-6">
+        <div className="form-group w-full col-span-6">
           <p className="pb-4">Select Video</p>
           <div className="px-4 py-5 bg-gray-50 dark:bg-gray-700 rounded shadow w-full">
             <div className="mx-auto rounded-lg overflow-hidden max-w-xl">
               {videoAsset ? (
                 <div className="relative flex flex-col h-80 w-full">
                   <div className="flex ml-auto">
-                    <div onClick={deleteVideo} className=" bg-red-600 hover:bg-red-700 cursor-pointer text-white p-2 rounded-full">
+                    <div
+                      onClick={deleteVideo}
+                      className=" bg-red-600 hover:bg-red-700 cursor-pointer text-white p-2 rounded-full"
+                    >
                       <TrashIcon height={20} width={20} />
                     </div>
                   </div>
@@ -144,7 +199,7 @@ function Upload() {
                 </div>
               ) : (
                 <div className="md:flex">
-                  {loading ? (
+                  {video_loading ? (
                     <UploadLoading progress={progress} />
                   ) : (
                     <div className="w-full p-3">
@@ -190,7 +245,6 @@ function Upload() {
           </div>
         </div>
         <div className="flex col-span-3 flex-col">
-          
           <label htmlFor="title">Title</label>
           <input
             onChange={(e) => setTitle(e.target.value)}
@@ -207,12 +261,9 @@ function Upload() {
             className="flex-1 w-full rounded dark:bg-gray-700 bg-gray-100 border-none px-2 outline-none dark:text-gray-300 text-gray-700"
             placeholder="Select Category"
           >
-            {
-              data.categories?.map((item, index)=>(
-                <option value="category">{item.name}</option>
-              ))
-            }
-           
+            {data.categories?.map((item, index) => (
+              <option value="category">{item.name}</option>
+            ))}
           </select>
         </div>
         <div className="flex col-span-6 flex-col">
@@ -229,19 +280,18 @@ function Upload() {
           <p>Select Thumbnail</p>
           <FileUploadComponent selectedPictures={selectedPictures} multiple />
         </div>
-        
 
         <div className="ml-auto flex-1 col-span-6 flex flex-col">
           {loading ? (
             <div className="flex self-end bg-blue-700 p-1 rounded text-white font-semibold hover:bg-blue-800 cursor-pointer">
-              Uploading...
+              Uploading Picture {picture_progress}%...
             </div>
           ) : (
             <div
               onClick={sace_video}
               className="flex self-end bg-blue-700 p-1 rounded text-white font-semibold hover:bg-blue-800 cursor-pointer"
             >
-              Save Video
+              Upload Video
             </div>
           )}
         </div>
