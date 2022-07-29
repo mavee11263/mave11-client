@@ -13,7 +13,7 @@ const VideoPlayer = ({ video_url, thumbnail }: Props) => {
     <CloudinaryContext cloud_name="codedog">
       <div>
         <Video
-          poster={thumbnail}
+          poster
           publicId={video_url}
           width="100%"
           controlsList="nodownload"
