@@ -65,7 +65,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <ModalFooter className="flex flex-col w-full items-center mx-auto">
                     <div
                       onClick={() => {
-                        Cookies.set("mavee11_cookies_consent", "true");
+                        Cookies.set("mavee11_cookies_consent", "true", { expires: 7 });
                         onClose();
                       }}
                       className="flex cursor-pointer dark:bg-blue-700 dark:hover:bg-blue-900 flex-col w-full uppercase text-center bg-blue-700 hover:bg-blue-800 text-white font-semibold px-2 py-2 rounded-full"
