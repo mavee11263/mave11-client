@@ -11,7 +11,7 @@ interface Props {
 const VideoPlayer = ({ video_url, thumbnail }: Props) => {
   const videoRef = useRef();
   return (
-    <div className="flex lg:h-[650px] md:h-[350px] h-[200px] w-full flex-col items-center bg-black">
+    <div className="flex lg:h-[550px] md:h-[350px] h-[200px] w-full flex-col items-center bg-black">
       <ReactPlayer
         // Disable download button
         config={{ file: { attributes: { controlsList: "nodownload" } } }}

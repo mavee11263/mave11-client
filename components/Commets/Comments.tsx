@@ -71,6 +71,8 @@ function Comments({ videoId }: Props) {
     getReviews();
   }, [videoId]);
 
+  console.log(comments)
+
   useEffect(() => {
     socket.on("comment", (data) => {
       setComments((old_comments: any) => [...old_comments, data.comment]);
@@ -107,7 +109,7 @@ function Comments({ videoId }: Props) {
         <>
           {comments_to_show(comments, number_of_comments)?.map(
             (item: any, index: number) => (
-              <CommentItem name={item?.name} comment={item?.comment} />
+              <CommentItem name={item?.creator.username} comment={item?.comment} />
             )
           )}
         </>
