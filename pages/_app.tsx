@@ -47,7 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <OverlayTwo />
                 <ModalOverlay />
                 <ModalContent>
-                  <ModalHeader>Please confirm your agw</ModalHeader>
+                  <ModalHeader>Please Confirm Your Age</ModalHeader>
                   <ModalBody className="text-justify">
                     This site should only be visited by users with of ages 18
                     (eighteen) and above. By visiting this site you agree that
