@@ -17,6 +17,7 @@
     "framer-motion": "^6",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "mongoose": "^6.5.0",
     "next": "latest",
     "next-themes": "^0.2.0",

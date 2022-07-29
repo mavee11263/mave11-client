@@ -79,7 +79,7 @@ function Navbar() {
               <a className="">Sign In</a>
             </Link>
             <Link passHref href={"/register"}>
-              <a className="bg-blue-700 hover:bg-blue-800 rounded p-2 text-white">Sign Up</a>
+              <a className="bg-blue-700 hover:bg-blue-800 rounded p-2 text-white">Join For Free</a>
             </Link>
           </div>
         )}

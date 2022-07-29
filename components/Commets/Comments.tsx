@@ -63,6 +63,7 @@ function Comments({ videoId }: Props) {
         );
         setComments(data.comments);
         setLoading(false);
+        setComment('')
       } catch (error) {
         console.log(getError(error));
         setLoading(false);
@@ -71,13 +72,11 @@ function Comments({ videoId }: Props) {
     getReviews();
   }, [videoId]);
 
-  console.log(comments)
-
-  useEffect(() => {
-    socket.on("comment", (data) => {
-      setComments((old_comments: any) => [...old_comments, data.comment]);
-    });
-  }, [socket]);
+  // useEffect(() => {
+  //   socket.on("comment", (data) => {
+  //     setComments((old_comments: any) => [...old_comments, data.comment]);
+  //   });
+  // }, [socket]);
 
   const comments_to_show = (comments: any, number_on_comments: number) => {
     return comments?.slice(0, number_on_comments);
@@ -92,6 +91,7 @@ function Comments({ videoId }: Props) {
             type="text"
             placeholder="Write a comment"
             onChange={(e) => setComment(e.target.value)}
+            value={comment}
             className="bg-gray-100 dark:bg-gray-700 p-2 rounded w-full outline-none"
           />
           <span onClick={create_comment} className="">
