@@ -21,6 +21,7 @@ function RelatedVideos() {
       {state?.data?.videos?.map((item: any, key: number) => (
         <div key={key} className="col-span-1">
           <SingleVideo
+            thumbnail={item.thumbnail}
             numberOfViews={item.numberOfViews}
             likes={item.numberOfLikes}
             title={item.title}
