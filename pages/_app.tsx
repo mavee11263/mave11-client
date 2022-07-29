@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <OverlayTwo />
                 <ModalOverlay />
                 <ModalContent>
-                  <ModalHeader>This website uses cookies</ModalHeader>
+                  <ModalHeader>This is for Adults</ModalHeader>
                   <ModalBody className="text-justify">
                   This site should only be visited by users with
                     ages 18 (eighteen) and above. By viviting this site you
