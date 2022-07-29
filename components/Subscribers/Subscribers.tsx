@@ -58,7 +58,6 @@ function Subscribers(props: Props) {
       const { data } = await axios.get(
         `${apiUrl}/api/subscribe/all/${props?.channel_id}?user_id=${mavee_11_user?._id}`
       );
-      console.log("all subscribers", data);
       setAllSubscribers({
         subscribers: data.subscribers,
         user_subscribed: data.user_subscribed,
@@ -85,14 +84,12 @@ function Subscribers(props: Props) {
     });
   }, [socket]);
 
-  console.log(all_subscribers);
-
   return (
     <div
       onClick={toggle_subscribe}
       className={`${
         all_subscribers?.user_subscribed
-          ? "bg-gray-200 hover:bg-gray-300 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-800 "
+          ? "bg-gray-200 hover:bg-gray-300 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 "
           : "bg-blue-700 hover:bg-blue-800 text-white"
       } flex self-end  cursor-pointer uppercase py-1 px-2 md:text-sm text-xs rounded`}
     >

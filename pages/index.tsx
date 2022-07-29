@@ -10,6 +10,8 @@ import not_found from '../public/images/not_found_video.svg'
 import Image from "next/image";
 import BlueButton from "../components/Buttons/BlueButton";
 import { useRouter } from "next/router";
+import { data } from "../utils/data";
+import { Text } from "@chakra-ui/react";
 
 const PER_PAGE = 16;
 
@@ -28,23 +30,25 @@ const Home: NextPage = () => {
 
   return (
     <HomeLayout>
-      <div className="flex flex-col w-full lg:px-0 md:px-4 px-4 ">
+      <div className="flex flex-col w-full lg:px-0  ">
+        <div className="flex">
         <div className="flex flex-row items-center space-x-6 overflow-y-scroll py-4 scrollbar-hide">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3].map(
+          {data.categories.map(
             (item, index) => (
               <div
                 key={index}
-                className="flex border dark:border-gray-600 dark:text-gray-200 text-gray-700 border-gray-300 md:px-4 rounded-full px-2 py-1"
+                className="flex break-normal flex-row border dark:border-gray-600 dark:text-gray-200 text-gray-700 border-gray-300 md:px-4 rounded-full px-2 py-1"
               >
-                category
+                <Text noOfLines={1}>{item.name}</Text>
               </div>
             )
           )}
         </div>
+        </div>
         {state.status === "fetching" && <p>loading </p>}
         {state.status === "fetched" && (
           <>
-            <div className="flex flex-col w-full max-w-7xl mx-auto">
+            <div className="flex flex-col w-full max-w-7xl mx-auto md:px-4 px-4">
               {state?.data?.videos.length < 1 ? (
                 <div className="flex flex-col py-8 items-center max-w-7xl mx-auto">
                   <div className="relative h-44 w-44">
@@ -60,7 +64,7 @@ const Home: NextPage = () => {
                 <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1  gap-6">
                   {state?.data?.videos?.map((item: any, key: number) => (
                     <div key={key} className="col-span-1">
-                      <SingleVideo numberOfViews={item.numberOfViews} likes={item.numberOfLikes} title={item.title} _id={item._id} />
+                      <SingleVideo thumbnail={item.thumbnail} numberOfViews={item.numberOfViews} likes={item.numberOfLikes} title={item.title} _id={item._id} />
                     </div>
                   ))}
                 </div>

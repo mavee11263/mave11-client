@@ -1,22 +1,22 @@
 import { Text } from "@chakra-ui/react";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
-import image_video from "../../public/images/video.png";
 
 interface Props{
   _id:string,
   title: string,
   likes: number,
-  numberOfViews: number
+  numberOfViews: number,
+  thumbnail:string
 }
 
-function SingleVideo({_id, title, likes, numberOfViews}:Props) {
+function SingleVideo({_id, title, likes, numberOfViews, thumbnail}:Props) {
   const router = useRouter()
   return (
     <div onClick={()=> router.push(`/video/${_id}`)} className="col-span-1 cursor-pointer flex flex-col">
       <div className="relative">
-        <Image src={image_video} layout="responsive" objectFit="cover" />
+        {/* <Image src={image_video} layout="responsive" objectFit="cover" /> */}
+        <img src={thumbnail} alt="video thumbnail" className=" object-cover" />
       </div>
       <div className="flex flex-col md:px-0 px-2">
         <Text

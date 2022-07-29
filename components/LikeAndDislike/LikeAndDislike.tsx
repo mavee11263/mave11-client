@@ -1,11 +1,11 @@
-import { ThumbUpIcon } from "@heroicons/react/outline";
-import { ThumbUpIcon as SolidThumbUpIcon } from "@heroicons/react/solid";
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { ThumbUpIcon as SolidThumbUpIcon } from "@heroicons/react/solid";
+import { ThumbUpIcon } from "@heroicons/react/outline";
+import axios from "axios";
+import { getError } from "../../utils/error";
 import { Store } from "../../Context/Store";
 import { apiUrl } from "../../utils/apiUrl";
 import { useToast } from "@chakra-ui/react";
-import { getError } from "../../utils/error";
 import { socket } from "../../utils/socket";
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 };
 
 const LikeAndDislike = (props: Props) => {
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const { mavee_11_user } = state;
   const toast = useToast();
   const [all_likes, setAllLikes] = useState<any>({
@@ -89,7 +89,7 @@ const LikeAndDislike = (props: Props) => {
     <>
       <span
         onClick={toggle_like}
-        className="hover:bg-gray-100 rounded-full p-1 cursor-pointer flex flex-row items-center space-x-1"
+        className="hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full py-1 px-2 cursor-pointer flex flex-row items-center space-x-1"
       >
         {mavee_11_user ? (
           <div className="flex flex-row items-center space-x-2">
@@ -107,9 +107,6 @@ const LikeAndDislike = (props: Props) => {
           </>
         )}
       </span>
-      {/* <span className="hover:bg-gray-100 rounded-full p-1 cursor-pointer">
-        <ThumbDownIcon height={20} width={20} />
-      </span> */}
     </>
   );
 };

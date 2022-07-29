@@ -1,12 +1,16 @@
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navigation/Navbar";
+
 
 interface Props {
   children?: any;
 }
 
 function HomeLayout({ children }: Props) {
+  
+
+  
   return (
     <div>
       <Head>
@@ -23,6 +27,8 @@ function HomeLayout({ children }: Props) {
         <main className="min-h-screen">{children}</main>
         <footer>footer</footer>
       </div>
+       {/* // cookies Modal */}
+    
     </div>
   );
 }

@@ -10,13 +10,15 @@ import { apiUrl } from "../../utils/apiUrl";
 import { connect, convertDocToObj, disconnect } from "../../utils/mongo";
 import Video from "../../models/Video";
 import Subscribers from "../../components/Subscribers/Subscribers";
-
+import {ShareIcon} from '@heroicons/react/outline'
+ 
 const Comments = dynamic(() => import("../../components/Commets/Comments"), {
   ssr: false,
 });
 
 function SinglePost(props: any) {
-  const router = useRouter();
+  
+  let router = useRouter();
   const { query } = router;
 
   // from server side props
@@ -29,18 +31,22 @@ function SinglePost(props: any) {
       );
     };
     getVideo();
-    console.log('the query item', query.id)
   }, [query.id]);
+
+  console.log(video)
 
   return (
     <HomeLayout>
       <main className="lg:px-20 md:px-12 px-4 flex flex-col w-full">
         <div className="grid grid-cols-7 lg:gap-12 md:gap-8 gap-4 pt-8">
           <div className="lg:col-span-5 md:col-span-6 col-span-7">
-            <VideoPlayer />
+            <VideoPlayer thumbnail={video?.thumbnail} video_url={video?.video} />
             <div className="flex pb-8 pt-2 dark:text-gray-200 text-gray-900 w-full md:flex-row flex-col-reverse md:items-center">
               <p className="font-semibold flex-1">{video?.title}</p>
               <div className="flex flex-row items-center md:justify-between justify-end py-2 space-x-2 dark:text-gray-200 text-gray-700">
+                <div className="hover:bg-gray-100 cursor-pointer p-2 rounded-full">
+                  <ShareIcon height={16} width={16} />
+                </div>
                 <>
                   <LikeAndDislike
                     video_id={video._id}
