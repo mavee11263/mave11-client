@@ -74,12 +74,12 @@ function Navbar() {
             </div>
           </div>
         ) : (
-          <div>
-            <Link href={"/login"}>
+          <div className="flex flex-row items-center space-x-4">
+            <Link passHref href={"/login"}>
               <a className="">Sign In</a>
             </Link>
-            <Link href={"/register"}>
-              <a>Register</a>
+            <Link passHref href={"/register"}>
+              <a className="bg-blue-700 hover:bg-blue-800 rounded p-2 text-white">Sign Up</a>
             </Link>
           </div>
         )}

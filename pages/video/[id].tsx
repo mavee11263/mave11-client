@@ -37,7 +37,7 @@ function SinglePost(props: any) {
 
   return (
     <HomeLayout>
-      <main className="lg:px-20 md:px-12 px-4 flex flex-col w-full">
+      <main className="lg:px-20 max-w-[1920px] mx-auto md:px-12 px-4 flex flex-col w-full">
         <div className="grid grid-cols-7 lg:gap-12 md:gap-8 gap-4 pt-8">
           <div className="lg:col-span-5 md:col-span-6 col-span-7">
             <VideoPlayer thumbnail={video?.thumbnail} video_url={video?.video} />
@@ -61,7 +61,7 @@ function SinglePost(props: any) {
           </div>
 
           {/* // ads component */}
-          <div className="lg:col-span-2 dark:text-gray-200 text-gray-700 cols-span-1 md:flex hidden flex-col w-full">
+          <div className="lg:col-span-2 md:col-span-1 dark:text-gray-200 text-gray-700 cols-span-1 md:flex hidden flex-col w-full">
             <div className=" w-full">ads go here</div>
           </div>
 

@@ -32,8 +32,7 @@ function Register() {
         agreed,
       });
       //@ts-ignore
-      history.push(redirect || "/");
-      console.log(data);
+      history.push(redirect || "/login");
       toast({
         title: "Account created sucessfully!.",
         status: "success",
@@ -58,14 +57,14 @@ function Register() {
   return (
     <HomeLayout>
       <div className="flex min-h-screen flex-col justify-center bg-gray-100 dark:bg-gray-800 py-4 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="sm:mx-auto sm:w-full sm:max-w-lg">
           {/* <img src={logo} alt="login page indicator of website" className="mx-auto self-center h-16 m-4" /> */}
           <h1 className="mt-2 text-center text-lg font-extrabold text-gray-900 dark:text-gray-200 md:text-3xl">
             Register
           </h1>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-lg">
           <div className="bg-white dark:bg-gray-700 py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form
               onSubmit={register_user_handler}

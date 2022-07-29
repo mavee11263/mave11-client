@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import HomeLayout from "../../layouts/HomeLayout";
 import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
@@ -13,6 +13,7 @@ import {getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject} fro
 import { firebaseApp } from "../../utils/firebase-config";
 import { TrashIcon } from "@heroicons/react/outline";
 import { data } from "../../utils/data";
+import { useRouter } from "next/router";
 
 function Upload() {
   const [title, setTitle] = useState("");
@@ -39,6 +40,13 @@ function Upload() {
 
   const { state } = useContext(Store);
   const { mavee_11_user } = state;
+  const history = useRouter()
+
+  useEffect(()=>{
+    if(!mavee_11_user){
+      history.push('/login')
+    }
+  },[])
 
   const sace_video = async () => {
     setLoading(true);
@@ -257,10 +265,13 @@ function Upload() {
         <div className="flex flex-col col-span-3">
           <label htmlFor="title">Category</label>
           <select
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => {setCategory(e.target.value)
+            console.log(e.target.value)}}
             className="flex-1 w-full rounded dark:bg-gray-700 bg-gray-100 border-none px-2 outline-none dark:text-gray-300 text-gray-700"
             placeholder="Select Category"
+            defaultValue={'ebony'}
           >
+            <option value={'none'} selected disabled hidden>Select Category</option>
             {data.categories?.map((item, index) => (
               <option value="category">{item.name}</option>
             ))}

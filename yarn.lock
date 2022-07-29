@@ -2676,6 +2676,11 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
+react-tuby@^0.1.23:
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/react-tuby/-/react-tuby-0.1.23.tgz#41b2c2c3ba18a235db9bbd6b34a9367f4ad1b593"
+  integrity sha512-DL7dUOzCzr8/xdxYW6nf43VKGdiAf9WSR6xsLKJY+qgZrheWQkJktVAhHf0jv/GF8GoD9uBmafiApuXsG+nXfg==
+
 react@18.1.0:
   version "18.1.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.1.0.tgz#6f8620382decb17fdc5cc223a115e2adbf104890"

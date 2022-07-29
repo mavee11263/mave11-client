@@ -107,7 +107,7 @@ function Comments({ videoId }: Props) {
         <>
           {comments_to_show(comments, number_of_comments)?.map(
             (item: any, index: number) => (
-              <CommentItem name={item?.sentFromId} comment={item?.comment} />
+              <CommentItem name={item?.name} comment={item?.comment} />
             )
           )}
         </>

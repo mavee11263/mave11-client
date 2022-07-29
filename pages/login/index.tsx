@@ -69,7 +69,7 @@ function Login() {
           </h1>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-lg">
           <div className="bg-white dark:bg-gray-700 py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <div className="space-y-6">
               <div>
@@ -88,7 +88,7 @@ function Login() {
                     type="email"
                     autoComplete="email"
                     required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-500 rounded-md shadow-sm placeholder-gray-400 focus:outline-none  sm:text-sm"
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-500 dark:text-gray-200 text-gray-700 rounded-md shadow-sm placeholder-gray-400 focus:outline-none  sm:text-sm"
                   />
                 </div>
               </div>
@@ -101,7 +101,7 @@ function Login() {
                   Password
                 </label>
                 <div className="mt-1">
-                  <div className="flex flex-row items-center border border-gray-300 dark:border-gray-500 rounded-md shadow-sm px-3 ">
+                  <div className="flex flex-row items-center border border-gray-300 dark:border-gray-500 dark:text-gray-200 text-gray-700 rounded-md shadow-sm px-3 ">
                     <input
                       id="password"
                       name="password"
@@ -141,7 +141,7 @@ function Login() {
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
-                    className="h-4 w-4 text-blue-primary focus:ring-red-400 border-gray-300 dark:border-gray-500 rounded"
+                    className="h-4 w-4 text-blue-primary focus:ring-red-400 border-gray-300 dark:border-gray-500 dark:text-gray-200 text-gray-700 rounded"
                   />
                   <label
                     htmlFor="remember-me"
