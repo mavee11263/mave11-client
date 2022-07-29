@@ -1,4 +1,4 @@
-import { Text } from "@chakra-ui/react";
+import { Badge, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
@@ -50,6 +50,10 @@ function SingleVideo({ _id, title, likes, numberOfViews, thumbnail }: Props) {
             {likes} {likes > 1 ? "likes" : "like"}
           </Text>
         )}
+        <div className="flex-1"></div>
+        <Badge size="xs" colorScheme="green">
+                    New
+                  </Badge>
       </div>
     </div>
   );
