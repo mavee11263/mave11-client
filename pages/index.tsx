@@ -19,7 +19,7 @@ const PER_PAGE = 16;
 const Home: NextPage = () => {
   const [page, setPage] = useState<number>(1);
   const { state: store_state } = useContext(Store);
-  const { search_category, search_query } = store_state;
+  const { search_category, search_query, mavee_11_user } = store_state;
   const url = `${apiUrl}/api/video/explore?page=${page}&category=${
     search_category ? search_category : ""
   }&keyword=${search_query ? search_query : ""}&perPage=${PER_PAGE}`;
@@ -66,10 +66,19 @@ const Home: NextPage = () => {
                   <p className="dark:text-gray-300 text-gray-800 text-lg py-4 font-semibold">
                     No videos at the moment
                   </p>
-                  <BlueButton
+                  {
+                    mavee_11_user ? (
+                      <BlueButton
                     onClick={() => history.push("/upload")}
                     text="Click here to add a video"
                   />
+                    ):(
+                      <BlueButton
+                    onClick={() => history.push("/login?redirect=/upload")}
+                    text="Click here to add a video"
+                  />
+                    )
+                  }
                 </div>
               ) : (
                 <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1  gap-6">
