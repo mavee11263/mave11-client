@@ -10,9 +10,7 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   useDisclosure,
-  Button,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import Link from "next/link";
@@ -37,11 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ThemeProvider enableSystem={true} attribute="class">
         <StoreProvider>
           <ChakraProvider>
-           {
-             cookies_available === 'true' && (
-              <Component {...pageProps} />
-             )
-           }
+            {cookies_available === "true" && <Component {...pageProps} />}
             <>
               <Modal
                 closeOnOverlayClick={false}
@@ -53,14 +47,13 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <OverlayTwo />
                 <ModalOverlay />
                 <ModalContent>
-                  <ModalHeader>This is for Adults</ModalHeader>
+                  <ModalHeader>Please confirm your agw</ModalHeader>
                   <ModalBody className="text-justify">
-                  This site should only be visited by users with
-                    ages 18 (eighteen) and above. By viviting this site you
-                    agree that you are hve the right age (18+)
-                    The website uses cookies to improve user experience. By
-                    using our website you consent to all cookies in accordance
-                    with our. 
+                    This site should only be visited by users with of ages 18
+                    (eighteen) and above. By visiting this site you agree that
+                    you have the right age (18+) The website uses cookies to
+                    improve user experience. By using our website you consent to
+                    all cookies in accordance with our.
                     <Link href={"/"}>
                       <a className="underline text-blue-600">
                         {" "}
@@ -77,7 +70,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                       }}
                       className="flex cursor-pointer dark:bg-blue-700 dark:hover:bg-blue-900 flex-col w-full uppercase text-center bg-blue-700 hover:bg-blue-800 text-white font-semibold px-2 py-2 rounded-full"
                     >
-                      <p className="px-2">ACCEPT ALL</p>
+                      <p className="px-2">Iam Over 18</p>
                     </div>
                   </ModalFooter>
                 </ModalContent>
