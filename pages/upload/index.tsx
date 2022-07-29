@@ -58,6 +58,8 @@ function Upload() {
         {
           headers: {
             Authorization: mavee_11_user?.token,
+            "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "*",
           },
         }
       );
