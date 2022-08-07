@@ -20,7 +20,7 @@ function ReportModal() {
       <div onClick={onOpen}>
         <FlagIcon height={20} width={20} />
       </div>
-      <Modal size={"xl"} isCentered isOpen={isOpen} onClose={onClose}>
+      <Modal isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent className="dark:bg-gray-800 bg-white text-gray-800 dark:text-white">
           <ModalHeader className="text-center">REPORT THIS VIDEO</ModalHeader>
@@ -53,7 +53,7 @@ function ReportModal() {
               <div className="flex flex-col items-center text-center w-full my-8 bg-pink-600 rounded-full p-2 text-white">
                 Report
               </div>
-              <div onClick={onClose} className="flex">
+              <div onClick={onClose} className="flex flex-col items-center text-center cursor-pointer p-2 w-full dark:hover:bg-gray-700 hover:bg-gray-200 rounded-full">
                 Cancel
               </div>
             </div>
