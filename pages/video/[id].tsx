@@ -52,9 +52,7 @@ function SinglePost(props: any) {
               </p>
               {
                 //Difference in number of days
-                moment
-                  .duration(moment(video?.createdAt).diff(current))
-                  .asDays() < 7 && (
+                moment.duration(moment(current).diff(createdAt)).asDays() < 8 && (
                   <Badge size="xs" colorScheme="green">
                     New
                   </Badge>

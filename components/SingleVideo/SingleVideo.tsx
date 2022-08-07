@@ -25,6 +25,9 @@ function SingleVideo({
 }: Props) {
   const router = useRouter();
   var current = moment().startOf("day");
+
+  console.log( )
+
   return (
     <div className="col-span-1 cursor-pointer flex flex-col">
       <div
@@ -43,7 +46,7 @@ function SingleVideo({
         {/* <img src={thumbnail} alt="video thumbnail" className=" object-cover" /> */}
         {
           //Difference in number of days
-          moment.duration(moment(createdAt).diff(current)).asDays() < 7 && (
+          moment.duration(moment(current).diff(createdAt)).asDays() < 8 && (
             <Badge
               className="absolute top-2 right-2 "
               size="xs"
