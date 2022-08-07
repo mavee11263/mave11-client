@@ -17,6 +17,7 @@ import moment from "moment";
 import ad1 from "../../public/images/ads-example.jpg";
 import Image from "next/image";
 import ads22 from "../../public/images/ads22.png";
+import ReportModal from "../../components/Modals/ReportModal";
 
 const Comments = dynamic(() => import("../../components/Commets/Comments"), {
   ssr: false,
@@ -91,6 +92,9 @@ function SinglePost(props: any) {
 
               <div className="flex-1"></div>
               <div className="flex flex-row items-center md:justify-between justify-end py-2 space-x-2 dark:text-gray-200 text-gray-700">
+                <>
+                  <ReportModal />
+                </>
                 <div className="hover:bg-gray-100 cursor-pointer p-2 rounded-full">
                   <ShareIcon height={16} width={16} />
                 </div>
@@ -151,7 +155,6 @@ export async function getServerSideProps(context: any) {
   const { id } = params;
   await connect();
   const video = await Video.findOne({ _id: id }).lean();
-  // const comments = await Comme
   await disconnect();
   return {
     props: {

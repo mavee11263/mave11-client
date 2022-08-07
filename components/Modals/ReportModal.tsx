@@ -9,7 +9,6 @@ import {
   useDisclosure,
   ModalCloseButton,
   Radio,
-  RadioGroup,
   Stack,
 } from "@chakra-ui/react";
 import { FlagIcon } from "@heroicons/react/solid";
@@ -24,11 +23,11 @@ function ReportModal() {
       <Modal size={"xl"} isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent className="dark:bg-gray-800 bg-white text-gray-800 dark:text-white">
-          <ModalHeader>REPORT THIS VIDEO</ModalHeader>
+          <ModalHeader className="text-center">REPORT THIS VIDEO</ModalHeader>
           <ModalCloseButton />
           <ModalBody className="text-justify">
-            <p className="font-semibold text-lg text-center pb-8">
-              We will put custom reports here
+            <p className="font-semibold capitalize text-lg text-center pb-8">
+              what do you want to report
             </p>
             <Stack>
               <Radio size="md" name="1" colorScheme="green">
@@ -46,6 +45,9 @@ function ReportModal() {
               <Radio size="md" name="1" colorScheme="green">
                 This Is My Video
               </Radio>
+              <Radio size="md" name="1" colorScheme="green">
+                Stolen Content
+              </Radio>
             </Stack>
             <div className="flex flex-col w-full items-center px-5">
               <div className="flex flex-col items-center text-center w-full my-8 bg-pink-600 rounded-full p-2 text-white">
@@ -56,7 +58,6 @@ function ReportModal() {
               </div>
             </div>
           </ModalBody>
-
           <ModalFooter className="flex flex-col w-full items-center mx-auto"></ModalFooter>
         </ModalContent>
       </Modal>
