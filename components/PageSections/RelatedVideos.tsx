@@ -26,6 +26,7 @@ function RelatedVideos() {
             likes={item.numberOfLikes}
             title={item.title}
             _id={item._id}
+            createdAt={item.createdAt}
           />
         </div>
       ))}
