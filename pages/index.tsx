@@ -45,7 +45,7 @@ const Home: NextPage = () => {
           </div>
         </div>
         {state.status === "fetching" && (
-          <div className="flex flex-col w-full max-w-7xl mx-auto md:px-4 px-4 ">
+          <div className="flex flex-col w-full max-w-7xl mx-auto md:px-4 px-2 ">
             <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1  gap-6">
               {[1, 2, 3, 4, 5, 6, 7,7,7,7,7,7,7,7,77,9].map((item, index) => (
                 <div className="col-span-1">
@@ -57,7 +57,7 @@ const Home: NextPage = () => {
         )}
         {state.status === "fetched" && (
           <>
-            <div className="flex flex-col w-full max-w-7xl mx-auto md:px-4 px-4">
+            <div className="flex flex-col w-full max-w-7xl mx-auto md:px-4 px-2">
               {state?.data?.videos.length < 1 ? (
                 <div className="flex flex-col py-8 items-center max-w-7xl mx-auto">
                   <div className="relative h-44 w-44">
@@ -81,7 +81,7 @@ const Home: NextPage = () => {
                   }
                 </div>
               ) : (
-                <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1  gap-6">
+                <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2  md:gap-6 gap-2">
                   {state?.data?.videos?.map((item: any, key: number) => (
                     <div key={key} className="col-span-1">
                       <SingleVideo
@@ -90,6 +90,7 @@ const Home: NextPage = () => {
                         likes={item.numberOfLikes}
                         title={item.title}
                         _id={item._id}
+                        createdAt={item.createdAt}
                       />
                     </div>
                   ))}

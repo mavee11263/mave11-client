@@ -78,6 +78,16 @@ function Upload() {
         });
         return;
       }
+      if (!category) {
+        toast({
+          title: "Please enter a category",
+          status: "error",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
       if (!videoAsset) {
         toast({
           title: "Upload Video First",

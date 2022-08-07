@@ -8,6 +8,7 @@ import NavSearch from "../NavSearch/NavSearch";
 import { Store } from "../../Context/Store";
 import { Avatar } from "@chakra-ui/react";
 import { UploadIcon } from "@heroicons/react/outline";
+import UserDropdown from "../Dropdowns/UserDropdown";
 
 function Navbar() {
   const { systemTheme, theme, setTheme } = useTheme();
@@ -69,9 +70,7 @@ function Navbar() {
                 <a ><UploadIcon height={20} width={20} /></a>
               </Link>
             </div>
-            <div className="flex flex-row" onClick={logout_user}>
-              <Avatar name={mavee_11_user?.name} size="sm" />
-            </div>
+            <UserDropdown />
           </div>
         ) : (
           <div className="flex flex-row items-center space-x-4">
