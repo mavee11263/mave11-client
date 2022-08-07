@@ -1,5 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
+import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { Store } from "../../Context/Store";
 import { apiUrl } from "../../utils/apiUrl";
@@ -16,6 +17,7 @@ function Subscribers(props: Props) {
   const { mavee_11_user } = state;
 
   const toast = useToast();
+  const history = useRouter();
 
   const [all_subscribers, setAllSubscribers] = useState<any>({
     subscribers: null,
@@ -86,7 +88,11 @@ function Subscribers(props: Props) {
 
   return (
     <div
-      onClick={toggle_subscribe}
+      onClick={
+        mavee_11_user
+          ? toggle_subscribe
+          : () => history.push(`/login?redirect=/video${props.video_id}`)
+      }
       className={`${
         all_subscribers?.user_subscribed
           ? "bg-gray-200 hover:bg-gray-300 text-gray-700 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 "
