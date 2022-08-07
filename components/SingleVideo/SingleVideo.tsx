@@ -1,9 +1,10 @@
 import { Badge, Text } from "@chakra-ui/react";
-import { DotsVerticalIcon, EyeIcon } from "@heroicons/react/solid";
+import { DotsVerticalIcon, EyeIcon, FlagIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import moment from "moment";
+import ReportModal from "../Modals/ReportModal";
 
 interface Props {
   _id: string;
@@ -75,6 +76,9 @@ function SingleVideo({
           </Text>
         )} */}
         <div className="flex-1"></div>
+        <>
+        <ReportModal />
+        </>
         <DotsVerticalIcon height={20} width={20} />
       </div>
     </div>
