@@ -17,7 +17,7 @@ function RelatedVideos() {
   const state = useFetch(url);
 
   return (
-    <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1  gap-4">
+    <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2  md:gap-4 gap-2">
       {state?.data?.videos?.map((item: any, key: number) => (
         <div key={key} className="col-span-1">
           <SingleVideo

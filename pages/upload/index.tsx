@@ -14,6 +14,7 @@ import { firebaseApp } from "../../utils/firebase-config";
 import { TrashIcon } from "@heroicons/react/outline";
 import { data } from "../../utils/data";
 import { useRouter } from "next/router";
+import Tags from "../../components/Tags/Tags";
 
 function Upload() {
   const [title, setTitle] = useState("");
@@ -24,10 +25,15 @@ function Upload() {
   const [loading, setLoading] = useState(false);
   const [video_loading, setVideoLoading] = useState(false)
   const [progress, setProgress] = useState(1);
+  const [tags, setTags] = useState<any>([])
   const [alert, setAlert] = useState(false);
   const [alertStatus, setAlertStatus] = useState<any>("");
   const [alertMsg, setAlertMsg] = useState("");
   const [picture_progress, setPIctureProgress] = useState(1);
+
+  const selectedTags = (tags: any) => {
+    setTags(tags)
+};
 
   const toast = useToast();
 
@@ -298,6 +304,20 @@ function Upload() {
           />
         </div>
         <div className="col-span-6">
+                                            <label htmlFor="username" className="block text-sm font-medium dark:text-gray-200 text-gray-700 sm:mt-px sm:pt-2">
+                                                Add all tags related to your video <span className='text-red-600'>*</span>
+                                            </label>
+                                            <div className="mt-1 sm:mt-0 w-full">
+                                                <div className=" flex rounded-md w-full">
+                                                    <Tags
+                                                        selectedTags={selectedTags}
+                                                        className=""
+                                                    />
+                                                </div>
+                                                <p className='text-sm text-gray-400'>Add all your tags, one at a time</p>
+                                            </div>
+                                        </div>
+        <div className="col-span-6">
           <p>Select Thumbnail</p>
           <FileUploadComponent selectedPictures={selectedPictures} multiple />
         </div>
@@ -316,6 +336,8 @@ function Upload() {
             </div>
           )}
         </div>
+
+        
       </div>
     </HomeLayout>
   );

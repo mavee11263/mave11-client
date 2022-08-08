@@ -49,22 +49,22 @@ function UserDropdown() {
           </Link>
         </MenuItem>
         <MenuDivider />
-        <MenuItem className="dark:hover:bg-gray-700 hover:bg-gray-200 focus:bg-none">
+        {/* <MenuItem className="dark:hover:bg-gray-700 hover:bg-gray-200 focus:bg-none">
           <Link href={"/history"}>
             <a className="font-semibold capitalize dark:text-gray-200 text-gray-700">
               History
             </a>
           </Link>
         </MenuItem>
-        <MenuDivider />
-        <MenuItem className="dark:hover:bg-gray-700 hover:bg-gray-200 focus:bg-none">
+        <MenuDivider /> */}
+        {/* <MenuItem className="dark:hover:bg-gray-700 hover:bg-gray-200 focus:bg-none">
           <Link href={"/subscriptions"}>
             <a className="font-semibold capitalize dark:text-gray-200 text-gray-700">
               Subscriptions
             </a>
           </Link>
         </MenuItem>
-        <MenuDivider />
+        <MenuDivider /> */}
         <MenuItem className="dark:hover:bg-gray-700 hover:bg-gray-200 focus:bg-none">
           <Link href={"/my-videos"}>
             <a className="font-semibold capitalize dark:text-gray-200 text-gray-700">
