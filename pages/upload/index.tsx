@@ -64,46 +64,46 @@ function Upload() {
     );
 
     try {
-      if (!title) {
-        toast({
-          title: "Enter the title",
-          status: "error",
-          position: "top-right",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      }
-      if (!description) {
-        toast({
-          title: "Enter the description",
-          status: "error",
-          position: "top-right",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      }
-      if (!category) {
-        toast({
-          title: "Please enter a category",
-          status: "error",
-          position: "top-right",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      }
-      if (!videoAsset) {
-        toast({
-          title: "Upload Video First",
-          status: "error",
-          position: "top-right",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      }
+      // if (!title) {
+      //   toast({
+      //     title: "Enter the title",
+      //     status: "error",
+      //     position: "top-right",
+      //     duration: 9000,
+      //     isClosable: true,
+      //   });
+      //   return;
+      // }
+      // if (!description) {
+      //   toast({
+      //     title: "Enter the description",
+      //     status: "error",
+      //     position: "top-right",
+      //     duration: 9000,
+      //     isClosable: true,
+      //   });
+      //   return;
+      // }
+      // if (!category) {
+      //   toast({
+      //     title: "Please enter a category",
+      //     status: "error",
+      //     position: "top-right",
+      //     duration: 9000,
+      //     isClosable: true,
+      //   });
+      //   return;
+      // }
+      // if (!videoAsset) {
+      //   toast({
+      //     title: "Upload Video First",
+      //     status: "error",
+      //     position: "top-right",
+      //     duration: 9000,
+      //     isClosable: true,
+      //   });
+      //   return;
+      // }
 
       //upload picture
       const uploadTask = uploadBytesResumable(storageRef, pictureFile);
@@ -123,10 +123,10 @@ function Upload() {
             await axios.post(
               `${apiUrl}/api/video/create`,
               {
-                title: title,
+                title: 'title',
                 description,
                 category,
-                video_url: videoAsset,
+                video_url: 'videoAsset',
                 picture_url: downloadURL,
               },
               {
