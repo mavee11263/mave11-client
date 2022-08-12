@@ -76,7 +76,7 @@ import {
               className={`${
                 pageNumber === currentPage
                   ? pagination_item +
-                    ' rounded bg-blue-700 p-2 text-center text-white '
+                    ' rounded bg-pink-500 p-2 text-center text-white dark:text-white '
                   : ' my-auto flex cursor-pointer items-center p-2 text-center text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded '
               } `}
             >
