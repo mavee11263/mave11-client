@@ -23,17 +23,17 @@ function Upload() {
   const [category, setCategory] = useState("");
   const [videoAsset, setVideoAsset] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [video_loading, setVideoLoading] = useState(false)
+  const [video_loading, setVideoLoading] = useState(false);
   const [progress, setProgress] = useState(1);
-  const [tags, setTags] = useState<any>([])
+  const [tags, setTags] = useState<any>([]);
   const [alert, setAlert] = useState(false);
   const [alertStatus, setAlertStatus] = useState<any>("");
   const [alertMsg, setAlertMsg] = useState("");
   const [picture_progress, setPIctureProgress] = useState(1);
 
   const selectedTags = (tags: any) => {
-    setTags(tags)
-};
+    setTags(tags);
+  };
 
   const toast = useToast();
 
@@ -46,13 +46,13 @@ function Upload() {
 
   const { state } = useContext(Store);
   const { mavee_11_user } = state;
-  const history = useRouter()
+  const history = useRouter();
 
-  useEffect(()=>{
-    if(!mavee_11_user){
-      history.push('/login')
+  useEffect(() => {
+    if (!mavee_11_user) {
+      history.push("/login");
     }
-  },[])
+  }, []);
 
   const sace_video = async () => {
     setLoading(true);
@@ -149,11 +149,11 @@ function Upload() {
       await axios.post(
         `${apiUrl}/api/video/create`,
         {
-          title: 'title',
+          title: "title",
           description,
           category,
-          video_url: 'videoAsset',
-          picture_url: 'downloadURL',
+          video_url: "videoAsset",
+          picture_url: "downloadURL",
         },
         {
           headers: {
@@ -304,13 +304,17 @@ function Upload() {
         <div className="flex flex-col col-span-3">
           <label htmlFor="title">Category</label>
           <select
-            onChange={(e) => {setCategory(e.target.value)
-            console.log(e.target.value)}}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              console.log(e.target.value);
+            }}
             className="flex-1 w-full rounded dark:bg-gray-700 bg-gray-100 border-none px-2 outline-none dark:text-gray-300 text-gray-700"
             placeholder="Select Category"
-            defaultValue={'ebony'}
+            defaultValue={"ebony"}
           >
-            <option value={'none'} selected disabled hidden>Select Category</option>
+            <option value={"none"} selected disabled hidden>
+              Select Category
+            </option>
             {data.categories?.map((item, index) => (
               <option value="category">{item.name}</option>
             ))}
@@ -327,19 +331,22 @@ function Upload() {
           />
         </div>
         <div className="col-span-6">
-                                            <label htmlFor="username" className="block text-sm font-medium dark:text-gray-200 text-gray-700 sm:mt-px sm:pt-2">
-                                                Add all tags related to your video <span className='text-red-600'>*</span>
-                                            </label>
-                                            <div className="mt-1 sm:mt-0 w-full">
-                                                <div className=" flex rounded-md w-full">
-                                                    <Tags
-                                                        selectedTags={selectedTags}
-                                                        className=""
-                                                    />
-                                                </div>
-                                                <p className='text-sm text-gray-400'>Add all your tags, one at a time</p>
-                                            </div>
-                                        </div>
+          <label
+            htmlFor="username"
+            className="block text-sm font-medium dark:text-gray-200 text-gray-700 sm:mt-px sm:pt-2"
+          >
+            Add all tags related to your video{" "}
+            <span className="text-red-600">*</span>
+          </label>
+          <div className="mt-1 sm:mt-0 w-full">
+            <div className=" flex rounded-md w-full">
+              <Tags selectedTags={selectedTags} className="" />
+            </div>
+            <p className="text-sm text-gray-400">
+              Add all your tags, one at a time
+            </p>
+          </div>
+        </div>
         <div className="col-span-6">
           <p>Select Thumbnail</p>
           <FileUploadComponent selectedPictures={selectedPictures} multiple />
@@ -359,8 +366,6 @@ function Upload() {
             </div>
           )}
         </div>
-
-        
       </div>
     </HomeLayout>
   );

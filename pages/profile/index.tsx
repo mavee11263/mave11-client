@@ -1,14 +1,18 @@
+import { useToast } from "@chakra-ui/react";
 import {
   ScaleIcon,
   UserGroupIcon,
   VideoCameraIcon,
 } from "@heroicons/react/outline";
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import FileUploadComponent from "../../components/FileUploadComponent/FileUploadComponent";
 import ProfileCard from "../../components/ProfilePage/ProfileCard";
 import { Store } from "../../Context/Store";
 import { useFetch } from "../../hooks/useFetch";
 import HomeLayout from "../../layouts/HomeLayout";
 import { apiUrl } from "../../utils/apiUrl";
+import { getError } from "../../utils/error";
 
 function ProfilePage() {
   const { state: user_state } = useContext(Store);
@@ -18,17 +22,50 @@ function ProfilePage() {
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
+  const [pictures_for_upload, setPicturesForUpload] = useState<any>([]);
+  const [loading, setLoading]= useState(false)
+  const toast = useToast();
+  const [picture_progress, setPIctureProgress] = useState(1);
 
-  useEffect(()=>{
-    setEmail(state?.data?.user_info?.email)
-    setUsername(state?.data?.user_info?.username)
-  },[state])
+  useEffect(() => {
+    setEmail(state?.data?.user_info?.email);
+    setUsername(state?.data?.user_info?.username);
+  }, [state]);
 
-  const save_info = () =>{
+  const selectedPictures = (pictures: any) => {
+    setPicturesForUpload(pictures);
+  };
 
-    console.log(email, username);
-  }
-
+  const save_info = async () => {
+    try {
+      setLoading(true)
+      const {data} = await axios.put(`${apiUrl}/api/user/edit/${mavee_11_user?._id}`,{
+        username: username,
+        picture_url: 'new_pic'
+      },{
+        headers:{
+          Authorization: mavee_11_user?.token
+        }
+      })
+      setLoading(false)
+      toast({
+        title: "Saved Successfully.",
+        status: "success",
+        position: "top-right",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      setLoading(false)
+      toast({
+        title: getError(error),
+        status: "error",
+        position: "top-right",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
 
   return (
     <HomeLayout>
@@ -83,10 +120,20 @@ function ProfilePage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email"
             />
+            <div className="md:col-span-2 col-span-4">
+              <p className="block dark:text-gray-200 text-gray-700">Select Profile Piture</p>
+              <FileUploadComponent
+                selectedPictures={selectedPictures}
+                multiple
+              />
+            </div>
           </div>
           <div className="col-span-4 ml-auto py-8">
-            <div onClick={save_info} className="flex bg-pink-500 p-2 rounded text-white font-semibold cursor-pointer hover:bg-pink-600 text-sm">
-              Change Info
+            <div
+              onClick={loading? () => console.log('loading') : save_info}
+              className="flex bg-pink-500 p-2 rounded text-white font-semibold cursor-pointer hover:bg-pink-600 text-sm"
+            >
+              {loading ? 'Loading' : 'Change Info'}
             </div>
           </div>
         </div>

@@ -97,7 +97,7 @@ export default function FileUploadComponent({ multiple, selectedPictures }: Prop
                                             />
                                         </svg>
                                         <div className="flex flex-col items-center">
-                                            <span className="block text-gray-400 font-normal">Select thumbnail</span> </div>
+                                            <span className="block text-gray-400 font-normal">Select Picture</span> </div>
                                     </div>
                                     {
                                         multiple ? (
