@@ -99,7 +99,7 @@ function SinglePost(props: any) {
               <div className="flex-1"></div>
               <div className="flex flex-row items-center md:justify-between justify-end py-2 space-x-2 dark:text-gray-200 text-gray-700">
                 <>
-                  <ReportModal />
+                  <ReportModal video_id={video?._id} />
                 </>
                 <div className="hover:bg-gray-100 cursor-pointer p-2 rounded-full">
                   <ShareIcon height={16} width={16} />

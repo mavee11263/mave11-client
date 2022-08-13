@@ -1,6 +1,4 @@
 import { useRef } from "react";
-//@ts-ignore
-import { Video, CloudinaryContext } from "cloudinary-react";
 import ReactPlayer from "react-player";
 
 interface Props {
@@ -9,7 +7,6 @@ interface Props {
 }
 
 const VideoPlayer = ({ video_url, thumbnail }: Props) => {
-  const videoRef = useRef();
   return (
     <div className="flex lg:h-[550px] md:h-[350px] h-[200px] w-full flex-col items-center bg-black">
       <ReactPlayer
