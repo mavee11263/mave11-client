@@ -25,7 +25,9 @@ function MyVideos() {
   // rerender whenever total video changes
   useEffect(() => {
     setAllVideos(state?.data);
-  }, [all_videos]);
+  }, [state, all_videos]);
+
+  console.log(all_videos)
 
   const delete_item_from_table = (id: any) => {
     setAllVideos(all_videos?.videos.filter((item: any) => item._id !== id));
@@ -37,9 +39,9 @@ function MyVideos() {
         <p className="text-center max-w-7xl mx-auto text-lg font-semibold py-16 dark:text-white text-gray-800">
           Manage My Videos
         </p>
-        <>
+        <div>
           <SearchDashboard />
-        </>
+        </div>
         <div className="flex">
           {state?.status === "fetching" ? (
             <div className="h-96 w-full dark:text-white text-gray-700 grid items-center justify-center content-center">

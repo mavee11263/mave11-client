@@ -1,23 +1,21 @@
 import Head from "next/head";
-import React, { useEffect } from "react";
+import React from "react";
 import Navbar from "../components/Navigation/Navbar";
-
 
 interface Props {
   children?: any;
 }
 
 function HomeLayout({ children }: Props) {
-  
-
-  
   return (
     <div>
       <Head>
-        <title>MaVee 11 - NSFW | Watch adult content</title>
+        <title>MaVee 11 - NSFW | Watch best porn content on the internet</title>
         <meta
           name="description"
-          content={'Watch all your favoutite porn videos from your favourite creators'}
+          content={
+            "Watch all your favoutite porn videos from your favourite creators"
+          }
         />
       </Head>
       <div className="dark:bg-gray-800 bg-white flex flex-col w-full">
@@ -27,8 +25,7 @@ function HomeLayout({ children }: Props) {
         <main className="min-h-screen">{children}</main>
         <footer>footer</footer>
       </div>
-       {/* // cookies Modal */}
-    
+      {/* // cookies Modal */}
     </div>
   );
 }
