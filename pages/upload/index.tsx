@@ -57,11 +57,11 @@ function Upload() {
   const sace_video = async () => {
     setLoading(true);
 
-    const pictureFile = pictures_for_upload[0];
-    const storageRef = ref(
-      storage,
-      `Thumbnails/${Date.now()}-${pictureFile.name}`
-    );
+    // const pictureFile = pictures_for_upload[0];
+    // const storageRef = ref(
+    //   storage,
+    //   `Thumbnails/${Date.now()}-${pictureFile.name}`
+    // );
 
     try {
       // if (!title) {
@@ -106,46 +106,69 @@ function Upload() {
       // }
 
       //upload picture
-      const uploadTask = uploadBytesResumable(storageRef, pictureFile);
+      // const uploadTask = uploadBytesResumable(storageRef, pictureFile);
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const uploadProgress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setPIctureProgress(uploadProgress);
+      // uploadTask.on(
+      //   "state_changed",
+      //   (snapshot) => {
+      //     const uploadProgress =
+      //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      //     setPIctureProgress(uploadProgress);
+      //   },
+      //   (error) => {
+      //     console.log(error);
+      //   },
+      //   () => {
+      //     getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+      //       await axios.post(
+      //         `${apiUrl}/api/video/create`,
+      //         {
+      //           title: 'title',
+      //           description,
+      //           category,
+      //           video_url: 'videoAsset',
+      //           picture_url: downloadURL,
+      //         },
+      //         {
+      //           headers: {
+      //             Authorization: mavee_11_user?.token,
+      //           },
+      //         }
+      //       );
+      //       toast({
+      //         title: "Video Uploaded",
+      //         status: "success",
+      //         position: "top-right",
+      //         duration: 9000,
+      //         isClosable: true,
+      //       });
+      //       setLoading(false);
+      //     });
+      //   }
+      // );
+      await axios.post(
+        `${apiUrl}/api/video/create`,
+        {
+          title: 'title',
+          description,
+          category,
+          video_url: 'videoAsset',
+          picture_url: 'downloadURL',
         },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            await axios.post(
-              `${apiUrl}/api/video/create`,
-              {
-                title: 'title',
-                description,
-                category,
-                video_url: 'videoAsset',
-                picture_url: downloadURL,
-              },
-              {
-                headers: {
-                  Authorization: mavee_11_user?.token,
-                },
-              }
-            );
-            toast({
-              title: "Video Uploaded",
-              status: "success",
-              position: "top-right",
-              duration: 9000,
-              isClosable: true,
-            });
-            setLoading(false);
-          });
+        {
+          headers: {
+            Authorization: mavee_11_user?.token,
+          },
         }
       );
+      toast({
+        title: "Video Uploaded",
+        status: "success",
+        position: "top-right",
+        duration: 9000,
+        isClosable: true,
+      });
+      setLoading(false);
     } catch (error) {
       console.log(getError(error));
       setLoading(false);

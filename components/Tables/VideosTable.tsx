@@ -15,23 +15,23 @@ import Pagination from "../Pagination/Pagination";
 import moment from "moment";
 
 interface Props {
-  videos?: any;
   delete_item_from_table?: any;
   setPage?: any;
   page?: any;
   data_info?: any;
   PER_PAGE?: number;
   data: any;
+  videos:any
 }
 
 function VideosTable({
-  videos,
   delete_item_from_table,
   setPage,
   page,
   data_info,
   PER_PAGE,
   data,
+  videos
 }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [video_name, setvideoName] = useState("");
@@ -41,7 +41,7 @@ function VideosTable({
   const toast = useToast();
 
   const confirm_delete_item = async (video_id: string) => {
-    setLoading(true)
+    delete_item_from_table(video_id)
   };
 
   const set_delete_item = (id: string, name: string) => {
@@ -49,8 +49,6 @@ function VideosTable({
     setvideoId(id);
     setvideoName(name);
   };
-
-  console.log(data?.data?.meta?.totalPages);
 
   return (
     <div className="flex w-full flex-col">
@@ -109,7 +107,7 @@ function VideosTable({
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
                 <>
-                  {data?.data?.videos?.map((video: any, index: number) => (
+                  {videos?.map((video: any, index: number) => (
                     <>
                       <tr key={index}>
                         <td
@@ -169,7 +167,7 @@ function VideosTable({
                           <div className="flex flex-row items-center space-x-2">
                             <span
                               onClick={() =>
-                                set_delete_item("video._id", "video.title")
+                                set_delete_item(video._id, video.title)
                               }
                               className="cursor-pointer"
                             >

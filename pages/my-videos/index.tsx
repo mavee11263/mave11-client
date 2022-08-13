@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import { Spinner } from "@chakra-ui/react";
+import React, { useContext, useEffect, useState } from "react";
 import SearchDashboard from "../../components/Search/SearchDashboard";
 import VideosTable from "../../components/Tables/VideosTable";
 import { Store } from "../../Context/Store";
@@ -12,17 +13,23 @@ function MyVideos() {
   const [page, setPage] = useState<number>(1);
   const { state: store_state } = useContext(Store);
   const { search_category, search_query, mavee_11_user } = store_state;
-  // const url = `${apiUrl}/api/user/videos?page=${page}&category=${
-  //   search_category ? search_category : ""
-  // }&keyword=${search_query ? search_query : ""}&perPage=${PER_PAGE}`;
+  const url = `${apiUrl}/api/user/videos?page=${page}&category=${
+    search_category ? search_category : ""
+  }&keyword=${search_query ? search_query : ""}&perPage=${PER_PAGE}`;
+  const [all_videos, setAllVideos] = useState<any>();
+  const token = mavee_11_user?.token;
 
-  const url = `${apiUrl}/api/user/videos?page=${page}`
-  const token =  mavee_11_user?.token
+  // start the fetching using the useFetch hook
+  const state = useAuthFetch(url, token);
 
-   // start the fetching using the useFetch hook
-   const state = useAuthFetch(url, token);
+  // rerender whenever total video changes
+  useEffect(() => {
+    setAllVideos(state?.data);
+  }, [all_videos]);
 
-   console.log('state ---- ',state)
+  const delete_item_from_table = (id: any) => {
+    setAllVideos(all_videos?.videos.filter((item: any) => item._id !== id));
+  };
 
   return (
     <HomeLayout>
@@ -34,7 +41,21 @@ function MyVideos() {
           <SearchDashboard />
         </>
         <div className="flex">
-          <VideosTable data={state} page={page} setPage={setPage} />
+          {state?.status === "fetching" ? (
+            <div className="h-96 w-full dark:text-white text-gray-700 grid items-center justify-center content-center">
+              <Spinner />
+            </div>
+          ) : (
+            <>
+              <VideosTable
+                delete_item_from_table={delete_item_from_table}
+                data={state}
+                page={page}
+                setPage={setPage}
+                videos={all_videos?.videos}
+              />
+            </>
+          )}
         </div>
       </div>
     </HomeLayout>
