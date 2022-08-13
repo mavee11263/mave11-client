@@ -1,5 +1,5 @@
-import React, { ReactElement, useState, useContext } from "react";
-import { TrashIcon, PencilIcon } from "@heroicons/react/outline";
+import React, { ReactElement, useState } from "react";
+import { TrashIcon } from "@heroicons/react/outline";
 import {
   Modal,
   ModalOverlay,
@@ -11,10 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
-import axios from "axios";
 import Pagination from "../Pagination/Pagination";
-
-const PER_PAGE = 16;
+import moment from "moment";
 
 interface Props {
   videos?: any;
@@ -23,6 +21,7 @@ interface Props {
   page?: any;
   data_info?: any;
   PER_PAGE?: number;
+  data: any;
 }
 
 function VideosTable({
@@ -32,6 +31,7 @@ function VideosTable({
   page,
   data_info,
   PER_PAGE,
+  data,
 }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [video_name, setvideoName] = useState("");
@@ -40,13 +40,17 @@ function VideosTable({
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  const confirm_delete_item = async (video_id: string) => {};
+  const confirm_delete_item = async (video_id: string) => {
+    setLoading(true)
+  };
 
   const set_delete_item = (id: string, name: string) => {
     onOpen();
     setvideoId(id);
     setvideoName(name);
   };
+
+  console.log(data?.data?.meta?.totalPages);
 
   return (
     <div className="flex w-full flex-col">
@@ -68,12 +72,7 @@ function VideosTable({
                   >
                     Category
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-200"
-                  >
-                    Description
-                  </th>
+
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-200"
@@ -85,6 +84,12 @@ function VideosTable({
                     className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-200"
                   >
                     Views
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-200"
+                  >
+                    Likes
                   </th>
 
                   <th
@@ -104,61 +109,61 @@ function VideosTable({
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
                 <>
-                  {[1, 2, 3, 4, 5, 6, 7]?.map((video: any, index: number) => (
+                  {data?.data?.videos?.map((video: any, index: number) => (
                     <>
                       <tr key={index}>
                         <td
                           className="whitespace-nowrap px-6 py-4"
-                          onClick={() =>
-                            router.push(`/video/description/${"video?._id"}`)
-                          }
+                          onClick={() => router.push(`/video/${"video?._id"}`)}
                         >
                           <div className="flex items-center">
                             <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-100 dark:bg-gray-700">
                               <img
                                 className="h-10 w-10 rounded-full"
-                                src={"video.pictures[0]"}
+                                src={video?.thumbnail}
                                 alt=""
                               />
                             </div>
                             <div className="ml-4">
                               <div className="max-w-xs overflow-hidden text-sm font-medium text-gray-900 dark:text-gray-100">
-                                {"video.title"}
+                                {video?.title}
                               </div>
                             </div>
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="text-sm text-gray-500 dark:text-gray-200">
-                            {"video.category"}
-                          </div>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <div className="text-sm max-w-sm overflow-hidden text-gray-500 dark:text-gray-200">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit. Sit quibusdam libero dolorem eaque explicabo,
-                            ipsam dolore ratione corrupti exercitationem?
-                            Nesciunt, non. Dolorem voluptas eaque doloribus odio
-                            impedit, quos aspernatur accusantium!
+                            {video.category}
                           </div>
                         </td>
 
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="text-sm text-gray-500 dark:text-gray-200">
-                            {"video.upload_date"}
+                            {moment(video?.createdAt).fromNow()}
                           </div>
                         </td>
 
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="text-sm text-gray-500 dark:text-gray-200">
-                            {"video.views"}
+                            {video?.numberOfViews}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <div className="text-sm text-gray-500 dark:text-gray-200">
+                            {video?.numberOfLikes}
                           </div>
                         </td>
 
                         <td className="whitespace-nowrap px-6 py-4">
-                          <span className="inline-flex rounded-full bg-green-700 px-2 text-xs font-semibold leading-5 text-white">
-                            Active
-                          </span>
+                          {video?.status === "public" ? (
+                            <span className="inline-flex rounded-full bg-green-700 px-2 text-xs font-semibold leading-5 text-white">
+                              Public
+                            </span>
+                          ) : (
+                            <span className="inline-flex rounded-full bg-red-500 px-2 text-xs font-semibold leading-5 text-white">
+                              Private
+                            </span>
+                          )}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                           <div className="flex flex-row items-center space-x-2">
@@ -176,9 +181,10 @@ function VideosTable({
                             </span>
 
                             {/* 
-                            remove comments to enable edit video
-                            redirects to edit video page
+                              remove comments to enable edit video
+                              redirects to edit video page
                              */}
+
                             {/* <span
                               onClick={() =>
                                 router.push(
@@ -242,8 +248,10 @@ function VideosTable({
           className="flex self-center pt-8"
           onPageChange={(page: number) => setPage(page)}
           pageSize={8}
-          totalCount={800}
+          totalCount={data?.data?.meta?.totalPages}
           currentPage={1}
+          //@ts-ignore
+          page={page}
         />
       </>
     </div>

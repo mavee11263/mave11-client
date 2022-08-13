@@ -15,7 +15,7 @@ export const data = {
         {name: 'big dick', slug: 'black'},
         {name: 'hentai', slug: 'black'},
         {name: 'home made', slug: 'black'},
-        {name: 'latina', slug: 'black'},
+        {name: 'latina', slug: 'black'}, 
         {name: 'gay', slug: 'black'},
         {name: 'interacial', slug: 'black'},
         {name: 'step daughter', slug: 'black'},

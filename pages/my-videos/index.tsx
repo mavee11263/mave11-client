@@ -16,7 +16,7 @@ function MyVideos() {
   //   search_category ? search_category : ""
   // }&keyword=${search_query ? search_query : ""}&perPage=${PER_PAGE}`;
 
-  const url = `${apiUrl}/api/user/videos`
+  const url = `${apiUrl}/api/user/videos?page=${page}`
   const token =  mavee_11_user?.token
 
    // start the fetching using the useFetch hook
@@ -34,7 +34,7 @@ function MyVideos() {
           <SearchDashboard />
         </>
         <div className="flex">
-          <VideosTable />
+          <VideosTable data={state} page={page} setPage={setPage} />
         </div>
       </div>
     </HomeLayout>
