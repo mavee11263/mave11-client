@@ -44,7 +44,7 @@ function ProfilePage() {
     setUsername(state?.data?.user_info?.username);
   }, [state]);
 
-  const selectedPictures = (pictures: any) => {
+  const selectedPictures = (pictures: any) => { 
     setPicturesForUpload(pictures);
   };
 
