@@ -8,8 +8,6 @@ import {
   ModalBody,
   useDisclosure,
   ModalCloseButton,
-  Radio,
-  Stack,
   useToast,
 } from "@chakra-ui/react";
 import { FlagIcon } from "@heroicons/react/solid";
