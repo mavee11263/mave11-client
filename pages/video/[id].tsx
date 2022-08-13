@@ -74,10 +74,10 @@ function SinglePost(props: any) {
               }
             </div>
 
-            {/* <VideoPlayer
+            <VideoPlayer
               thumbnail={video?.thumbnail}
               video_url={video?.video}
-            /> */}
+            />
             <div className="flex pb-8 pt-2 dark:text-gray-200 text-gray-700 w-full flex-row  items-center">
               {/* // video info */}
               <div className="flex flex-row items-center space-x-4">
