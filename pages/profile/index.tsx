@@ -3,7 +3,7 @@ import {
   UserGroupIcon,
   VideoCameraIcon,
 } from "@heroicons/react/outline";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProfileCard from "../../components/ProfilePage/ProfileCard";
 import { Store } from "../../Context/Store";
 import { useFetch } from "../../hooks/useFetch";
@@ -19,7 +19,16 @@ function ProfilePage() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
 
-  console.log(state);
+  useEffect(()=>{
+    setEmail(state?.data?.user_info?.email)
+    setUsername(state?.data?.user_info?.username)
+  },[state])
+
+  const save_info = () =>{
+
+    console.log(email, username);
+  }
+
 
   return (
     <HomeLayout>
@@ -62,18 +71,23 @@ function ProfilePage() {
           <div className="grid grid-cols-5 gap-4">
             <input
               type="text"
-              className="dark:bg-gray-700 bg-gray-200 rounded dark:text-gray-200 text-gray-700 col-span-3 p-2 outline-none border-none"
+              className="dark:bg-gray-700 bg-gray-100 rounded dark:text-gray-200 text-gray-700 md:col-span-3 col-span-5 p-2 outline-none border-none"
               defaultValue={state?.data?.user_info?.username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="username"
             />
             <input
               type="text"
-              className="dark:bg-gray-700 bg-gray-200 rounded dark:text-gray-200 text-gray-700 col-span-4 p-2 outline-none border-none"
+              className="dark:bg-gray-700 bg-gray-100 rounded dark:text-gray-200 text-gray-700 md:col-span-4 col-span-5 p-2 outline-none border-none"
               defaultValue={state?.data?.user_info?.email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email"
             />
+          </div>
+          <div className="col-span-4 ml-auto py-8">
+            <div onClick={save_info} className="flex bg-pink-500 p-2 rounded text-white font-semibold cursor-pointer hover:bg-pink-600 text-sm">
+              Change Info
+            </div>
           </div>
         </div>
       </div>
