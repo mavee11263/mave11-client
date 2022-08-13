@@ -39,7 +39,8 @@ function SinglePost(props: any) {
     getVideo();
   }, [query.id]);
 
-  console.log(video);
+  const search_tag = () =>{
+  }
 
   return (
     <HomeLayout>
@@ -65,11 +66,18 @@ function SinglePost(props: any) {
                 </p>
               </span>
             </div>
+            <div className="flex flex-wrap space-x-4 ">
+              {
+                video?.tags?.map((tag:string, index:number)=>(
+                  <span onClick={()=> console.log(tag)} className="dark:bg-gray-700 bg-gray-100 mb-1 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 dark:text-white text-gray-600 text-xs p-1 rounded" key={`${tag}${index}`}>{tag}</span>
+                ))
+              }
+            </div>
 
-            <VideoPlayer
+            {/* <VideoPlayer
               thumbnail={video?.thumbnail}
               video_url={video?.video}
-            />
+            /> */}
             <div className="flex pb-8 pt-2 dark:text-gray-200 text-gray-700 w-full flex-row  items-center">
               {/* // video info */}
               <div className="flex flex-row items-center space-x-4">

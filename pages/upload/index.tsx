@@ -146,14 +146,15 @@ function Upload() {
       //     });
       //   }
       // );
-      await axios.post(
+      const {data} = await axios.post(
         `${apiUrl}/api/video/create`,
         {
-          title: "title",
+          title: title,
           description,
           category,
           video_url: "videoAsset",
           picture_url: "downloadURL",
+          tags: tags
         },
         {
           headers: {
@@ -161,6 +162,7 @@ function Upload() {
           },
         }
       );
+      console.log(data)
       toast({
         title: "Video Uploaded",
         status: "success",
@@ -168,7 +170,9 @@ function Upload() {
         duration: 9000,
         isClosable: true,
       });
+      history.push(`/video/${data?.video?._id}`)
       setLoading(false);
+
     } catch (error) {
       console.log(getError(error));
       setLoading(false);

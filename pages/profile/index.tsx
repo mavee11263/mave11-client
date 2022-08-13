@@ -1,6 +1,5 @@
 import { useToast } from "@chakra-ui/react";
 import {
-  ScaleIcon,
   UserGroupIcon,
   VideoCameraIcon,
 } from "@heroicons/react/outline";
@@ -14,6 +13,16 @@ import HomeLayout from "../../layouts/HomeLayout";
 import { apiUrl } from "../../utils/apiUrl";
 import { getError } from "../../utils/error";
 
+// for firebase upload
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
+import { firebaseApp } from "../../utils/firebase-config";
+
 function ProfilePage() {
   const { state: user_state } = useContext(Store);
   const { mavee_11_user } = user_state;
@@ -23,9 +32,12 @@ function ProfilePage() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [pictures_for_upload, setPicturesForUpload] = useState<any>([]);
-  const [loading, setLoading]= useState(false)
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
   const [picture_progress, setPIctureProgress] = useState(1);
+
+  // for firebase
+  const storage = getStorage(firebaseApp);
 
   useEffect(() => {
     setEmail(state?.data?.user_info?.email);
@@ -37,33 +49,94 @@ function ProfilePage() {
   };
 
   const save_info = async () => {
-    try {
-      setLoading(true)
-      const {data} = await axios.put(`${apiUrl}/api/user/edit/${mavee_11_user?._id}`,{
-        username: username,
-        picture_url: 'new_pic'
-      },{
-        headers:{
-          Authorization: mavee_11_user?.token
+    const pictureFile = pictures_for_upload[0];
+    if (pictures_for_upload?.length >= 1) {
+      const storageRef = ref(
+        storage,
+        `Profiles/${Date.now()}-${pictureFile.name}`
+        );
+        //upload picture
+        const uploadTask = uploadBytesResumable(storageRef, pictureFile);
+        setLoading(true);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const uploadProgress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setPIctureProgress(uploadProgress);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            try {
+              const { data } = await axios.put(
+                `${apiUrl}/api/user/edit/${mavee_11_user?._id}`,
+                {
+                  username: username,
+                  picture_url: downloadURL,
+                },
+                {
+                  headers: {
+                    Authorization: mavee_11_user?.token,
+                  },
+                }
+              );
+              setLoading(false);
+              toast({
+                title: "Saved Successfully.",
+                status: "success",
+                position: "top-right",
+                duration: 9000,
+                isClosable: true,
+              });
+            } catch (error) {
+              setLoading(false);
+              toast({
+                title: getError(error),
+                status: "error",
+                position: "top-right",
+                duration: 9000,
+                isClosable: true,
+              });
+            }
+          });
         }
-      })
-      setLoading(false)
-      toast({
-        title: "Saved Successfully.",
-        status: "success",
-        position: "top-right",
-        duration: 9000,
-        isClosable: true,
-      });
-    } catch (error) {
-      setLoading(false)
-      toast({
-        title: getError(error),
-        status: "error",
-        position: "top-right",
-        duration: 9000,
-        isClosable: true,
-      });
+      );
+    } else {
+      setLoading(true);
+      try {
+        const { data } = await axios.put(
+          `${apiUrl}/api/user/edit/${mavee_11_user?._id}`,
+          {
+            username: username,
+            picture_url: state?.data?.user_info?.photoURL,
+          },
+          {
+            headers: {
+              Authorization: mavee_11_user?.token,
+            },
+          }
+        );
+        setLoading(false);
+        toast({
+          title: "Saved Successfully.",
+          status: "success",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+      } catch (error) {
+        setLoading(false);
+        toast({
+          title: getError(error),
+          status: "error",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
     }
   };
 
@@ -121,7 +194,9 @@ function ProfilePage() {
               placeholder="email"
             />
             <div className="md:col-span-2 col-span-4">
-              <p className="block dark:text-gray-200 text-gray-700">Select Profile Piture</p>
+              <p className="block dark:text-gray-200 text-gray-700">
+                Select Profile Piture
+              </p>
               <FileUploadComponent
                 selectedPictures={selectedPictures}
                 multiple
@@ -130,10 +205,10 @@ function ProfilePage() {
           </div>
           <div className="col-span-4 ml-auto py-8">
             <div
-              onClick={loading? () => console.log('loading') : save_info}
+              onClick={loading ? () => console.log("loading") : save_info}
               className="flex bg-pink-500 p-2 rounded text-white font-semibold cursor-pointer hover:bg-pink-600 text-sm"
             >
-              {loading ? 'Loading' : 'Change Info'}
+              {loading ? "Loading" : "Change Info"}
             </div>
           </div>
         </div>

@@ -29,6 +29,15 @@ function Comments({ videoId }: Props) {
   const { mavee_11_user } = state;
 
   const create_comment = async () => {
+   if(!comment){
+    toast({
+      title: "Cant save empty comment.",
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+      position: "bottom",
+    });
+   }else{
     try {
       const { data } = await axios.post(
         `${apiUrl}/api/comment/create`,
@@ -42,6 +51,7 @@ function Comments({ videoId }: Props) {
           },
         }
       );
+      setComment('')
       setComments((old_comments: any) => [...old_comments, data.comments]);
       toast({
         title: "Comment added.",
@@ -51,6 +61,7 @@ function Comments({ videoId }: Props) {
         position: "bottom",
       });
     } catch (error) {}
+   }
   };
 
   //get all reviews for the store
@@ -109,7 +120,7 @@ function Comments({ videoId }: Props) {
         <>
           {comments_to_show(comments, number_of_comments)?.map(
             (item: any, index: number) => (
-              <CommentItem name={item?.creator.username} comment={item?.comment} />
+              <CommentItem name={item?.creator.username} picture={item.creator.photoURL} comment={item?.comment} />
             )
           )}
         </>

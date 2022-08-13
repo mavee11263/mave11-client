@@ -5,15 +5,16 @@ interface Props{
     name:string,
     comment:string,
     userId?:string,
-    pro_pic?:string
+    pro_pic?:string,
+    picture?:string
 }
 
-function CommentItem({name, comment, userId, pro_pic}:Props) {
+function CommentItem({name, comment, userId, picture}:Props) {
   return (
     <div className="flex flex-row">
       <div className="flex flex-row space-x-4">
         <span>
-          <Avatar size={'sm'} name={name} />
+          <Avatar src={picture} size={'sm'} name={name} />
         </span>
         <div className="flex flex-col">
           <p className="font-semibold text-sm">{name}</p>
