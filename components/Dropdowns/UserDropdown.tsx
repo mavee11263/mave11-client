@@ -36,15 +36,16 @@ function UserDropdown() {
         </div>
       </MenuButton>
       <MenuList className="bg-white dark:bg-gray-800 border dark:border-gray-700 border-gray-200">
-        <MenuItem className="dark:hover:bg-gray-700 hover:bg-gray-200 focus:bg-none">
+        <MenuItem></MenuItem>
+        <MenuItem onClick={()=> history.push('/profile')} className="dark:hover:bg-gray-700 hover:bg-gray-200 focus:bg-none">
           <Link href={"/profile"}>
-            <a className="flex dark:text-gray-200 text-gray-700 flex-row space-x-2">
+            <a className="flex dark:text-gray-200 items-center text-gray-700 flex-row space-x-2">
               <Avatar
                 size="sm"
                 src={mavee_11_user?.photoURL}
                 name={mavee_11_user?.name}
               />
-              <span>Profile</span>
+              <span>My Account</span>
             </a>
           </Link>
         </MenuItem>
