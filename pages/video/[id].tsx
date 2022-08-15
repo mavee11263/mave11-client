@@ -47,7 +47,7 @@ function SinglePost(props: any) {
       <main className="lg:px-20 max-w-[1920px] mx-auto md:px-12 px-4 flex flex-col w-full">
         <div className="grid grid-cols-7 lg:gap-12 md:gap-8 gap-4 pt-8">
           <div className="lg:col-span-5 md:col-span-6 col-span-7">
-            <div className="flex flex-row items-center space-x-2 flex-1 pb-4">
+            <div className="flex flex-row items-center space-x-2 flex-1 pb-1">
               <p className="font-semibold dark:text-white flex flex-row items-center text-gray-900 text-lg ">
                 {video?.title}
               </p>
@@ -66,10 +66,10 @@ function SinglePost(props: any) {
                 </p>
               </span>
             </div>
-            <div className="flex flex-wrap space-x-4 ">
+            <div className="flex flex-wrap space-x-4 pb-4 ">
               {
                 video?.tags?.map((tag:string, index:number)=>(
-                  <span onClick={()=> console.log(tag)} className="dark:bg-gray-700 bg-gray-100 mb-1 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 dark:text-white text-gray-600 text-xs p-1 rounded" key={`${tag}${index}`}>{tag}</span>
+                  <span onClick={()=> console.log(tag)} className="dark:bg-gray-700 bg-gray-200 mb-1 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 text-xs p-1 rounded" key={`${tag}${index}`}>{tag}</span>
                 ))
               }
             </div>

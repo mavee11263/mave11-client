@@ -27,6 +27,7 @@ function RelatedVideos() {
             title={item.title}
             _id={item._id}
             createdAt={item.createdAt}
+            duration={item.duration}
           />
         </div>
       ))}
