@@ -33,11 +33,11 @@ const Home: NextPage = () => {
     <HomeLayout>
       <div className="flex flex-col w-full lg:px-0  ">
         <div className="flex">
-          <div className="flex flex-row items-center space-x-6 overflow-y-scroll py-4 scrollbar-hide">
+          <div className="max-w-7xl mx-auto  flex flex-wrap items-center space-x-2 overflow-y-scroll py-4 scrollbar-hide">
             {data.categories.map((item, index) => (
               <div
                 key={index}
-                className="flex break-normal flex-row border dark:border-gray-600 dark:text-gray-200 text-gray-700 border-gray-300 md:px-4 rounded-full px-2 py-1"
+                className="flex break-normal flex-row mb-2 border dark:border-gray-400 cursor-pointer dark:bg-gray-700 bg-gray-100 dark:text-gray-200 text-gray-700 border-gray-300 md:px-4 rounded-full px-2 py-1"
               >
                 <Text noOfLines={1}>{item.name}</Text>
               </div>
@@ -91,6 +91,7 @@ const Home: NextPage = () => {
                         title={item.title}
                         _id={item._id}
                         createdAt={item.createdAt}
+                        duration={item.duration}
                       />
                     </div>
                   ))}

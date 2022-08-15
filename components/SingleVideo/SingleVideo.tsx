@@ -13,6 +13,7 @@ interface Props {
   numberOfViews: number;
   thumbnail: string;
   createdAt: any;
+  duration:string
 }
 
 function SingleVideo({
@@ -22,6 +23,7 @@ function SingleVideo({
   numberOfViews,
   thumbnail,
   createdAt,
+  duration
 }: Props) {
   const router = useRouter();
   var current = moment().startOf("day");
@@ -56,6 +58,13 @@ function SingleVideo({
             </Badge>
           )
         }
+        <Badge
+          className="absolute bottom-2 right-2 "
+          size="xs"
+          colorScheme="gray"
+        >
+          {moment.utc(parseInt(duration)*1000).format('HH:mm:ss')}
+        </Badge>
       </div>
       <div className="flex flex-col md:px-0 px-2">
         <Text

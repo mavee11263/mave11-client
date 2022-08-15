@@ -29,6 +29,7 @@ function Upload() {
   const [alert, setAlert] = useState(false);
   const [alertStatus, setAlertStatus] = useState<any>("");
   const [alertMsg, setAlertMsg] = useState("");
+  const [duration, setDuration] = useState(0);
   const [picture_progress, setPIctureProgress] = useState(1);
 
   const selectedTags = (tags: any) => {
@@ -57,122 +58,98 @@ function Upload() {
   const sace_video = async () => {
     setLoading(true);
 
-    // const pictureFile = pictures_for_upload[0];
-    // const storageRef = ref(
-    //   storage,
-    //   `Thumbnails/${Date.now()}-${pictureFile.name}`
-    // );
+    const pictureFile = pictures_for_upload[0];
+    const storageRef = ref(
+      storage,
+      `Thumbnails/${Date.now()}-${pictureFile.name}`
+    );
 
     try {
-      // if (!title) {
-      //   toast({
-      //     title: "Enter the title",
-      //     status: "error",
-      //     position: "top-right",
-      //     duration: 9000,
-      //     isClosable: true,
-      //   });
-      //   return;
-      // }
-      // if (!description) {
-      //   toast({
-      //     title: "Enter the description",
-      //     status: "error",
-      //     position: "top-right",
-      //     duration: 9000,
-      //     isClosable: true,
-      //   });
-      //   return;
-      // }
-      // if (!category) {
-      //   toast({
-      //     title: "Please enter a category",
-      //     status: "error",
-      //     position: "top-right",
-      //     duration: 9000,
-      //     isClosable: true,
-      //   });
-      //   return;
-      // }
-      // if (!videoAsset) {
-      //   toast({
-      //     title: "Upload Video First",
-      //     status: "error",
-      //     position: "top-right",
-      //     duration: 9000,
-      //     isClosable: true,
-      //   });
-      //   return;
-      // }
+      if (!title) {
+        toast({
+          title: "Enter the title",
+          status: "error",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      if (!description) {
+        toast({
+          title: "Enter the description",
+          status: "error",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      if (!category) {
+        toast({
+          title: "Please enter a category",
+          status: "error",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+      if (!videoAsset) {
+        toast({
+          title: "Upload Video First",
+          status: "error",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
 
-      //upload picture
-      // const uploadTask = uploadBytesResumable(storageRef, pictureFile);
+      // upload picture
+      const uploadTask = uploadBytesResumable(storageRef, pictureFile);
 
-      // uploadTask.on(
-      //   "state_changed",
-      //   (snapshot) => {
-      //     const uploadProgress =
-      //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      //     setPIctureProgress(uploadProgress);
-      //   },
-      //   (error) => {
-      //     console.log(error);
-      //   },
-      //   () => {
-      //     getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-      //       await axios.post(
-      //         `${apiUrl}/api/video/create`,
-      //         {
-      //           title: 'title',
-      //           description,
-      //           category,
-      //           video_url: 'videoAsset',
-      //           picture_url: downloadURL,
-      //         },
-      //         {
-      //           headers: {
-      //             Authorization: mavee_11_user?.token,
-      //           },
-      //         }
-      //       );
-      //       toast({
-      //         title: "Video Uploaded",
-      //         status: "success",
-      //         position: "top-right",
-      //         duration: 9000,
-      //         isClosable: true,
-      //       });
-      //       setLoading(false);
-      //     });
-      //   }
-      // );
-      const {data} = await axios.post(
-        `${apiUrl}/api/video/create`,
-        {
-          title: title,
-          description,
-          category,
-          video_url: "videoAsset",
-          picture_url: "downloadURL",
-          tags: tags
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const uploadProgress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setPIctureProgress(uploadProgress);
         },
-        {
-          headers: {
-            Authorization: mavee_11_user?.token,
-          },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            const { data } = await axios.post(
+              `${apiUrl}/api/video/create`,
+              {
+                title: title,
+                description,
+                category,
+                video_url: "videoAsset",
+                picture_url: "downloadURL",
+                tags: tags,
+                duration: duration,
+              },
+              {
+                headers: {
+                  Authorization: mavee_11_user?.token,
+                },
+              }
+            );
+            history.push(`/video/${data?.video?._id}`);
+            toast({
+              title: "Video Uploaded",
+              status: "success",
+              position: "top-right",
+              duration: 9000,
+              isClosable: true,
+            });
+            setLoading(false);
+          });
         }
       );
-      console.log(data)
-      toast({
-        title: "Video Uploaded",
-        status: "success",
-        position: "top-right",
-        duration: 9000,
-        isClosable: true,
-      });
-      history.push(`/video/${data?.video?._id}`)
-      setLoading(false);
-
     } catch (error) {
       console.log(getError(error));
       setLoading(false);
@@ -181,6 +158,28 @@ function Upload() {
 
   const upload_video = (e: any) => {
     setVideoLoading(true);
+
+    var file = e.target.files[0]; // selected file
+    var mime = file.type; // store mime for later
+    var rd = new FileReader(); // create a FileReader
+
+    rd.onload = function (e: any) {
+      // when file has read:
+      var blob = new Blob([e.target.result], { type: mime }), // create a blob of buffer
+        url = (URL || webkitURL).createObjectURL(blob), // create o-URL of blob
+        video = document.createElement("video"); // create video element
+      video.preload = "metadata"; // preload setting
+      video.addEventListener("loadedmetadata", function () {
+        // when enough data loads
+        console.log(video.duration);
+        setDuration(video.duration);
+        // ... continue from here ...
+      });
+      video.src = url; // start video load
+      setVideoLoading(false);
+    };
+    rd.readAsArrayBuffer(file); // read file object
+
     const videoFile = e.target.files[0];
     const storageRef = ref(storage, `Videos/${Date.now()}-${videoFile.name}`);
     try {
