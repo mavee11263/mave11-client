@@ -176,7 +176,6 @@ function Upload() {
         // ... continue from here ...
       });
       video.src = url; // start video load
-      setVideoLoading(false);
     };
     rd.readAsArrayBuffer(file); // read file object
 

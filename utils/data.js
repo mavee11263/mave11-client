@@ -24,6 +24,8 @@ export const data = {
         {name: 'onlyfans', slug: 'black'},
         {name: 'asian', slug: 'black'},
         {name: 'celebrity', slug: 'black'},
+        {name: 'scandal', slug: 'scandal'},
+
 
 
     ],
