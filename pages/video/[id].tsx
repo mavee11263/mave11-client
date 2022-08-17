@@ -19,7 +19,7 @@ import Image from "next/image";
 import ads22 from "../../public/images/ads22.png";
 import ReportModal from "../../components/Modals/ReportModal";
 
-const Comments = dynamic(() => import("../../components/Commets/Comments"), {
+const   Comments = dynamic(() => import("../../components/Commets/Comments"), {
   ssr: false,
 });
 
