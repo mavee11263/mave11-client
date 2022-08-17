@@ -36,7 +36,7 @@ function SingleVideo({
         onClick={() => router.push(`/video/${_id}`)}
         className="relative md:h-44 h-28 overflow-hidden"
       >
-        {/* <Image
+        <Image
           quality={50}
           placeholder="blur"
           blurDataURL={thumbnail}
@@ -44,7 +44,7 @@ function SingleVideo({
           src={thumbnail}
           layout="fill"
           objectFit="cover"
-        /> */}
+        />
         {/* <img src={thumbnail} alt="video thumbnail" className=" object-cover" /> */}
         {
           //Difference in number of days
