@@ -21,6 +21,7 @@
     "moment": "^2.29.4",
     "mongoose": "^6.5.0",
     "next": "latest",
+    "next-share": "^0.18.0",
     "next-themes": "^0.2.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",

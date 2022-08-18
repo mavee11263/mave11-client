@@ -18,6 +18,8 @@ import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import Pagination from "../Pagination/Pagination";
 import moment from "moment";
+import axios from "axios";
+import { apiUrl } from "../../utils/apiUrl";
 
 interface Props {
   delete_item_from_table?: any;
@@ -45,15 +47,26 @@ function VideosTable({
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const [change_status, setChangeStatus] = useState(false);
-  const [new_status, setNewStatus] = useState('')
+  const [new_status, setNewStatus] = useState("");
 
   const confirm_delete_item = async (video_id: string) => {
     delete_item_from_table(video_id);
   };
 
-  const change_status_handler = (status:string, video_id:string) =>{
-    console.log(new_status)
-  }
+  const change_status_handler = async (
+    status: string,
+    video_id: string,
+    description: string,
+    thumbnail: string,
+    category: string
+  ) => {
+    const { data } = await axios.put(`${apiUrl}/video/edit/${video_id}`, {
+      status: status,
+      description,
+      thumbnail,
+      category,
+    });
+  };
 
   const set_delete_item = (id: string, name: string) => {
     onOpen();
@@ -121,7 +134,7 @@ function VideosTable({
                 <>
                   {videos?.map((video: any, index: number) => (
                     <>
-                      <tr key={video.thumbnail+index}>
+                      <tr key={video.thumbnail + index}>
                         <td
                           className="whitespace-nowrap px-6 py-4"
                           onClick={() => router.push(`/video/${"video?._id"}`)}
@@ -169,8 +182,8 @@ function VideosTable({
                             <select
                               name="status"
                               id="status"
-                              className="outline-none"
-                              onChange={e => setNewStatus(e.target.value)}
+                              className="outline-none dark:bg-gray-600 dark:text-white p-1 text-sm rounded"
+                              onChange={(e) => setNewStatus(e.target.value)}
                             >
                               <option value="private">Private</option>
                               <option value="public">Public</option>
@@ -198,7 +211,13 @@ function VideosTable({
                               <div className="flex flex-row items-center space-x-2">
                                 <span
                                   onClick={() =>
-                                    change_status_handler(new_status, video._id)
+                                    change_status_handler(
+                                      new_status,
+                                      video._id,
+                                      video.description,
+                                      video.thumbnail,
+                                      video.category
+                                    )
                                   }
                                   className="cursor-pointer"
                                 >

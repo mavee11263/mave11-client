@@ -18,6 +18,7 @@ import ad1 from "../../public/images/ads-example.jpg";
 import Image from "next/image";
 import ads22 from "../../public/images/ads22.png";
 import ReportModal from "../../components/Modals/ReportModal";
+import ShareModal from "../../components/Modals/ShareModal";
 
 const   Comments = dynamic(() => import("../../components/Commets/Comments"), {
   ssr: false,
@@ -101,8 +102,8 @@ function SinglePost(props: any) {
                 <>
                   <ReportModal video_id={video?._id} />
                 </>
-                <div className="hover:bg-gray-100 cursor-pointer p-2 rounded-full">
-                  <ShareIcon height={16} width={16} />
+                <div className="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer p-2 rounded-full">
+                  <ShareModal video_id={video._id}/>
                 </div>
                 <>
                   <LikeAndDislike
