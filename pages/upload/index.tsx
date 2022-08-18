@@ -408,7 +408,7 @@ function Upload() {
           </div>
         </div>
         <div className="col-span-6">
-          <p>Select Thumbnail</p>
+          <p>Select Thumbnail (Optional)</p>
           <FileUploadComponent selectedPictures={selectedPictures} multiple />
         </div>
 

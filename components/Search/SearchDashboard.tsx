@@ -1,14 +1,17 @@
 import { SearchIcon } from "@heroicons/react/solid";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { Store } from "../../Context/Store";
 
 type Props = {};
 
 const SearchDashboard = (props: Props) => {
   const [search_query, setQuery] = useState("");
+  const { dispatch } = useContext(Store);
 
   const search_video = () => {
-    console.log("search item --- ", search_query);
+    dispatch({ type: "SET_SEARCH_QUERY", payload: search_query });
   };
+
   return (
     <div className="flex flex-row items-center w-full flex-1 my-4 bg-gray-200 dark:bg-gray-700 px-4 rounded">
       <input

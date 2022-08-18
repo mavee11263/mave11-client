@@ -1,5 +1,10 @@
 import React, { ReactElement, useState } from "react";
-import { TrashIcon } from "@heroicons/react/outline";
+import {
+  CheckCircleIcon,
+  TrashIcon,
+  XCircleIcon,
+  XIcon,
+} from "@heroicons/react/outline";
 import {
   Modal,
   ModalOverlay,
@@ -21,7 +26,7 @@ interface Props {
   data_info?: any;
   PER_PAGE?: number;
   data: any;
-  videos:any
+  videos: any;
 }
 
 function VideosTable({
@@ -31,7 +36,7 @@ function VideosTable({
   data_info,
   PER_PAGE,
   data,
-  videos
+  videos,
 }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [video_name, setvideoName] = useState("");
@@ -39,10 +44,16 @@ function VideosTable({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const [change_status, setChangeStatus] = useState(false);
+  const [new_status, setNewStatus] = useState('')
 
   const confirm_delete_item = async (video_id: string) => {
-    delete_item_from_table(video_id)
+    delete_item_from_table(video_id);
   };
+
+  const change_status_handler = (status:string, video_id:string) =>{
+    console.log(new_status)
+  }
 
   const set_delete_item = (id: string, name: string) => {
     onOpen();
@@ -91,8 +102,9 @@ function VideosTable({
                   </th>
 
                   <th
+                    onClick={() => setChangeStatus(true)}
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-200"
+                    className="px-6 py-3 cursor-pointer text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-200"
                   >
                     Status
                   </th>
@@ -109,7 +121,7 @@ function VideosTable({
                 <>
                   {videos?.map((video: any, index: number) => (
                     <>
-                      <tr key={index}>
+                      <tr key={video.thumbnail+index}>
                         <td
                           className="whitespace-nowrap px-6 py-4"
                           onClick={() => router.push(`/video/${"video?._id"}`)}
@@ -152,32 +164,75 @@ function VideosTable({
                           </div>
                         </td>
 
-                        <td className="whitespace-nowrap px-6 py-4">
-                          {video?.status === "public" ? (
-                            <span className="inline-flex rounded-full bg-green-700 px-2 text-xs font-semibold leading-5 text-white">
-                              Public
-                            </span>
-                          ) : (
-                            <span className="inline-flex rounded-full bg-red-500 px-2 text-xs font-semibold leading-5 text-white">
-                              Private
-                            </span>
-                          )}
-                        </td>
+                        {change_status ? (
+                          <td className="whitespace-nowrap px-6 py-4 outline-none">
+                            <select
+                              name="status"
+                              id="status"
+                              className="outline-none"
+                              onChange={e => setNewStatus(e.target.value)}
+                            >
+                              <option value="private">Private</option>
+                              <option value="public">Public</option>
+                            </select>
+                          </td>
+                        ) : (
+                          <td
+                            onClick={() => setChangeStatus(true)}
+                            className="whitespace-nowrap px-6 py-4"
+                          >
+                            {video?.status === "public" ? (
+                              <span className="inline-flex rounded-full cursor-pointer bg-green-700 hover:bg-green-600 px-2 text-xs font-semibold leading-5 text-white">
+                                Public
+                              </span>
+                            ) : (
+                              <span className="inline-flex rounded-full cursor-pointer bg-red-500 hover:bg-red-600 px-2 text-xs font-semibold leading-5 text-white">
+                                Private
+                              </span>
+                            )}
+                          </td>
+                        )}
                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                           <div className="flex flex-row items-center space-x-2">
-                            <span
-                              onClick={() =>
-                                set_delete_item(video._id, video.title)
-                              }
-                              className="cursor-pointer"
-                            >
-                              <TrashIcon
-                                height={20}
-                                width={20}
-                                className="text-red-400 "
-                              />
-                            </span>
-
+                            {change_status ? (
+                              <div className="flex flex-row items-center space-x-2">
+                                <span
+                                  onClick={() =>
+                                    change_status_handler(new_status, video._id)
+                                  }
+                                  className="cursor-pointer"
+                                >
+                                  <CheckCircleIcon
+                                    height={24}
+                                    width={24}
+                                    className="text-green-400 "
+                                  />
+                                </span>
+                                <span
+                                  onClick={() => setChangeStatus(false)}
+                                  className="cursor-pointer"
+                                >
+                                  <XCircleIcon
+                                    height={24}
+                                    width={24}
+                                    className="text-red-400 "
+                                  />
+                                </span>
+                              </div>
+                            ) : (
+                              <span
+                                onClick={() =>
+                                  set_delete_item(video._id, video.title)
+                                }
+                                className="cursor-pointer"
+                              >
+                                <TrashIcon
+                                  height={20}
+                                  width={20}
+                                  className="text-red-400 "
+                                />
+                              </span>
+                            )}
                             {/* 
                               remove comments to enable edit video
                               redirects to edit video page

@@ -25,7 +25,7 @@ function MyVideos() {
   // rerender whenever total video changes
   useEffect(() => {
     setAllVideos(state?.data);
-  }, [state, all_videos]);
+  }, [state, all_videos, search_query]);
 
   console.log(all_videos)
 
