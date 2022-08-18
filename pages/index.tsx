@@ -92,11 +92,13 @@ const Home: NextPage = () => {
                         _id={item._id}
                         createdAt={item.createdAt}
                         duration={item.duration}
+                        video={item.video}
                       />
                     </div>
                   ))}
                 </div>
               )}
+
 
               <>
                 <Pagination

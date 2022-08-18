@@ -14,6 +14,7 @@ interface Props {
   thumbnail: string;
   createdAt: any;
   duration:string
+  video?:string
 }
 
 function SingleVideo({
@@ -23,7 +24,8 @@ function SingleVideo({
   numberOfViews,
   thumbnail,
   createdAt,
-  duration
+  duration,
+  video
 }: Props) {
   const router = useRouter();
   var current = moment().startOf("day");
@@ -45,6 +47,7 @@ function SingleVideo({
           layout="fill"
           objectFit="cover"
         />
+        
         {/* <img src={thumbnail} alt="video thumbnail" className=" object-cover" /> */}
         {
           //Difference in number of days

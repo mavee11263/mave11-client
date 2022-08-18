@@ -7,14 +7,16 @@ import { getError } from "../../utils/error";
 import { useToast } from "@chakra-ui/react";
 import FileUploadComponent from "../../components/FileUploadComponent/FileUploadComponent";
 import UploadLoading from "../../components/UploadLoading/UploadLoading";
-
 // prettier-ignore
-import {getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject} from 'firebase/storage'
+import {getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject, uploadString} from 'firebase/storage'
 import { firebaseApp } from "../../utils/firebase-config";
 import { TrashIcon } from "@heroicons/react/outline";
 import { data } from "../../utils/data";
 import { useRouter } from "next/router";
 import Tags from "../../components/Tags/Tags";
+import {
+  generateVideoThumbnails,
+} from "@rajesh896/video-thumbnails-generator";
 
 function Upload() {
   const [title, setTitle] = useState("");
@@ -31,6 +33,8 @@ function Upload() {
   const [alertMsg, setAlertMsg] = useState("");
   const [duration, setDuration] = useState(0);
   const [picture_progress, setPIctureProgress] = useState(1);
+  const [video_status, setVideoStatus] = useState("public");
+  const [thumbnails, setThumbnails] = useState<any>([]);
 
   const selectedTags = (tags: any) => {
     setTags(tags);
@@ -50,19 +54,20 @@ function Upload() {
   const history = useRouter();
 
   useEffect(() => {
+    setCategory("ebony");
     if (!mavee_11_user) {
       history.push("/login");
     }
   }, []);
 
   const sace_video = async () => {
-    setLoading(true);
-
     const pictureFile = pictures_for_upload[0];
-    const storageRef = ref(
-      storage,
-      `Thumbnails/${Date.now()}-${pictureFile.name}`
-    );
+    const thumbnail_name = thumbnails[0].split("/");
+    const item_name =
+      pictures_for_upload.length >= 1 ? pictureFile.name : thumbnail_name[3];
+
+    // storage ref for manually selected thumbnail
+    const storageRef = ref(storage, `Thumbnails/${Date.now()}-${item_name}`);
 
     try {
       if (!title) {
@@ -106,57 +111,81 @@ function Upload() {
         return;
       }
 
-      // upload picture
+      const handle_post_to_backend = async (downloadURL: any) => {
+        const { data } = await axios.post(
+          `${apiUrl}/api/video/create`,
+          {
+            title: title,
+            description,
+            category,
+            video_url: videoAsset,
+            picture_url: downloadURL,
+            tags: tags,
+            duration: duration,
+            status: video_status,
+          },
+          {
+            headers: {
+              Authorization: mavee_11_user?.token,
+            },
+          }
+        );
+        history.push(`/video/${data?.video?._id}`);
+        toast({
+          title: "Video Uploaded",
+          status: "success",
+          position: "top-right",
+          duration: 9000,
+          isClosable: true,
+        });
+        setLoading(false);
+      };
+
+      setLoading(true)
+
+      // upload picture selected by user
       const uploadTask = uploadBytesResumable(storageRef, pictureFile);
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const uploadProgress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setPIctureProgress(uploadProgress);
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            const { data } = await axios.post(
-              `${apiUrl}/api/video/create`,
-              {
-                title: title,
-                description,
-                category,
-                video_url: videoAsset,
-                picture_url: downloadURL,
-                tags: tags,
-                duration: duration,
-              },
-              {
-                headers: {
-                  Authorization: mavee_11_user?.token,
-                },
+      // upload picture auto generated
+      const anotherUploadTask = uploadString(
+        storageRef,
+        thumbnails[0],
+        "data_url"
+      );
+
+      if (pictures_for_upload.length >= 1) {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const uploadProgress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setPIctureProgress(uploadProgress);
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then(
+              async (downloadURL) => {
+                handle_post_to_backend(downloadURL);
               }
             );
-            history.push(`/video/${data?.video?._id}`);
-            toast({
-              title: "Video Uploaded",
-              status: "success",
-              position: "top-right",
-              duration: 9000,
-              isClosable: true,
-            });
-            setLoading(false);
+          }
+        );
+      } else {
+        anotherUploadTask.then((snapshot) => {
+          getDownloadURL(snapshot.ref).then(async (url) => {
+            handle_post_to_backend(url);
           });
-        }
-      );
+        });
+      }
     } catch (error) {
       console.log(getError(error));
       setLoading(false);
     }
   };
 
-  const upload_video = (e: any) => {
+  const upload_video = async (e: any) => {
     setVideoLoading(true);
 
     var file = e.target.files[0]; // selected file
@@ -183,31 +212,35 @@ function Upload() {
     const storageRef = ref(storage, `Videos/${Date.now()}-${videoFile.name}`);
     try {
       const uploadTask = uploadBytesResumable(storageRef, videoFile);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const uploadProgress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setProgress(uploadProgress);
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setVideoAsset(downloadURL);
-            setVideoLoading(false);
-            setAlert(true);
-            setAlertStatus("success");
-            setAlertMsg("Your video is uploaded to our server");
-            setTimeout(() => {
-              setAlert(false);
-            }, 4000);
-          });
-        }
-      );
+      //@ts-ignore
+      generateVideoThumbnails(videoFile, 4).then((thumbs) => {
+        setThumbnails(thumbs);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const uploadProgress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setProgress(uploadProgress);
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              setVideoAsset(downloadURL);
+              setVideoLoading(false);
+              setAlert(true);
+              setAlertStatus("success");
+              setAlertMsg("Your video is uploaded to our server");
+              setTimeout(() => {
+                setAlert(false);
+              }, 4000);
+            });
+          }
+        );
+      });
     } catch (error) {
+      console.log(error);
       setVideoLoading(false);
     }
   };
@@ -217,6 +250,7 @@ function Upload() {
     deleteObject(deleteRef)
       .then(() => {
         setVideoAsset(null);
+        setThumbnails([]);
       })
       .catch((error) => {
         console.log(error);
@@ -251,7 +285,7 @@ function Upload() {
                   {video_loading ? (
                     <UploadLoading progress={progress} />
                   ) : (
-                    <div className="w-full p-3">
+                    <div className="w-full p-3 flex flex-col">
                       <div
                         className={` cursor-pointer relative h-20 rounded-lg border-dashed border-2 border-gray-300 flex justify-center items-center `}
                       >
@@ -286,6 +320,13 @@ function Upload() {
                           name=""
                         />
                       </div>
+                      {thumbnails?.length >= 1 && (
+                        <div className="flex flex-row items-center space-x-2 justify-between py-2">
+                          {thumbnails?.map((thumbnail: any) => (
+                            <p>asdflhkjah</p>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -293,7 +334,7 @@ function Upload() {
             </div>
           </div>
         </div>
-        <div className="flex col-span-3 flex-col">
+        <div className="flex col-span-6 flex-col">
           <label htmlFor="title">Title</label>
           <input
             onChange={(e) => setTitle(e.target.value)}
@@ -310,7 +351,7 @@ function Upload() {
               setCategory(e.target.value);
               console.log(e.target.value);
             }}
-            className="flex-1 w-full rounded dark:bg-gray-700 bg-gray-100 border-none px-2 outline-none dark:text-gray-300 text-gray-700"
+            className="flex-1 w-full rounded dark:bg-gray-700 bg-gray-100 border-none p-3 outline-none dark:text-gray-300 text-gray-700"
             placeholder="Select Category"
             defaultValue={"ebony"}
           >
@@ -320,6 +361,23 @@ function Upload() {
             {data.categories?.map((item, index) => (
               <option value="category">{item.name}</option>
             ))}
+          </select>
+        </div>
+        <div className="flex flex-col col-span-3">
+          <label htmlFor="title">Video Status </label>
+          <select
+            onChange={(e) => {
+              setVideoStatus(e.target.value);
+            }}
+            className="flex-1 w-full rounded dark:bg-gray-700 bg-gray-100 border-none px-2 outline-none dark:text-gray-300 text-gray-700"
+            placeholder="Select Status"
+            defaultValue={"ebony"}
+          >
+            <option value={"none"} selected disabled hidden>
+              Set Status (default is public)
+            </option>
+            <option value="public">Public</option>
+            <option value="private">Private</option>
           </select>
         </div>
         <div className="flex col-span-6 flex-col">
@@ -357,7 +415,7 @@ function Upload() {
         <div className="ml-auto flex-1 col-span-6 flex flex-col">
           {loading ? (
             <div className="flex self-end bg-blue-700 p-1 rounded text-white font-semibold hover:bg-blue-800 cursor-pointer">
-              Uploading Picture {picture_progress}%...
+              Uploading Picture {Math.round(picture_progress)} %
             </div>
           ) : (
             <div
