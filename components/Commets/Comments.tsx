@@ -139,7 +139,7 @@ function Comments({ videoId }: Props) {
             (item: any, index: number) => (
               <CommentItem
                 name={item?.creator.username}
-                picture={item.creator.photoURL}
+                picture={item?.creator.photoURL}
                 comment={item?.comment}
               />
             )

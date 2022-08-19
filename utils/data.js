@@ -32,5 +32,6 @@ export const data = {
     unauth_options:[
         {name: 'Log In', location :'/login'},
         {name: 'Sign Up', location :'/Sign Up'},
-    ]
+    ],
+    site_url: 'https://www.mavee11.com'
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import {
   Modal,
   ModalOverlay,
@@ -8,13 +8,7 @@ import {
   ModalBody,
   useDisclosure,
   ModalCloseButton,
-  useToast,
 } from "@chakra-ui/react";
-import { FlagIcon } from "@heroicons/react/solid";
-import { Store } from "../../Context/Store";
-import axios from "axios";
-import { apiUrl } from "../../utils/apiUrl";
-import { getError } from "../../utils/error";
 import { ShareIcon } from "@heroicons/react/outline";
 import {
   FacebookShareButton,
@@ -28,6 +22,7 @@ import {
   TwitterShareButton,
   TwitterIcon,
 } from "next-share";
+import { data } from "../../utils/data";
 
 interface Props {
   video_id: string;
@@ -35,50 +30,7 @@ interface Props {
 
 function ShareModal({ video_id }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [report, setReport] = useState("");
-  const toast = useToast();
 
-  const { state } = useContext(Store);
-  const { mavee_11_user } = state;
-
-  const send_report_Hadler = async () => {
-    if (!report) {
-      return;
-    } else {
-      try {
-        await axios.post(
-          `${apiUrl}/api/report/create`,
-          {
-            report: report,
-            video: video_id,
-          },
-          {
-            headers: {
-              Authorization: mavee_11_user?.token,
-            },
-          }
-        );
-        toast({
-          title: "Report Send.",
-          description: "Thank you for your feedback",
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-          position: "top",
-        });
-        onClose();
-      } catch (error) {
-        toast({
-          title: "Something went wrong.",
-          description: getError(error),
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-          position: "top",
-        });
-      }
-    }
-  };
   return (
     <>
       <div onClick={onOpen}>
@@ -88,25 +40,25 @@ function ShareModal({ video_id }: Props) {
         <ModalOverlay />
         <ModalContent className="dark:bg-gray-800 bg-white text-gray-800 dark:text-white">
           <ModalHeader className="text-center">
-            Choose were you want to share
+            Where do you want to share
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody className="text-justify">
             <div className="flex flex-row w-full justify-around">
-              <FacebookShareButton url={"http://localhost:3000"}>
+              <FacebookShareButton url={`${data.site_url}/video/${video_id}`}>
                 <FacebookIcon size={40} round />
               </FacebookShareButton>
 
-              <RedditShareButton url={"http://localhost:3000"}>
+              <RedditShareButton url={`${data.site_url}/video/${video_id}`}>
                 <RedditIcon size={40} round />
               </RedditShareButton>
-              <WhatsappShareButton url={"http://localhost:3000"}>
+              <WhatsappShareButton url={`${data.site_url}/video/${video_id}`}>
                 <WhatsappIcon size={40} round />
               </WhatsappShareButton>
-              <TwitterShareButton url={"http://localhost:3000"}>
+              <TwitterShareButton url={`${data.site_url}/video/${video_id}`}>
                 <TwitterIcon size={40} round />
               </TwitterShareButton>
-              <InstapaperShareButton url={"http://localhost:3000"}>
+              <InstapaperShareButton url={`${data.site_url}/video/${video_id}`}>
                 <InstapaperIcon size={40} round />
               </InstapaperShareButton>
             </div>

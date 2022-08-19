@@ -1,5 +1,6 @@
 import Head from "next/head";
 import React from "react";
+import Footer from "../components/Navigation/Footer";
 import Navbar from "../components/Navigation/Navbar";
 
 interface Props {
@@ -23,7 +24,9 @@ function HomeLayout({ children }: Props) {
           <Navbar />
         </header>
         <main className="min-h-screen">{children}</main>
-        <footer>footer</footer>
+        <footer>
+          <Footer/>
+        </footer>
       </div>
       {/* // cookies Modal */}
     </div>
