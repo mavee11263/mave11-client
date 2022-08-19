@@ -54,11 +54,11 @@ function VideosTable({
 
   const confirm_delete_item = async (video_id: string) => {
     try {
-      // await axios.delete(`${apiUrl}/api/video/delete/${video_id}`, {
-      //   headers: {
-      //     Authorization: auth_token,
-      //   },
-      // });
+      await axios.delete(`${apiUrl}/api/video/delete/${video_id}`, {
+        headers: {
+          Authorization: auth_token,
+        },
+      });
       delete_item_from_table(video_id);
       toast({
         title: "Video Deleted!",
