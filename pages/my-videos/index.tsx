@@ -1,5 +1,6 @@
 import { Spinner } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
+import Pagination from "../../components/Pagination/Pagination";
 import SearchDashboard from "../../components/Search/SearchDashboard";
 import VideosTable from "../../components/Tables/VideosTable";
 import { Store } from "../../Context/Store";
@@ -24,13 +25,13 @@ function MyVideos() {
 
   // rerender whenever total video changes
   useEffect(() => {
-    setAllVideos(state?.data);
-  }, [state, all_videos, search_query]);
+    setAllVideos(state?.data?.videos);
+  }, [state]);
 
-  console.log(all_videos)
+  console.log(all_videos);
 
   const delete_item_from_table = (id: any) => {
-    setAllVideos(all_videos?.videos.filter((item: any) => item._id !== id));
+    setAllVideos(all_videos?.filter((item: any) => item._id !== id));
   };
 
   return (
@@ -54,11 +55,21 @@ function MyVideos() {
                 data={state}
                 page={page}
                 setPage={setPage}
-                videos={all_videos?.videos}
+                videos={all_videos}
+                auth_token={token}
               />
             </>
           )}
         </div>
+        <>
+          <Pagination
+            className="flex flex-1 py-8 mx-auto"
+            currentPage={page}
+            totalCount={state?.data.meta?.total}
+            pageSize={PER_PAGE}
+            onPageChange={(page: number) => setPage(page)}
+          />
+        </>
       </div>
     </HomeLayout>
   );

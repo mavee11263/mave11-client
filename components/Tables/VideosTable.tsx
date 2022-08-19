@@ -29,6 +29,7 @@ interface Props {
   PER_PAGE?: number;
   data: any;
   videos: any;
+  auth_token: string;
 }
 
 function VideosTable({
@@ -39,6 +40,7 @@ function VideosTable({
   PER_PAGE,
   data,
   videos,
+  auth_token,
 }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [video_name, setvideoName] = useState("");
@@ -48,9 +50,27 @@ function VideosTable({
   const toast = useToast();
   const [change_status, setChangeStatus] = useState(false);
   const [new_status, setNewStatus] = useState("");
+  
 
   const confirm_delete_item = async (video_id: string) => {
-    delete_item_from_table(video_id);
+    try {
+      // await axios.delete(`${apiUrl}/api/video/delete/${video_id}`, {
+      //   headers: {
+      //     Authorization: auth_token,
+      //   },
+      // });
+      delete_item_from_table(video_id);
+      toast({
+        title: "Video Deleted!",
+        status: "success",
+        position: "top-right",
+        duration: 9000,
+        isClosable: true,
+      });
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const change_status_handler = async (
@@ -60,7 +80,7 @@ function VideosTable({
     thumbnail: string,
     category: string
   ) => {
-    const { data } = await axios.put(`${apiUrl}/video/edit/${video_id}`, {
+    await axios.put(`${apiUrl}/video/edit/${video_id}`, {
       status: status,
       description,
       thumbnail,
