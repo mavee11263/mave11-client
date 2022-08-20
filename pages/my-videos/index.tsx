@@ -37,8 +37,8 @@ function MyVideos() {
   return (
     <HomeLayout>
       <div className="flex flex-col max-w-7xl mx-auto">
-        <p className="text-center max-w-7xl mx-auto text-lg font-semibold py-16 dark:text-white text-gray-800">
-          Manage My Videos
+        <p className="text-center max-w-7xl mx-auto text-lg font-semibold py-8 dark:text-white text-gray-800">
+          My Videos
         </p>
         <div>
           <SearchDashboard />

@@ -7,6 +7,7 @@ const initialState = {
     ? JSON.parse(Cookies.get("mavee_11_user"))
     : null,
   search_query: "",
+  chat_state: 'close'
 };
 
 export const Store = createContext();
@@ -29,6 +30,12 @@ function reducer(state, action) {
     // set searchy query over all components
     case "SET_SEARCH_QUERY":
       return { ...state, search_query: action.payload };
+
+    // for chat layout
+    case "OPEN_CHAT":
+      return { ...state, chat_state: "open" };
+    case "CLOSE_CHAT":
+      return { ...state, chat_state: "close" };
 
     default:
       return state;

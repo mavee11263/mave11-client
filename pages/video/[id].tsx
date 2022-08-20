@@ -1,47 +1,44 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useContext, useState } from "react";
 import VideoPlayer from "../../components/VideoPlayer/VideoPlayer";
 import HomeLayout from "../../layouts/HomeLayout";
 import dynamic from "next/dynamic";
 import RelatedVideos from "../../components/PageSections/RelatedVideos";
 import LikeAndDislike from "../../components/LikeAndDislike/LikeAndDislike";
-import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
 import { connect, convertDocToObj, disconnect } from "../../utils/mongo";
 import Video from "../../models/Video";
 import Subscribers from "../../components/Subscribers/Subscribers";
-import { ShareIcon } from "@heroicons/react/outline";
 import { EyeIcon, ChatAlt2Icon } from "@heroicons/react/solid";
-import { Badge } from "@chakra-ui/react";
+import { Avatar, Badge } from "@chakra-ui/react";
 import moment from "moment";
 import ad1 from "../../public/images/ads-example.jpg";
 import Image from "next/image";
 import ads22 from "../../public/images/ads22.png";
 import ReportModal from "../../components/Modals/ReportModal";
 import ShareModal from "../../components/Modals/ShareModal";
+import { useFetch } from "../../hooks/useFetch";
+import { Store } from "../../Context/Store";
 
-const   Comments = dynamic(() => import("../../components/Commets/Comments"), {
+const Comments = dynamic(() => import("../../components/Commets/Comments"), {
   ssr: false,
 });
 
 function SinglePost(props: any) {
   let router = useRouter();
   const { query } = router;
-
   var current = moment().startOf("day");
+  const { state: user_state } = useContext(Store);
+  const { mavee_11_user } = user_state;
 
   // from server side props
   const { video } = props;
+  const url = `${apiUrl}/api/video/single?videoId=${query.id}`;
 
-  useEffect(() => {
-    const getVideo = async () => {
-      await axios.get(`${apiUrl}/api/video/single?videoId=${query.id}`);
-    };
-    getVideo();
-  }, [query.id]);
+  // get video info and increase number of views
+  const state = useFetch(url);
 
-  const search_tag = () =>{
-  }
+  console.log(state)
 
   return (
     <HomeLayout>
@@ -54,7 +51,9 @@ function SinglePost(props: any) {
               </p>
               {
                 //Difference in number of days
-                moment.duration(moment(current).diff(video?.createdAt)).asDays() < 8 && (
+                moment
+                  .duration(moment(current).diff(video?.createdAt))
+                  .asDays() < 8 && (
                   <Badge size="xs" colorScheme="green">
                     New
                   </Badge>
@@ -67,12 +66,29 @@ function SinglePost(props: any) {
                 </p>
               </span>
             </div>
-            <div className="flex flex-wrap space-x-4 pb-4 ">
-              {
-                video?.tags?.map((tag:string, index:number)=>(
-                  <span onClick={()=> console.log(tag)} className="dark:bg-gray-700 bg-gray-200 mb-1 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 text-xs p-1 rounded" key={`${tag}${index}`}>{tag}</span>
-                ))
-              }
+            <div className="flex flex-wrap space-x-4 pb-4 items-center ">
+              <div className="flex flex-row items-center space-x-3 cursor-pointer">
+                <Avatar size={"xs"} name={state?.data?.creator?.username} />
+                <p className="text-gray-700 dark:text-gray-300 font-semibold text-sm">
+                  {state?.data?.creator?.username}
+                </p>
+              </div>
+              {mavee_11_user && (
+                <div onClick={() => router.push(`/chat/${state?.data?.creator?.user_id}`)} className="text-gray-700 dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 p-2 rounded-full cursor-pointer">
+                  <ChatAlt2Icon height={20} width={20} />
+                </div>
+              )}
+              {video?.tags?.map((tag: string, index: number) => (
+                <div className="flex flex-col">
+                  <span
+                    onClick={() => console.log(tag)}
+                    className="dark:bg-gray-700 bg-gray-200 mb-1 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 text-xs p-1 rounded"
+                    key={`${tag}${index}`}
+                  >
+                    {tag}
+                  </span>
+                </div>
+              ))}
             </div>
 
             <VideoPlayer
@@ -103,7 +119,7 @@ function SinglePost(props: any) {
                   <ReportModal video_id={video?._id} />
                 </>
                 <div className="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer p-2 rounded-full">
-                  <ShareModal video_id={video._id}/>
+                  <ShareModal video_id={video._id} />
                 </div>
                 <>
                   <LikeAndDislike
@@ -111,6 +127,7 @@ function SinglePost(props: any) {
                     likes={video.likes ? video.likes : ""}
                   />
                 </>
+
                 <>
                   <Subscribers channel_id={video.author} video_id={video._id} />
                 </>
@@ -120,7 +137,6 @@ function SinglePost(props: any) {
 
           {/* // ads component */}
           <div className="lg:col-span-2 md:col-span-1 dark:text-gray-200 text-gray-700 cols-span-1 md:flex hidden flex-col w-full">
-            
             {/* ads go here */}
             <div className=" w-full flex-col space-y-12 h-full justify-between">
               <div className="relative h-52 flex flex-col bg-gray-200 rounded w-full overflow-hidden">
