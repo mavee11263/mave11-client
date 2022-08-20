@@ -171,7 +171,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
               <Divider />
 
               <div
-                onClick={() => history.push("/account")}
+                onClick={() => history.push("/profile")}
                 className="capitalize text-gray-700 dark:text-gray-200 py-4 bg-white dark:bg-gray-700 px-4 text-sm font-semibold flex flex-row items-center justify-between"
               >
                 <p>My Account</p>
