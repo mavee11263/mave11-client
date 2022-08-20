@@ -14,7 +14,7 @@ const ChatLeft = (props: Props) => {
   const state = useAuthFetch(url, mavee_11_user?.token)
 
   return (
-    <div className="flex flex-col w-full dark:bg-gray-800 ">
+    <div className="flex flex-col w-full dark:bg-gray-800 min-h-screen">
       <div className="input border-t border-gray-100 dark:border-gray-700 w-full">
         <input
           type="text"

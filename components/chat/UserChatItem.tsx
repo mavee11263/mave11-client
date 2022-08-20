@@ -32,12 +32,12 @@ function UserChatItem({
   return (
     <div
       onClick={open_chat}
-      className="grid grid-cols-5 border-b gap-2 border-gray-200 dark:border-gray-700 p-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 items-center"
+      className="grid grid-cols-6 border-b gap-2 border-gray-200 dark:border-gray-700 p-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 items-center"
     >
       <div className="h-12 w-12 col-span-1 overflow-hidden">
         <Avatar src={picture} name={username} />
       </div>
-      <div className="col-span-4 flex flex-col justify-center overflow-ellipsis">
+      <div className="col-span-5 flex flex-col justify-center overflow-ellipsis">
         <div className="flex flex-row items-center justify-between">
           <p className="text-gray-700 dark:text-white font-semibold text-sm">
             {username}

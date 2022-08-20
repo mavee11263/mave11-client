@@ -28,7 +28,7 @@ function SinglePost(props: any) {
   let router = useRouter();
   const { query } = router;
   var current = moment().startOf("day");
-  const { state: user_state } = useContext(Store);
+  const { state: user_state, dispatch } = useContext(Store);
   const { mavee_11_user } = user_state;
 
   // from server side props
@@ -38,7 +38,14 @@ function SinglePost(props: any) {
   // get video info and increase number of views
   const state = useFetch(url);
 
-  console.log(state)
+  const open_chat_Handler = () => {
+    dispatch({ type: "OPEN_CHAT", payload: "open" });
+    if (mavee_11_user) {
+      router.push(`/chat/${state?.data?.creator?.user_id}`);
+    } else {
+      router.push(`/login?redirect=/video/${query.id}`);
+    }
+  };
 
   return (
     <HomeLayout>
@@ -74,7 +81,10 @@ function SinglePost(props: any) {
                 </p>
               </div>
               {mavee_11_user && (
-                <div onClick={() => router.push(`/chat/${state?.data?.creator?.user_id}`)} className="text-gray-700 dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 p-2 rounded-full cursor-pointer">
+                <div
+                  onClick={open_chat_Handler}
+                  className="text-gray-700 dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 p-2 rounded-full cursor-pointer"
+                >
                   <ChatAlt2Icon height={20} width={20} />
                 </div>
               )}
