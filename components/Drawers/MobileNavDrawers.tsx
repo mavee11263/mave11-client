@@ -171,10 +171,10 @@ function MobileNavDrawers({ user }: Props): ReactElement {
               <Divider />
 
               <div
-                onClick={() => history.push("/help")}
+                onClick={() => history.push("/account")}
                 className="capitalize text-gray-700 dark:text-gray-200 py-4 bg-white dark:bg-gray-700 px-4 text-sm font-semibold flex flex-row items-center justify-between"
               >
-                <p>Help</p>
+                <p>My Account</p>
                 <ChevronRightIcon height={20} width={20} />
               </div>
               <Divider />
