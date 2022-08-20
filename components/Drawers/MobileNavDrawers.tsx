@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useContext, useState } from "react";
 import {
   Drawer,
   DrawerBody,
@@ -20,6 +20,7 @@ import { UserCircleIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { data } from "../../utils/data";
 import Username from "../Username/Username";
+import { Store } from "../../Context/Store";
 
 interface Props {
   user?: any;
@@ -29,6 +30,12 @@ function MobileNavDrawers({ user }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [show_category, setShowCotegory] = useState(false);
   const history = useRouter();
+  const {dispatch} = useContext(Store)
+
+  const logout_user = () => {
+    dispatch({ type: "USER_LOGOUT" });
+    history.push("/");
+  };
 
   return (
     <>
@@ -98,7 +105,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
             <DrawerBody className="bg-gray-200 dark:bg-gray-800" p={0}>
               <Divider />
               <div className="flex flex-row items-center py-4 bg-white dark:bg-gray-700 mt-4 space-x-2 px-4 mb-4">
-                <Avatar size="sm" name={user?.name} />
+                <Avatar src={user?.photoURL} size="sm" name={user?.name} />
                 {user ? (
                   <Username username={user?.name} />
                 ) : (
@@ -189,37 +196,19 @@ function MobileNavDrawers({ user }: Props): ReactElement {
             borderTopColor={"gray.200"}
           >
             <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-row items-center border border-gray-300 dark:border-gray-500 rounded-full">
-                <UserCircleIcon
-                  height={28}
-                  width={28}
-                  className="text-gray-700"
-                />
-                <div className="pr-2 font-semibold ">
-                  {user ? (
-                    <div
-                      className="flex"
-                      onClick={() => history.push("/dashboard")}
-                    >
-                      <Username username={user.name} />
-                    </div>
-                  ) : (
-                    <Username username={"Register"} />
-                  )}
-                </div>
-              </div>
+            
               <div className="flex-1"></div>
               {user ? (
                 <p
-                  onClick={() => history.push("/login")}
-                  className="font-bold text-gray-700 ml-8"
+                  onClick={logout_user}
+                  className="font-bold text-gray-700 dark:text-white ml-8"
                 >
                   Logout
                 </p>
               ) : (
                 <p
                   onClick={() => history.push("/login")}
-                  className="font-bold text-gray-700 ml-8"
+                  className="font-bold text-gray-700 dark:text-white ml-8"
                 >
                   Join/Login
                 </p>

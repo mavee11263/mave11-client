@@ -34,7 +34,7 @@ function UserDropdown() {
     <Menu>
       <MenuButton>
         <div className="flex flex-row" onClick={logout_user}>
-          <Avatar name={mavee_11_user?.name} size="sm" />
+          <Avatar name={mavee_11_user?.name} src={mavee_11_user?.photoURL} size="sm" />
         </div>
       </MenuButton>
       <MenuList className="bg-white dark:bg-gray-800 border dark:border-gray-700 border-gray-200">
