@@ -105,6 +105,7 @@ const ChatBody = (props: Props) => {
           <div className="text-gray-700 rounded-full bottom-4 w-full mt-4 flex flex-row  pb-8 self-end">
             <textarea
               rows={rows}
+              value={body}
               className="py-3 px-4 rounded-lg flex-1 dark:text-gray-100 text-gray-700 align-bottom outline-none bg-gray-100 dark:bg-gray-800"
               placeholder="Type message..."
               onChange={(e) => setBody(e.target.value)}

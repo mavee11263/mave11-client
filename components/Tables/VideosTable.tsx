@@ -1,9 +1,8 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useContext, useState } from "react";
 import {
   CheckCircleIcon,
   TrashIcon,
   XCircleIcon,
-  XIcon,
 } from "@heroicons/react/outline";
 import {
   Modal,
@@ -20,6 +19,7 @@ import Pagination from "../Pagination/Pagination";
 import moment from "moment";
 import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
+import { Store } from "../../Context/Store";
 
 interface Props {
   delete_item_from_table?: any;
@@ -50,7 +50,9 @@ function VideosTable({
   const toast = useToast();
   const [change_status, setChangeStatus] = useState(false);
   const [new_status, setNewStatus] = useState("");
-  
+
+  const { state } = useContext(Store);
+  const { mavee_11_user } = state;
 
   const confirm_delete_item = async (video_id: string) => {
     try {
@@ -78,14 +80,26 @@ function VideosTable({
     video_id: string,
     description: string,
     thumbnail: string,
-    category: string
+    category: string,
+    title: string
   ) => {
-    await axios.put(`${apiUrl}/video/edit/${video_id}`, {
-      status: status,
-      description,
-      thumbnail,
-      category,
-    });
+    await axios.put(
+      `${apiUrl}/api/video/edit/${video_id}`,
+      {
+        status: status,
+        description,
+        thumbnail,
+        category,
+        title,
+      },
+      {
+        headers: {
+          Authorization: mavee_11_user?.token,
+        },
+      }
+    );
+    router.reload()
+    setChangeStatus(false);
   };
 
   const set_delete_item = (id: string, name: string) => {
@@ -202,6 +216,7 @@ function VideosTable({
                             <select
                               name="status"
                               id="status"
+                              defaultValue={video.status}
                               className="outline-none dark:bg-gray-600 dark:text-white p-1 text-sm rounded"
                               onChange={(e) => setNewStatus(e.target.value)}
                             >
@@ -210,20 +225,31 @@ function VideosTable({
                             </select>
                           </td>
                         ) : (
-                          <td
-                            onClick={() => setChangeStatus(true)}
-                            className="whitespace-nowrap px-6 py-4"
-                          >
-                            {video?.status === "public" ? (
-                              <span className="inline-flex rounded-full cursor-pointer bg-green-700 hover:bg-green-600 px-2 text-xs font-semibold leading-5 text-white">
-                                Public
-                              </span>
+                          <>
+                            {new_status ? (
+                              <td
+                                onClick={() => setChangeStatus(true)}
+                                className="whitespace-nowrap px-6 py-4"
+                              >
+                                {new_status === "public" ? (
+                                  <StatusItem text="Public" status="public" />
+                                ) : (
+                                  <StatusItem text="Private" status="private" />
+                                )}
+                              </td>
                             ) : (
-                              <span className="inline-flex rounded-full cursor-pointer bg-red-500 hover:bg-red-600 px-2 text-xs font-semibold leading-5 text-white">
-                                Private
-                              </span>
+                              <td
+                                onClick={() => setChangeStatus(true)}
+                                className="whitespace-nowrap px-6 py-4"
+                              >
+                                {video?.status === "public" ? (
+                                  <StatusItem text="Public" status="public" />
+                                ) : (
+                                  <StatusItem text="Private" status="private" />
+                                )}
+                              </td>
                             )}
-                          </td>
+                          </>
                         )}
                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                           <div className="flex flex-row items-center space-x-2">
@@ -236,7 +262,8 @@ function VideosTable({
                                       video._id,
                                       video.description,
                                       video.thumbnail,
-                                      video.category
+                                      video.category,
+                                      video.title
                                     )
                                   }
                                   className="cursor-pointer"
@@ -272,25 +299,6 @@ function VideosTable({
                                 />
                               </span>
                             )}
-                            {/* 
-                              remove comments to enable edit video
-                              redirects to edit video page
-                             */}
-
-                            {/* <span
-                              onClick={() =>
-                                router.push(
-                                  `/dashboard/inventory/edit/${"video?._id"}`
-                                )
-                              }
-                              className="cursor-pointer"
-                            >
-                              <PencilIcon
-                                height={20}
-                                width={20}
-                                className="cursor-pointer text-gray-500 dark:text-gray-200"
-                              />
-                            </span> */}
                           </div>
                         </td>
                       </tr>
@@ -349,5 +357,26 @@ function VideosTable({
     </div>
   );
 }
+
+interface StatusProps {
+  status: string;
+  text: string;
+  onClick?: any;
+}
+
+const StatusItem = ({ status, text, onClick }: StatusProps) => {
+  return (
+    <span
+      onClick={onClick}
+      className={`${
+        status === "public"
+          ? "bg-green-700 hover:bg-green-600"
+          : "bg-red-500 hover:bg-red-600"
+      } inline-flex rounded-full cursor-pointer  px-2 text-xs font-semibold leading-5 text-white`}
+    >
+      {text}
+    </span>
+  );
+};
 
 export default VideosTable;

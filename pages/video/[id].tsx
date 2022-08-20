@@ -75,7 +75,7 @@ function SinglePost(props: any) {
             </div>
             <div className="flex flex-wrap space-x-4 pb-4 items-center ">
               <div className="flex flex-row items-center space-x-3 cursor-pointer">
-                <Avatar size={"xs"} name={state?.data?.creator?.username} />
+                <Avatar size={"xs"} src={state?.data?.creator?.pro_pic} name={state?.data?.creator?.username} />
                 <p className="text-gray-700 dark:text-gray-300 font-semibold text-sm">
                   {state?.data?.creator?.username}
                 </p>
