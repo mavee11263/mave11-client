@@ -109,43 +109,48 @@ function MobileNavDrawers({ user }: Props): ReactElement {
               {user?.role === "user" ? (
                 <>
                   <div
-                  onClick={() => history.push("/upload")}
-                  className="capitalize text-gray-700 dark:text-gray-200 py-4 text-sm bg-white dark:bg-gray-700 px-4 font-semibold flex flex-row items-center justify-between"
-                >
-                  <p>Upload</p>
-                  <ChevronRightIcon height={20} width={20} />
-                </div>
-              <Divider />
-              <div
-                  onClick={() => history.push("/my-videos")}
-                  className="capitalize text-gray-700 dark:text-gray-200 py-4 text-sm bg-white dark:bg-gray-700 px-4 font-semibold flex flex-row items-center justify-between"
-                >
-                  <p>My Videos</p>
-                  <ChevronRightIcon height={20} width={20} />
-                </div>
-              <Divider /><div
-                  onClick={() => history.push("/subscriptions")}
-                  className="capitalize text-gray-700 dark:text-gray-200 py-4 mb-4 text-sm bg-white dark:bg-gray-700 px-4 font-semibold flex flex-row items-center justify-between"
-                >
-                  <p>Subscriptions</p>
-                  <ChevronRightIcon height={20} width={20} />
-                </div>
-                
+                    onClick={() => history.push("/upload")}
+                    className="capitalize text-gray-700 dark:text-gray-200 py-4 text-sm bg-white dark:bg-gray-700 px-4 font-semibold flex flex-row items-center justify-between"
+                  >
+                    <p>Upload</p>
+                    <ChevronRightIcon height={20} width={20} />
+                  </div>
+                  <Divider />
+                  <div
+                    onClick={() => history.push("/my-videos")}
+                    className="capitalize text-gray-700 dark:text-gray-200 py-4 text-sm bg-white dark:bg-gray-700 px-4 font-semibold flex flex-row items-center justify-between"
+                  >
+                    <p>My Videos</p>
+                    <ChevronRightIcon height={20} width={20} />
+                  </div>
+                  <Divider />
+                  <div
+                    onClick={() => history.push("/chat/user")}
+                    className="capitalize text-gray-700 dark:text-gray-200 py-4 text-sm bg-white dark:bg-gray-700 px-4 font-semibold flex flex-row items-center justify-between"
+                  >
+                    <p>My Chats</p>
+                    <ChevronRightIcon height={20} width={20} />
+                  </div>
+                  <Divider />
+                  <div
+                    onClick={() => history.push("/subscriptions")}
+                    className="capitalize text-gray-700 dark:text-gray-200 py-4 mb-4 text-sm bg-white dark:bg-gray-700 px-4 font-semibold flex flex-row items-center justify-between"
+                  >
+                    <p>Subscriptions</p>
+                    <ChevronRightIcon height={20} width={20} />
+                  </div>
                 </>
               ) : (
                 <>
-                <div
-                  onClick={() => history.push("/register")}
-                  className="capitalize text-gray-700 dark:text-gray-200 py-4 text-sm bg-white dark:bg-gray-700 px-4 font-semibold flex flex-row items-center justify-between"
-                >
-                  <p>Upload Video</p>
-                  <ChevronRightIcon height={20} width={20} />
-                </div>
-              <Divider />
-
+                  <div
+                    onClick={() => history.push("/register")}
+                    className="capitalize text-gray-700 dark:text-gray-200 py-4 text-sm bg-white dark:bg-gray-700 px-4 font-semibold flex flex-row items-center justify-between"
+                  >
+                    <p>Upload Video</p>
+                    <ChevronRightIcon height={20} width={20} />
+                  </div>
+                  <Divider />
                 </>
-                
-                
               )}
               <Divider />
               <div
