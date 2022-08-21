@@ -16,6 +16,7 @@ const VideoPlayer = ({ video_url, thumbnail }: Props) => {
         onContextMenu={(e: any) => e.preventDefault()}
         // Your props
         url={video_url}
+        playing={true}
         className="react-player"
         light={thumbnail}
         controls
