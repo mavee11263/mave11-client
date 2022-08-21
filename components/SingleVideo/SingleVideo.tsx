@@ -13,8 +13,8 @@ interface Props {
   numberOfViews: number;
   thumbnail: string;
   createdAt: any;
-  duration:string
-  video?:string
+  duration: string;
+  video?: string;
 }
 
 function SingleVideo({
@@ -25,12 +25,12 @@ function SingleVideo({
   thumbnail,
   createdAt,
   duration,
-  video
+  video,
 }: Props) {
   const router = useRouter();
   var current = moment().startOf("day");
 
-  console.log( )
+  console.log();
 
   return (
     <div className="col-span-1 cursor-pointer flex flex-col">
@@ -42,45 +42,44 @@ function SingleVideo({
           quality={50}
           placeholder="blur"
           blurDataURL={thumbnail}
-          loading={'eager'}
+          loading={"eager"}
           src={thumbnail}
           layout="fill"
           objectFit="cover"
         />
-        
+
         {/* <img src={thumbnail} alt="video thumbnail" className=" object-cover" /> */}
-        {
-          //Difference in number of days
-          moment.duration(moment(current).diff(createdAt)).asDays() < 8 && (
-            <Badge
-              className="absolute top-2 right-2 "
-              size="xs"
-              colorScheme="green"
-            >
-              New
-            </Badge>
-          )
-        }
+
         <Badge
-          className="absolute bottom-2 right-2 "
+          className="absolute md:bottom-2 bottom-1 md:right-2 right-1 "
           size="xs"
           colorScheme="gray"
         >
-          {moment.utc(parseInt(duration)*1000).format('HH:mm:ss')}
+          {moment.utc(parseInt(duration) * 1000).format("HH:mm:ss")}
         </Badge>
       </div>
-      <div className="flex flex-col md:px-0 px-2">
-        <Text
-          size={"xs"}
-          noOfLines={1}
-          className="font-semibold dark:text-gray-200 text-gray-700 pt-2"
-        >
-          {title}
-        </Text>
+      <div className="flex flex-col md:px-0">
+        <div className="flex flex-row items-center">
+          <Text
+            size={"xs"}
+            noOfLines={1}
+            className="font-semibold dark:text-gray-200 text-gray-700 flex-1"
+          >
+            {title}
+          </Text>
+          {
+            //Difference in number of days
+            moment.duration(moment(current).diff(createdAt)).asDays() < 8 && (
+              <Badge className=" " size="xs" colorScheme="green">
+                New
+              </Badge>
+            )
+          }
+        </div>
       </div>
-      <div className="flex flex-row items-center justify-left space-x-2 dark:text-gray-500 text-gray-500 text-sm py-2 md:px-0 px-2">
+      <div className="flex flex-row items-center justify-left space-x-2 dark:text-gray-500 text-gray-500 text-sm py-2 md:px-0">
         <Text className="flex flex-row items-center gap-2">
-          {numberOfViews} <EyeIcon height={20} width={20} />
+          {numberOfViews} Views
         </Text>
         <span className="text-xl">&#183;</span>
         {/* {likes < 1 ? (
@@ -92,9 +91,9 @@ function SingleVideo({
         )} */}
         <div className="flex-1"></div>
         <>
-        <ReportModal video_id={_id} />
+          <ReportModal video_id={_id} />
         </>
-        <DotsVerticalIcon height={20} width={20} />
+        <DotsVerticalIcon height={16} width={16} />
       </div>
     </div>
   );

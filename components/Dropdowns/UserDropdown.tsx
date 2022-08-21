@@ -23,8 +23,6 @@ function UserDropdown() {
   const { dispatch, state } = useContext(Store);
   const { mavee_11_user } = state;
 
-  console.log(mavee_11_user)
-
   const logout_user = () => {
     dispatch({ type: "USER_LOGOUT" });
     history.push("/");

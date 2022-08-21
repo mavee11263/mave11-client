@@ -69,7 +69,7 @@ function ReportModal({ video_id }: Props) {
   return (
     <>
       <div onClick={onOpen}>
-        <FlagIcon height={20} width={20} />
+        <FlagIcon height={16} width={16} />
       </div>
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
