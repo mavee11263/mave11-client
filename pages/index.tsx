@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   const { search_category, search_query, mavee_11_user } = store_state;
   const url = `${apiUrl}/api/video/explore?page=${page}&category=${
     search_category ? search_category : ""
-  }&keyword=${search_query ? search_query : ""}&perPage=${PER_PAGE}&sortBy=createdAt&sortOrder=asc`;
+  }&keyword=${search_query ? search_query : ""}&perPage=${PER_PAGE}&sortBy=createdAt&sortOrder=desc`;
 
   const history = useRouter();
   
