@@ -2,6 +2,7 @@ export const data = {
     categories:[
         {name: 'ebony', slug: 'black'},
         {name: 'big black ass', slug: 'big-black-ass'},
+        {name: 'big ass', slug: 'big-ass'},
         {name: 'mzansi', slug: 'black'},
         {name: 'white', slug: 'white'},
         {name: 'MILF', slug: 'black'},

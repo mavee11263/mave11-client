@@ -62,7 +62,7 @@ function Upload() {
 
   const sace_video = async () => {
     const pictureFile = pictures_for_upload[0];
-    const thumbnail_name = thumbnails[1].split("/");
+    const thumbnail_name = thumbnails[2].split("/");
     const item_name =
       pictures_for_upload.length >= 1 ? pictureFile.name : thumbnail_name[3];
 
