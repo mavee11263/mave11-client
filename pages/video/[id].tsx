@@ -89,7 +89,7 @@ function SinglePost(props: any) {
               {mavee_11_user && (
                 <div
                   onClick={open_chat_Handler}
-                  className="text-gray-700 flex flex-row text-xs space-x-1 items-center bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 p-1 rounded cursor-pointer"
+                  className="text-gray-700 flex flex-row text-xs space-x-1 items-center dark:bg-gray-700 bg-gray-200 dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 p-1 rounded cursor-pointer"
                 >
                   <ChatAlt2Icon height={16} width={16} />
                   <p>chat</p>
