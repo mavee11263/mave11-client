@@ -14,9 +14,7 @@ import { TrashIcon } from "@heroicons/react/outline";
 import { data } from "../../utils/data";
 import { useRouter } from "next/router";
 import Tags from "../../components/Tags/Tags";
-import {
-  generateVideoThumbnails,
-} from "@rajesh896/video-thumbnails-generator";
+import { generateVideoThumbnails } from "@rajesh896/video-thumbnails-generator";
 
 function Upload() {
   const [title, setTitle] = useState("");
@@ -35,6 +33,7 @@ function Upload() {
   const [picture_progress, setPIctureProgress] = useState(1);
   const [video_status, setVideoStatus] = useState("public");
   const [thumbnails, setThumbnails] = useState<any>([]);
+  const [selected_thumbnail, setSelectedThumbnail] = useState<any>("");
 
   const selectedTags = (tags: any) => {
     setTags(tags);
@@ -141,7 +140,7 @@ function Upload() {
         setLoading(false);
       };
 
-      setLoading(true)
+      setLoading(true);
 
       // upload picture selected by user
       const uploadTask = uploadBytesResumable(storageRef, pictureFile);
@@ -149,7 +148,7 @@ function Upload() {
       // upload picture auto generated
       const anotherUploadTask = uploadString(
         storageRef,
-        thumbnails[0],
+        selected_thumbnail ? selected_thumbnail : thumbnails[2],
         "data_url"
       );
 
@@ -251,6 +250,7 @@ function Upload() {
       .then(() => {
         setVideoAsset(null);
         setThumbnails([]);
+        setSelectedThumbnail('')
       })
       .catch((error) => {
         console.log(error);
@@ -265,21 +265,63 @@ function Upload() {
           <div className="px-4 py-5 bg-gray-50 dark:bg-gray-700 rounded shadow w-full">
             <div className="mx-auto rounded-lg overflow-hidden max-w-xl">
               {videoAsset ? (
-                <div className="relative flex flex-col h-80 w-full">
-                  <div className="flex ml-auto">
-                    <div
-                      onClick={deleteVideo}
-                      className=" bg-red-600 hover:bg-red-700 cursor-pointer text-white p-2 rounded-full"
-                    >
-                      <TrashIcon height={20} width={20} />
+                <>
+                  <div className="relative flex flex-col h-80 w-full">
+                    <div className="flex ml-auto">
+                      <div
+                        onClick={deleteVideo}
+                        className=" bg-red-600 hover:bg-red-700 cursor-pointer text-white p-2 rounded-full"
+                      >
+                        <TrashIcon height={20} width={20} />
+                      </div>
+                    </div>
+                    <video
+                      src={videoAsset}
+                      controls
+                      style={{ width: "100%", height: "100%" }}
+                    />
+                  </div>
+                  <div className="mt-16">
+                    <p className="pb-4 font-semibold">
+                      Please select a thumbnail
+                    </p>
+
+                    {pictures_for_upload?.length < 1 && (
+                      <div className="grid grid-cols-4 py-4">
+                        <img
+                          className=" col-span-2"
+                          src={selected_thumbnail}
+                          alt=""
+                        />
+                      </div>
+                    )}
+                    <div className="grid grid-cols-5 gap-4 ">
+                      {thumbnails?.map((thumbnail: string, index: number) => (
+                        <div
+                          key={index}
+                          onClick={() => {
+                            setSelectedThumbnail(thumbnail);
+                            console.log(index);
+                          }}
+                          className="flex col-span-1"
+                        >
+                          <img
+                            className=" cursor-pointer"
+                            src={thumbnail}
+                            alt=""
+                          />
+                        </div>
+                      ))}
+                      <div className="col-span-4 capitalize">
+                        <p>Or Pick from machine </p>
+                        <FileUploadComponent
+                          selectedPictures={selectedPictures}
+                          multiple
+                        />
+                      </div>
                     </div>
                   </div>
-                  <video
-                    src={videoAsset}
-                    controls
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                </div>
+                </>
               ) : (
                 <div className="md:flex">
                   {video_loading ? (
@@ -359,7 +401,9 @@ function Upload() {
               Select Category
             </option>
             {data.categories?.map((item, index) => (
-              <option key={index} value={item.name}>{item.name}</option>
+              <option key={index} value={item.name}>
+                {item.name}
+              </option>
             ))}
           </select>
         </div>
@@ -406,10 +450,6 @@ function Upload() {
               Add all your tags, one at a time
             </p>
           </div>
-        </div>
-        <div className="col-span-6">
-          <p>Select Thumbnail (Optional)</p>
-          <FileUploadComponent selectedPictures={selectedPictures} multiple />
         </div>
 
         <div className="ml-auto flex-1 col-span-6 flex flex-col">

@@ -56,8 +56,8 @@ export default function FileUploadComponent({ multiple, selectedPictures }: Prop
                 {preview_files.length >= 1 && <>
                     {(preview_files).map((url: string | undefined, index: number) => (
                         <div key={index} className="relative col-span-1 rounded flex flex-col items-center">
-                            <span onClick={() => removePicture(index)} className='cursor-pointer absolute top-0 right-0 bg-white rounded-full p-1'>
-                                <XIcon height={12} width={12} className='text-gray-700' />
+                            <span onClick={() => removePicture(index)} className='cursor-pointer absolute top-0 right-0 bg-pink-600 rounded-full p-1'>
+                                <XIcon height={12} width={12} className='text-white' />
                             </span>
                             <img src={url} alt="..." className='h-28 rounded' />
                         </div>
