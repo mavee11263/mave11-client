@@ -8,8 +8,8 @@ import { getError } from "../../utils/error";
 import { socket } from "../../utils/socket";
 
 type Props = {
-  video_id: String;
-  channel_id: String;
+  video_id?: any;
+  channel_id?: any;
 };
 
 function Subscribers(props: Props) {

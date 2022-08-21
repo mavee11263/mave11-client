@@ -47,6 +47,12 @@ function SinglePost(props: any) {
     }
   };
 
+
+  const set_search_query_handler = (query:string) =>{
+    dispatch({type: 'SET_SEARCH_QUERY', payload: query})
+    router.push('/')
+  }
+
   return (
     <HomeLayout>
       <main className="lg:px-20 max-w-[1920px] mx-auto md:px-12 px-4 flex flex-col w-full">
@@ -74,7 +80,7 @@ function SinglePost(props: any) {
               </span>
             </div>
             <div className="flex flex-wrap space-x-4 pb-4 items-center ">
-              <div className="flex flex-row items-center space-x-3 cursor-pointer">
+              <div onClick={() => router.push(`/channel/${state?.data?.creator?.user_id}`)} className="flex flex-row items-center space-x-3 cursor-pointer">
                 <Avatar size={"xs"} src={state?.data?.creator?.pro_pic} name={state?.data?.creator?.username} />
                 <p className="text-gray-700 dark:text-gray-300 font-semibold text-sm">
                   {state?.data?.creator?.username}
@@ -92,7 +98,7 @@ function SinglePost(props: any) {
               {video?.tags?.map((tag: string, index: number) => (
                 <div className="flex flex-col">
                   <span
-                    onClick={() => console.log(tag)}
+                    onClick={() => set_search_query_handler(tag)}
                     className="dark:bg-gray-700 bg-gray-200 mb-1 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 dark:text-white text-gray-700 text-xs p-1 rounded"
                     key={`${tag}${index}`}
                   >

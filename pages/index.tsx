@@ -18,13 +18,17 @@ const PER_PAGE = 16;
 
 const Home: NextPage = () => {
   const [page, setPage] = useState<number>(1);
-  const { state: store_state } = useContext(Store);
+  const { state: store_state, dispatch } = useContext(Store);
   const { search_category, search_query, mavee_11_user } = store_state;
   const url = `${apiUrl}/api/video/explore?page=${page}&category=${
     search_category ? search_category : ""
   }&keyword=${search_query ? search_query : ""}&perPage=${PER_PAGE}`;
 
   const history = useRouter();
+  
+  const set_search_query_handler = (query:string) =>{
+    dispatch({type: 'SET_SEARCH_QUERY', payload: query})
+  }
 
   // start the fetching using the useFetch hook
   const state = useFetch(url);
@@ -37,6 +41,7 @@ const Home: NextPage = () => {
             {data.categories.map((item, index) => (
               <div
                 key={index}
+                onClick={() => set_search_query_handler(item.name)}
                 className="flex break-normal flex-row mb-2 border dark:border-gray-400 cursor-pointer dark:bg-gray-700 bg-gray-100 dark:text-gray-200 text-gray-700 border-gray-300 md:px-4 rounded-full px-2 py-1"
               >
                 <Text noOfLines={1}>{item.name}</Text>
@@ -64,7 +69,13 @@ const Home: NextPage = () => {
                     <Image src={not_found} layout="fill" objectFit="contain" />
                   </div>
                   <p className="dark:text-gray-300 text-gray-800 text-lg py-4 font-semibold">
-                    No videos at the moment
+                    {
+                      search_query || search_category ? (
+                        'No Videos Found'
+                      ):(
+                        'No videos at the moment'
+                      )
+                    }
                   </p>
                   {
                     mavee_11_user ? (
