@@ -359,7 +359,7 @@ function Upload() {
               Select Category
             </option>
             {data.categories?.map((item, index) => (
-              <option value="category">{item.name}</option>
+              <option key={index} value={item.name}>{item.name}</option>
             ))}
           </select>
         </div>
