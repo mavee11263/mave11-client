@@ -30,7 +30,6 @@ function ReportModal({ video_id }: Props) {
 
   const send_report_Hadler = async () => {
     if (!report) {
-      
       return;
     } else {
       try {
@@ -48,13 +47,13 @@ function ReportModal({ video_id }: Props) {
         );
         toast({
           title: "Report Send.",
-          description: 'Thank you for your feedback',
+          description: "Thank you for your feedback",
           status: "success",
           duration: 9000,
           isClosable: true,
           position: "top",
         });
-        onClose()
+        onClose();
       } catch (error) {
         toast({
           title: "Something went wrong.",
@@ -158,6 +157,28 @@ function ReportModal({ video_id }: Props) {
                     </span>
                   </label>
                 </div>
+                <div className="flex items-center">
+                  <input
+                    id="other"
+                    name="budget"
+                    defaultValue="other"
+                    onChange={(e) => setReport("other")}
+                    type="radio"
+                    className="focus:ring-grape-500 h-4 w-4 text-grape-600 border-gray-300"
+                  />
+                  <label htmlFor="other" className="ml-3">
+                    <span className="block  text-gray-900 dark:text-gray-200 capitalize">
+                      Other
+                    </span>
+                  </label>
+                </div>
+                {report === "other" && (
+                  <input
+                    type="text"
+                    className="bg-gray-200 rounded p-2 outline-none text-gray-700 dark:text-gray-200 dark:bg-gray-700"
+                    placeholder="what do you want to report?"
+                  />
+                )}
               </div>
             </fieldset>
 

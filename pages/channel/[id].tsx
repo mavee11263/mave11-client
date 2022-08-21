@@ -28,11 +28,11 @@ function ChannelVideos() {
 
   return (
     <HomeLayout>
-      <div className="flex flex-col w-full py-8 bg-gray-50 min-h-screen">
+      <div className="flex flex-col w-full py-8 bg-gray-50 dark:bg-gray-800 min-h-screen">
         {/* // page header */}
-        <div className="bg-white shadow mb-8 rounded-lg mx-auto max-w-7xl w-full">
+        <div className="bg-white dark:bg-gray-700 dark:text-white shadow mb-8 rounded-lg mx-auto max-w-7xl w-full">
           <div className="px-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:px-8">
-            <div className="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
+            <div className="py-6 md:flex md:items-center md:justify-between ">
               <div className="min-w-0 flex-1">
                 {/* Profile */}
                 <div className="flex items-center">
@@ -53,7 +53,7 @@ function ChannelVideos() {
                         />
                       </div>
                       <div className="flex flex-col ml-3">
-                        <h1 className=" md:text-2xl text-xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
+                        <h1 className=" md:text-2xl text-xl font-bold leading-7 text-gray-900 dark:text-white sm:truncate sm:leading-9">
                           {state?.data?.channel_info?.username}, {state?.data?.meta?.total} videos
                         </h1>
                       </div>
