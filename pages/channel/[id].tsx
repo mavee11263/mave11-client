@@ -50,8 +50,12 @@ function ChannelVideos() {
                     </h1>
                     <h1 className=" leading-7 flex flex-row items-center text-gray-900 dark:text-gray-300 sm:truncate sm:leading-9">
                       <VideoCameraIcon height={20} width={20} />
+                      <span className="ml-1 mr-2">
+                        {state?.data?.meta?.total} videos,
+                      </span>
+                       {" "}<FlagIcon height={16} width={16} />{" "}
                       <span className="ml-1">
-                        {state?.data?.meta?.total} videos
+                        {state?.data?.channel_info?.country ? state?.data?.channel_info?.gender : 'not specified'}
                       </span>
                     </h1>
                   </div>
