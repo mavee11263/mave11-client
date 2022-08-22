@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Avatar } from "@chakra-ui/react";
 import HomeLayout from "../../layouts/HomeLayout";
 import { useRouter } from "next/router";
@@ -12,6 +12,7 @@ import BlueButton from "../../components/Buttons/BlueButton";
 import { Store } from "../../Context/Store";
 import not_found from "../../public/images/not_found_video.svg";
 import Image from "next/image";
+import { FlagIcon, UserIcon, VideoCameraIcon } from "@heroicons/react/outline";
 
 const PER_PAGE = 16;
 
@@ -23,8 +24,6 @@ function ChannelVideos() {
   const { search_category, search_query, mavee_11_user } = store_state;
   const url = `${apiUrl}/api/channel/videos/${query.id}`;
   const state = useFetch(url);
-
-  console.log("items ----- ", state);
 
   return (
     <HomeLayout>
@@ -43,27 +42,35 @@ function ChannelVideos() {
                       src={state?.data?.channel_info?.photoURL}
                     />
                   </div>
-                  <div>
-                    <div className="flex items-center">
-                      <div className="rounded-full sm:hidden">
-                        <Avatar
-                          size="lg"
-                          name={state?.data?.channel_info?.username}
-                          src={state?.data?.channel_info?.photoURL}
-                        />
-                      </div>
-                      <div className="flex flex-col ml-3">
-                        <h1 className=" md:text-2xl text-xl font-bold leading-7 text-gray-900 dark:text-white sm:truncate sm:leading-9">
-                          {state?.data?.channel_info?.username}, {state?.data?.meta?.total} videos
-                        </h1>
-                      </div>
+                  <div className="flex items-center">
+                    <div className="rounded-full sm:hidden">
+                      <Avatar
+                        size="lg"
+                        name={state?.data?.channel_info?.username}
+                        src={state?.data?.channel_info?.photoURL}
+                      />
+                    </div>
+                    <div className="flex flex-col ml-3">
+                      <h1 className=" md:text-2xl text-xl font-bold leading-7 text-gray-900 dark:text-white sm:truncate sm:leading-9">
+                        {state?.data?.channel_info?.username}                      </h1>
                     </div>
                   </div>
+                </div>
+                <div className="flex flex-col">
+                <h1 className=" md:text-xl font-semibold leading-7 flex flex-row items-center text-gray-900 dark:text-white sm:truncate sm:leading-9">
+                  <VideoCameraIcon height={20} width={20} /><span className="ml-4">{state?.data?.meta?.total} videos</span>
+                  </h1>
+                  <h1 className=" md:text-xl flex flex-row items-center space-x-4 font-semibold leading-7 text-gray-900 dark:text-white sm:truncate sm:leading-9">
+                    <FlagIcon height={20} width={20} /><span className="ml-4">{state?.data?.channel_info?.country}</span>
+                  </h1>
+                  <h1 className=" md:text-xl font-semibold leading-7 flex flex-row items-center text-gray-900 dark:text-white sm:truncate sm:leading-9">
+                  <UserIcon height={20} width={20} /><span className="ml-4">{state?.data?.channel_info?.gender}</span>
+                  </h1>
                 </div>
               </div>
               <div className="mt-6 flex space-x-3 md:mt-0 md:ml-4">
                 <div className="flex">
-                    {/* //@ts-ignore */}
+                  {/* //@ts-ignore */}
                   <Subscribers channel_id={query?.id} />
                 </div>
               </div>

@@ -37,7 +37,7 @@ const navigation = {
     },
     {
       name: "Twitter",
-      href: "https://www.twitter.com",
+      href: "https://www.twitter.com/real_mavee11",
       icon: (
         props: JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>
       ) => (
