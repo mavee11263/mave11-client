@@ -32,9 +32,33 @@ function ChannelVideos() {
         <div className="bg-white dark:bg-gray-700 dark:text-white shadow mb-8 rounded-lg mx-auto max-w-7xl w-full">
           <div className="px-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:px-8">
             <div className="py-6 md:flex md:items-center md:justify-between ">
-              <div className="min-w-0 flex-1">
-                {/* Profile */}
-                <div className="flex items-center">
+              <div className="flex flex-col">
+                <div className="flex flex-row items-center">
+                  <Avatar
+                    size="xl"
+                    name={state?.data?.channel_info?.username}
+                    src={state?.data?.channel_info?.photoURL}
+                  />
+                  <div className="flex flex-col ml-4">
+                    <h1 className=" md:text-2xl  text-xl font-bold leading-7 text-gray-900 dark:text-white sm:truncate sm:leading-9">
+                      {state?.data?.channel_info?.username}
+                      <span>
+                        {state?.data?.channel_info?.gender && (
+                          <>, {state?.data?.channel_info?.gender}</>
+                        )}
+                      </span>
+                    </h1>
+                    <h1 className=" leading-7 flex flex-row items-center text-gray-900 dark:text-gray-300 sm:truncate sm:leading-9">
+                      <VideoCameraIcon height={20} width={20} />
+                      <span className="ml-1">
+                        {state?.data?.meta?.total} videos
+                      </span>
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              {/* Profile */}
+              {/* <div className="flex items-center">
                   <div className="hidden rounded-full sm:block">
                     <Avatar
                       size="xs"
@@ -56,8 +80,8 @@ function ChannelVideos() {
                       </h1>
                     </div>
                   </div>
-                </div>
-                <div className="flex flex-col">
+                </div> */}
+              {/* <div className="flex flex-col">
                   <h1 className=" md:text-xl font-semibold leading-7 flex flex-row items-center text-gray-900 dark:text-white sm:truncate sm:leading-9">
                     <VideoCameraIcon height={20} width={20} />
                     <span className="ml-4">
@@ -80,8 +104,7 @@ function ChannelVideos() {
                         : "all types"}
                     </span>
                   </h1>
-                </div>
-              </div>
+                </div> */}
               <div className="mt-6 flex space-x-3 md:mt-0 md:ml-4">
                 <div className="flex">
                   {/* //@ts-ignore */}
