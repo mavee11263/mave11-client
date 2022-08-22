@@ -37,7 +37,7 @@ function ChannelVideos() {
                 <div className="flex items-center">
                   <div className="hidden rounded-full sm:block">
                     <Avatar
-                      size="lg"
+                      size="xs"
                       name={state?.data?.channel_info?.username}
                       src={state?.data?.channel_info?.photoURL}
                     />
@@ -45,26 +45,40 @@ function ChannelVideos() {
                   <div className="flex items-center">
                     <div className="rounded-full sm:hidden">
                       <Avatar
-                        size="lg"
+                        size="sm"
                         name={state?.data?.channel_info?.username}
                         src={state?.data?.channel_info?.photoURL}
                       />
                     </div>
                     <div className="flex flex-col ml-3">
                       <h1 className=" md:text-2xl text-xl font-bold leading-7 text-gray-900 dark:text-white sm:truncate sm:leading-9">
-                        {state?.data?.channel_info?.username}                      </h1>
+                        {state?.data?.channel_info?.username}{" "}
+                      </h1>
                     </div>
                   </div>
                 </div>
                 <div className="flex flex-col">
-                <h1 className=" md:text-xl font-semibold leading-7 flex flex-row items-center text-gray-900 dark:text-white sm:truncate sm:leading-9">
-                  <VideoCameraIcon height={20} width={20} /><span className="ml-4">{state?.data?.meta?.total} videos</span>
+                  <h1 className=" md:text-xl font-semibold leading-7 flex flex-row items-center text-gray-900 dark:text-white sm:truncate sm:leading-9">
+                    <VideoCameraIcon height={20} width={20} />
+                    <span className="ml-4">
+                      {state?.data?.meta?.total} videos
+                    </span>
                   </h1>
                   <h1 className=" md:text-xl flex flex-row items-center space-x-4 font-semibold leading-7 text-gray-900 dark:text-white sm:truncate sm:leading-9">
-                    <FlagIcon height={20} width={20} /><span className="ml-4">{state?.data?.channel_info?.country}</span>
+                    <FlagIcon height={20} width={20} />
+                    <span className="ml-4">
+                      {state?.data?.channel_info?.country
+                        ? state?.data?.channel_info?.country
+                        : "not specified"}
+                    </span>
                   </h1>
                   <h1 className=" md:text-xl font-semibold leading-7 flex flex-row items-center text-gray-900 dark:text-white sm:truncate sm:leading-9">
-                  <UserIcon height={20} width={20} /><span className="ml-4">{state?.data?.channel_info?.gender}</span>
+                    <UserIcon height={20} width={20} />
+                    <span className="ml-4">
+                      {state?.data?.channel_info?.gender
+                        ? state?.data?.channel_info?.gender
+                        : "all types"}
+                    </span>
                   </h1>
                 </div>
               </div>
