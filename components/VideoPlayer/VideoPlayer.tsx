@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/lazy";
 
 interface Props {
   video_url?: string;

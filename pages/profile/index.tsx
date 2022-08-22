@@ -1,8 +1,5 @@
 import { useToast } from "@chakra-ui/react";
-import {
-  UserGroupIcon,
-  VideoCameraIcon,
-} from "@heroicons/react/outline";
+import { UserGroupIcon, VideoCameraIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import FileUploadComponent from "../../components/FileUploadComponent/FileUploadComponent";
@@ -33,6 +30,8 @@ function ProfilePage() {
   const [username, setUsername] = useState("");
   const [pictures_for_upload, setPicturesForUpload] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  const [country, setCountry] = useState("");
+  const [gender, setGender] = useState("");
   const toast = useToast();
   const [picture_progress, setPIctureProgress] = useState(1);
 
@@ -42,9 +41,11 @@ function ProfilePage() {
   useEffect(() => {
     setEmail(state?.data?.user_info?.email);
     setUsername(state?.data?.user_info?.username);
+    setGender(state?.data?.user_info?.gender);
+    setCountry(state?.data?.user_info?.country);
   }, [state]);
 
-  const selectedPictures = (pictures: any) => { 
+  const selectedPictures = (pictures: any) => {
     setPicturesForUpload(pictures);
   };
 
@@ -54,10 +55,10 @@ function ProfilePage() {
       const storageRef = ref(
         storage,
         `Profiles/${Date.now()}-${pictureFile.name}`
-        );
-        //upload picture
-        const uploadTask = uploadBytesResumable(storageRef, pictureFile);
-        setLoading(true);
+      );
+      //upload picture
+      const uploadTask = uploadBytesResumable(storageRef, pictureFile);
+      setLoading(true);
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -76,6 +77,8 @@ function ProfilePage() {
                 {
                   username: username,
                   picture_url: downloadURL,
+                  gender: gender,
+                  country: country,
                 },
                 {
                   headers: {
@@ -112,6 +115,8 @@ function ProfilePage() {
           {
             username: username,
             picture_url: state?.data?.user_info?.photoURL,
+            gender: gender,
+            country: country,
           },
           {
             headers: {
@@ -192,6 +197,20 @@ function ProfilePage() {
               defaultValue={state?.data?.user_info?.email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email"
+            />
+            <input
+              type="text"
+              className="dark:bg-gray-700 bg-gray-100 rounded dark:text-gray-200 text-gray-700 md:col-span-2 col-span-5 p-2 outline-none border-none"
+              defaultValue={state?.data?.user_info?.gender}
+              onChange={(e) => setGender(e.target.value)}
+              placeholder="gender"
+            />
+            <input
+              type="text"
+              className="dark:bg-gray-700 bg-gray-100 rounded dark:text-gray-200 text-gray-700 md:col-span-4 col-span-5 p-2 outline-none border-none"
+              defaultValue={state?.data?.user_info?.country}
+              onChange={(e) => setCountry(e.target.value)}
+              placeholder="country"
             />
             <div className="md:col-span-2 col-span-4">
               <p className="block dark:text-gray-200 text-gray-700">
