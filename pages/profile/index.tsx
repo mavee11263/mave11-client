@@ -19,6 +19,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { firebaseApp } from "../../utils/firebase-config";
+import DeleteModal from "../../components/Modals/DeleteModal";
 
 function ProfilePage() {
   const { state: user_state } = useContext(Store);
@@ -233,12 +234,7 @@ function ProfilePage() {
           <div className="flex flex-col space-y-2 ">
             <Divider />
             <div className="flex self-end">
-              <div
-                onClick={loading ? () => console.log("loading") : save_info}
-                className="flex bg-red-700 text-center p-2 rounded text-white font-semibold cursor-pointer hover:bg-red-600 text-sm"
-              >
-                Delete Account
-              </div>
+             <DeleteModal/>
             </div>
           </div>
         </div>
