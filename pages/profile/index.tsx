@@ -1,4 +1,4 @@
-import { useToast } from "@chakra-ui/react";
+import { Divider, useToast } from "@chakra-ui/react";
 import { UserGroupIcon, VideoCameraIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
@@ -228,6 +228,17 @@ function ProfilePage() {
               className="flex bg-pink-500 p-2 rounded text-white font-semibold cursor-pointer hover:bg-pink-600 text-sm"
             >
               {loading ? "Loading" : "Change Info"}
+            </div>
+          </div>
+          <div className="flex flex-col space-y-2 ">
+            <Divider />
+            <div className="flex self-end">
+              <div
+                onClick={loading ? () => console.log("loading") : save_info}
+                className="flex bg-red-700 text-center p-2 rounded text-white font-semibold cursor-pointer hover:bg-red-600 text-sm"
+              >
+                Delete Account
+              </div>
             </div>
           </div>
         </div>
