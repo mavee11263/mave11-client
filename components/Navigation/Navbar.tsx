@@ -93,7 +93,7 @@ function Navbar() {
 
   return (
     <div className="dark:bg-gray-800 bg-white dark:text-gray-200 text-gray-700 shadow w-full ">
-      <div className="flex flex-row items-center space-x-4 p-1 bg-black">
+      <div className="md:hidden flex flex-row items-center space-x-4 p-1 bg-black">
         <div className="flex-1"></div>
         {navigation.social.map((item) => (
           <Link href={item.href} passHref key={item.name}>
@@ -117,7 +117,22 @@ function Navbar() {
           logo
         </div>
 
-        <div className="flex-1"></div>
+        <div className="flex-1">
+        <div className="md:flex hidden justify-center flex-row items-center space-x-4 p-1">
+        {navigation.social.map((item) => (
+          <Link href={item.href} passHref key={item.name}>
+            <a
+              target="_blank"
+              rel="noreferrer"
+              className="text-gray-500 hover:text-gray-700"
+            >
+              <span className="sr-only">{item.name}</span>
+              <item.icon className="h-6 w-6" aria-hidden="true" />
+            </a>
+          </Link>
+        ))}
+      </div>
+        </div>
         <>
           <NavSearch />
         </>
