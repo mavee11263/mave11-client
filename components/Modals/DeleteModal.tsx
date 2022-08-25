@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -8,10 +8,52 @@ import {
   ModalBody,
   useDisclosure,
   ModalCloseButton,
+  useToast,
 } from "@chakra-ui/react";
+import { Store } from "../../Context/Store";
+import axios from "axios";
+import { apiUrl } from "../../utils/apiUrl";
+import { getError } from "../../utils/error";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 function DeleteModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { state, dispatch } = useContext(Store);
+  const { mavee_11_user } = state;
+  const history = useRouter()
+  const toast = useToast();
+
+  const delete_user = async () => {
+    try {
+      const { data } = await axios.delete(`${apiUrl}/api/user/delete`, {
+        headers: {
+          Authorization: mavee_11_user?.token,
+        },
+      });
+      history.push("/");
+      Cookies.remove("mavee_11_user");
+      dispatch({type: 'USER_LOGOUT'})
+      toast({
+        title: "Account deleted",
+        status: "success",
+        position: "top-right",
+        duration: 9000,
+        isClosable: true,
+      });
+      console.log(data);
+    } catch (error) {
+      toast({
+        title: getError(error),
+        status: "error",
+        position: "top-right",
+        duration: 9000,
+        isClosable: true,
+      });
+      console.log(getError(error));
+    }
+  };
+
   return (
     <>
       <div
@@ -27,7 +69,7 @@ function DeleteModal() {
           <ModalCloseButton />
           <ModalBody className="text-justify">
             <div className="flex flex-col w-full items-center px-5">
-              <div className="flex cursor-pointer flex-col items-center text-center w-full my-8 bg-red-600 hover:bg-red-700 rounded-full p-2 text-white">
+              <div onClick={delete_user} className="flex cursor-pointer flex-col items-center text-center w-full my-8 bg-red-600 hover:bg-red-700 rounded-full p-2 text-white">
                 Delete Account
               </div>
               <div
