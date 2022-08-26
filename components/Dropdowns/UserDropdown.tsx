@@ -10,13 +10,7 @@ import {
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Store } from "../../Context/Store";
-
-const dropdown = {
-  un_authenticated: [
-    { label: "login", location: "/login" },
-    { label: "register", location: "/register" },
-  ],
-};
+import Cookies from 'js-cookie'
 
 function UserDropdown() {
   const history = useRouter();
@@ -25,6 +19,7 @@ function UserDropdown() {
 
   const logout_user = () => {
     dispatch({ type: "USER_LOGOUT" });
+    Cookies.remove("mavee_11_user");
     history.push("/");
   };
 

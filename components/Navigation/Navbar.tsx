@@ -170,8 +170,7 @@ function Navbar() {
             onClick={() => history.push("/")}
             className="uppercase cursor-pointer font-bold text-sm text-gray-700 dark:text-white flex flex-row items-center"
           >
-            {/* <Image height={30} objectFit="contain" src={logo} alt="logo representing the website icon" className="h-8" /> */}
-            logo
+            <Image height={30} objectFit="contain" src={logo} alt="logo representing the website icon" className="h-8" />
           </div>
         </div>
 

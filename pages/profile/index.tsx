@@ -27,6 +27,8 @@ function ProfilePage() {
   const url = `${apiUrl}/api/user/info?user=${mavee_11_user?._id}`;
   const state = useFetch(url);
 
+  console.log(mavee_11_user?._id)
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [pictures_for_upload, setPicturesForUpload] = useState<any>([]);
