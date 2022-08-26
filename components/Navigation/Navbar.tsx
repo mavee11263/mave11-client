@@ -8,6 +8,8 @@ import NavSearch from "../NavSearch/NavSearch";
 import { Store } from "../../Context/Store";
 import { UploadIcon } from "@heroicons/react/outline";
 import UserDropdown from "../Dropdowns/UserDropdown";
+import logo from '../../public/images/logo.png'
+import Image from "next/image";
 
 type Props = {};
 
@@ -99,8 +101,7 @@ function Navbar() {
           onClick={() => history.push("/")}
           className="uppercase cursor-pointer font-bold text-sm text-gray-700 flex flex-row items-center dark:text-white"
         >
-          {/* <Image width={100} objectFit='contain' src={logo} alt="logo representing the website icon" className="h-8 ml-2" /> */}
-          logo
+          <Image width={100} objectFit='contain' src={logo} alt="logo representing the website icon" className="h-8 ml-2" />
         </div>
 
         <div className="flex-1">
