@@ -34,5 +34,8 @@ export const data = {
         {name: 'Log In', location :'/login'},
         {name: 'Sign Up', location :'/Sign Up'},
     ],
-    site_url: 'https://www.mavee11.com'
+    site_url: 'https://www.mavee11.com',
+    original_title: 'Mavee11 - NSFW',
+    ssite_slogan: 'Watch best porn content on the internet',
+    description: '"Watch all your favoutite porn videos from your favourite creators"'
 }

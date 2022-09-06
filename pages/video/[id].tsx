@@ -47,14 +47,17 @@ function SinglePost(props: any) {
     }
   };
 
-
-  const set_search_query_handler = (query:string) =>{
-    dispatch({type: 'SET_SEARCH_QUERY', payload: query})
-    router.push('/')
-  }
+  const set_search_query_handler = (query: string) => {
+    dispatch({ type: "SET_SEARCH_QUERY", payload: query });
+    router.push("/");
+  };
 
   return (
-    <HomeLayout>
+    <HomeLayout
+      title={video?.title}
+      description={video?.description}
+      og_image={video?.thumbnail}
+    >
       <main className="lg:px-20 max-w-[1920px] mx-auto md:px-12 px-4 flex flex-col w-full">
         <div className="grid grid-cols-7 lg:gap-12 md:gap-8 gap-4 pt-8">
           <div className="lg:col-span-5 md:col-span-6 col-span-7">
@@ -80,8 +83,17 @@ function SinglePost(props: any) {
               </span>
             </div>
             <div className="flex flex-wrap space-x-4 pb-4 items-center ">
-              <div onClick={() => router.push(`/channel/${state?.data?.creator?.user_id}`)} className="flex flex-row items-center space-x-3 cursor-pointer">
-                <Avatar size={"xs"} src={state?.data?.creator?.pro_pic} name={state?.data?.creator?.username} />
+              <div
+                onClick={() =>
+                  router.push(`/channel/${state?.data?.creator?.user_id}`)
+                }
+                className="flex flex-row items-center space-x-3 cursor-pointer"
+              >
+                <Avatar
+                  size={"xs"}
+                  src={state?.data?.creator?.pro_pic}
+                  name={state?.data?.creator?.username}
+                />
                 <p className="text-gray-700 dark:text-gray-300 font-semibold text-sm">
                   {state?.data?.creator?.username}
                 </p>
