@@ -15,7 +15,7 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 const navigation = [
-    { name: 'Home', href: '/dashboard', icon: TemplateIcon, current: false },
+    { name: 'Home', href: '/dashboard/home', icon: TemplateIcon, current: false },
     { name: 'Users', href: '/dashboard/users', icon: UserGroupIcon, current: false },
     { name: "Videos", href: '/dashboard/videos', icon: VideoCameraIcon, current: false },
     { name: 'Reports', href: '/dashboard/reports', icon: TrendingUpIcon, current: false },
