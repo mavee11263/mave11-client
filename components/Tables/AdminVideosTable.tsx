@@ -343,18 +343,7 @@ function AdminVideosTable({
           </div>
         </div>
       </div>
-      <>
-        <Pagination
-          className="flex self-center pt-8"
-          onPageChange={(page: number) => setPage(page)}
-          pageSize={8}
-          totalCount={data?.data?.meta?.totalPages}
-          currentPage={1}
-          //@ts-ignore
-          page={page}
-        />
-      </>
-    </div>
+     </div>
   );
 }
 

@@ -6,7 +6,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import DashboardLayout from "../../../layouts/DashboardLayout";
 import { apiUrl } from "../../../utils/apiUrl";
 
-const PER_PAGE = 16;
+const PER_PAGE = 10;
 
 function Videos() {
   const url = `${apiUrl}/api/video/explore?perPage=${PER_PAGE}`;
@@ -33,6 +33,9 @@ function Videos() {
   return (
     <DashboardLayout>
       <div className="flex flex-col w-full max-w-7xl mx-auto px-2">
+        <div className="flex flex-col w-full ">
+          <p className="text-center py-4 capitalize font-semibold text-3xl">Manage Videos</p>
+        </div>
         <AdminVideosTable
           delete_item_from_table={delete_item_from_table}
           setPage={setPage}
