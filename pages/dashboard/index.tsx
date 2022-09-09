@@ -26,7 +26,7 @@ function Login() {
   const login_user_handler = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.post(`${apiUrl}/api/owner/login`, {
+      const { data } = await axios.post(`${apiUrl}/api/admin/login`, {
         email,
         password,
       });
@@ -55,7 +55,7 @@ function Login() {
         });
         setTimeout(() => {
           //@ts-ignore
-          history.push("/create-owner");
+          history.push("/dashboard/home");
         }, 1000);
         toast({
           title: "Login successful.",
