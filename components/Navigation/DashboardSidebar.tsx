@@ -16,8 +16,8 @@ import Image from 'next/image'
 
 const navigation = [
     { name: 'Home', href: '/dashboard/home', icon: TemplateIcon, current: false },
-    { name: 'Users', href: '/dashboard/users', icon: UserGroupIcon, current: false },
     { name: "Videos", href: '/dashboard/videos', icon: VideoCameraIcon, current: false },
+    { name: 'Users', href: '/dashboard/users', icon: UserGroupIcon, current: false },
     { name: 'Reports', href: '/dashboard/reports', icon: TrendingUpIcon, current: false },
     { name: 'Store Settings', href: '/dashboard/settings', icon: CogIcon },
 ]

@@ -9,11 +9,11 @@ import { apiUrl } from "../../../utils/apiUrl";
 const PER_PAGE = 10;
 
 function Videos() {
-  const url = `${apiUrl}/api/video/explore?perPage=${PER_PAGE}`;
-  const state = useFetch(url);
   const [page, setPage] = useState(1);
   const [all_videos, setAllVideos] = useState<any>();
-
+  const url = `${apiUrl}/api/video/explore?perPage=${PER_PAGE}?page=${page}`;
+  
+  const state = useFetch(url);
   const { state: store_state } = useContext(Store);
   const { search_category, search_query, mavee_11_user } = store_state;
 
@@ -27,8 +27,6 @@ function Videos() {
   const delete_item_from_table = (id: any) => {
     setAllVideos(all_videos?.filter((item: any) => item._id !== id));
   };
-
-  console.log(state);
 
   return (
     <DashboardLayout>

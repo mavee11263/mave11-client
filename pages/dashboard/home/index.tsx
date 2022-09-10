@@ -19,7 +19,7 @@ function DashboardHome({}: Props) {
   
     return (
       <DashboardLayout>
-        <div className="mt-8">
+        <div className="mt-8 w-full">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <h2 className="text-lg font-medium leading-6 text-gray-900">
               Overview
@@ -37,7 +37,7 @@ function DashboardHome({}: Props) {
                 bg_color={"bg-red-200"}
               />
               <DashboardCard
-                name="Page visits"
+                name="All Videos"
                 icon={
                   <VideoCameraIcon
                     className="h-6 w-6 text-green-600"
