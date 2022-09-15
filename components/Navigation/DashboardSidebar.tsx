@@ -19,7 +19,7 @@ const navigation = [
     { name: "Videos", href: '/dashboard/videos', icon: VideoCameraIcon, current: false },
     { name: 'Users', href: '/dashboard/users', icon: UserGroupIcon, current: false },
     { name: 'Reports', href: '/dashboard/reports', icon: TrendingUpIcon, current: false },
-    { name: 'Store Settings', href: '/dashboard/settings', icon: CogIcon },
+    { name: 'Site Settings', href: '/dashboard/settings', icon: CogIcon },
 ]
 const secondaryNavigation = [
     { name: 'User Settings', href: '/password', icon: UserIcon },
