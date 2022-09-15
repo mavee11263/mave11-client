@@ -22,7 +22,7 @@ const navigation = [
     { name: 'Site Settings', href: '/dashboard/settings', icon: CogIcon },
 ]
 const secondaryNavigation = [
-    { name: 'User Settings', href: '/password', icon: UserIcon },
+    { name: 'User Settings', href: '/dashboard/site-settings', icon: UserIcon },
 
 ]
 
