@@ -1,3 +1,4 @@
+import { Spinner } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import Pagination from "../../../components/Pagination/Pagination";
 import ManageReportsTable from "../../../components/Tables/ManageReportsTable";
@@ -12,8 +13,8 @@ type Props = {};
 
 function Reports({}: Props) {
   const [page, setPage] = useState(1);
-  const url = `${apiUrl}/api/admin/reports`
-  const [all_reports, setAllReports] = useState<any>()
+  const url = `${apiUrl}/api/admin/reports`;
+  const [all_reports, setAllReports] = useState<any>();
 
   const state = useFetch(url);
   const { state: store_state } = useContext(Store);
@@ -30,8 +31,6 @@ function Reports({}: Props) {
     setAllReports(all_reports?.filter((item: any) => item._id !== id));
   };
 
-  console.log(state )
-
   return (
     <DashboardLayout>
       <div className="flex max-w-7xl mx-auto px-2 flex-col w-full">
@@ -39,23 +38,33 @@ function Reports({}: Props) {
           <p className="text-center py-4 capitalize font-semibold text-3xl">
             Manage Reports
           </p>
-          <ManageReportsTable
-          delete_item_from_table={delete_item_from_table}
-          setPage={setPage}
-          page={page}
-          data={state}
-          auth_token={token}
-          reports={all_reports}
-        />
-         <>
-          <Pagination
-            className="flex flex-1 py-8 mx-auto"
-            currentPage={page}
-            totalCount={state?.data.meta?.total}
-            pageSize={PER_PAGE}
-            onPageChange={(page: number) => setPage(page)}
-          />
-        </>
+          {state?.status === "fetching" ? (
+            <>
+              <div className="h-96 mx-auto w-full grid items-center justify-center content-center">
+                <Spinner size={"xl"} />
+              </div>
+            </>
+          ) : (
+            <>
+              <ManageReportsTable
+                delete_item_from_table={delete_item_from_table}
+                setPage={setPage}
+                page={page}
+                data={state}
+                auth_token={token}
+                reports={all_reports}
+              />
+              <>
+                <Pagination
+                  className="flex flex-1 py-8 mx-auto"
+                  currentPage={page}
+                  totalCount={state?.data.meta?.total}
+                  pageSize={PER_PAGE}
+                  onPageChange={(page: number) => setPage(page)}
+                />
+              </>
+            </>
+          )}
         </div>
       </div>
     </DashboardLayout>

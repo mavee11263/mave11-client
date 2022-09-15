@@ -12,6 +12,11 @@ import {
   ModalBody,
   useDisclosure,
   Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
@@ -20,6 +25,7 @@ import moment from "moment";
 import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
 import { Store } from "../../Context/Store";
+import { ChevronDownIcon } from "@heroicons/react/solid";
 
 interface Props {
   delete_item_from_table?: any;
@@ -252,53 +258,23 @@ function AdminVideosTable({
                           </>
                         )}
                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                          <div className="flex flex-row items-center space-x-2">
-                            {change_status ? (
-                              <div className="flex flex-row items-center space-x-2">
-                                <span
-                                  onClick={() =>
-                                    change_status_handler(
-                                      new_status,
-                                      video._id,
-                                      video.description,
-                                      video.thumbnail,
-                                      video.category,
-                                      video.title
-                                    )
-                                  }
-                                  className="cursor-pointer"
-                                >
-                                  <CheckCircleIcon
-                                    height={24}
-                                    width={24}
-                                    className="text-green-400 "
-                                  />
-                                </span>
-                                <span
-                                  onClick={() => setChangeStatus(false)}
-                                  className="cursor-pointer"
-                                >
-                                  <XCircleIcon
-                                    height={24}
-                                    width={24}
-                                    className="text-red-400 "
-                                  />
-                                </span>
-                              </div>
-                            ) : (
-                              <span
-                                onClick={() =>
-                                  set_delete_item(video._id, video.title)
-                                }
-                                className="cursor-pointer"
+                          <div className="flex">
+                            <Menu size={"xs"}>
+                              <MenuButton
+                                as={Button}
+                                rightIcon={<ChevronDownIcon />}
                               >
-                                <TrashIcon
-                                  height={20}
-                                  width={20}
-                                  className="text-red-400 "
-                                />
-                              </span>
-                            )}
+                                Actions
+                              </MenuButton>
+                              <MenuList>
+                                <MenuItem>View Video</MenuItem>
+                                <MenuItem>View Channel</MenuItem>
+                                <MenuItem>Block Video</MenuItem>
+
+                                <MenuDivider />
+                                <MenuItem>Delete Video</MenuItem>
+                              </MenuList>
+                            </Menu>
                           </div>
                         </td>
                       </tr>
@@ -343,7 +319,7 @@ function AdminVideosTable({
           </div>
         </div>
       </div>
-     </div>
+    </div>
   );
 }
 

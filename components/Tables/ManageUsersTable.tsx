@@ -1,8 +1,6 @@
-import React, { ReactElement, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
-  CheckCircleIcon,
   TrashIcon,
-  XCircleIcon,
 } from "@heroicons/react/outline";
 import {
   Modal,
@@ -12,6 +10,11 @@ import {
   ModalBody,
   useDisclosure,
   Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
@@ -19,6 +22,7 @@ import moment from "moment";
 import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
 import { Store } from "../../Context/Store";
+import { ChevronDownIcon } from "@heroicons/react/solid";
 
 interface Props {
   delete_item_from_table?: any;
@@ -55,11 +59,11 @@ function ManageUsersTable({
 
   const confirm_delete_item = async (video_id: string) => {
     try {
-    //   await axios.delete(`${apiUrl}/api/video/delete/${video_id}`, {
-    //     headers: {
-    //       Authorization: auth_token,
-    //     },
-    //   });
+      //   await axios.delete(`${apiUrl}/api/video/delete/${video_id}`, {
+      //     headers: {
+      //       Authorization: auth_token,
+      //     },
+      //   });
       delete_item_from_table(video_id);
       toast({
         title: "Video Deleted!",
@@ -134,8 +138,6 @@ function ManageUsersTable({
                   >
                     created on
                   </th>
-                 
-                
 
                   <th
                     onClick={() => setChangeStatus(true)}
@@ -149,7 +151,7 @@ function ManageUsersTable({
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 "
                   >
-                    Actions
+                    {/* Actions */}
                   </th>
                 </tr>
               </thead>
@@ -172,7 +174,7 @@ function ManageUsersTable({
                             </div>
                             <div className="ml-4">
                               <div className="max-w-xs overflow-hidden text-sm font-medium text-gray-900 ">
-                                {video?.title}
+                                {video?.username}
                               </div>
                             </div>
                           </div>
@@ -189,16 +191,31 @@ function ManageUsersTable({
                           </div>
                         </td>
 
-                       
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="text-sm text-gray-500 ">
                             {video?.role}
                           </div>
                         </td>
 
-                       
                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                          <div className="flex flex-row items-center space-x-2">
+                         <div className="flex">
+                         <Menu size={'xs'}>
+                            <MenuButton
+                              as={Button}
+                              rightIcon={<ChevronDownIcon />}
+                            >
+                              Actions
+                            </MenuButton>
+                            <MenuList>
+                              <MenuItem>Block Account</MenuItem>
+                              <MenuItem>View User</MenuItem>
+                              <MenuDivider />
+                              <MenuItem>Delete User</MenuItem>
+                            </MenuList>
+                          </Menu>
+                         </div>
+                          
+                          {/* <div className="flex flex-row items-center space-x-2">
                             {change_status ? (
                               <div className="flex flex-row items-center space-x-2">
                                 <span
@@ -245,7 +262,7 @@ function ManageUsersTable({
                                 />
                               </span>
                             )}
-                          </div>
+                          </div> */}
                         </td>
                       </tr>
                     </>
@@ -289,7 +306,7 @@ function ManageUsersTable({
           </div>
         </div>
       </div>
-     </div>
+    </div>
   );
 }
 

@@ -1,3 +1,4 @@
+import { Spinner } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import Pagination from "../../../components/Pagination/Pagination";
 import ManageUsersTable from "../../../components/Tables/ManageUsersTable";
@@ -40,23 +41,33 @@ function Users({}: Props) {
             Manage All Users And Channels
           </p>
         </div>
-        <ManageUsersTable
-          delete_item_from_table={delete_item_from_table}
-          setPage={setPage}
-          page={page}
-          data={state}
-          auth_token={token}
-          videos={all_userss}
-        />
-        <>
-          <Pagination
-            className="flex flex-1 py-8 mx-auto"
-            currentPage={page}
-            totalCount={state?.data.meta?.total}
-            pageSize={PER_PAGE}
-            onPageChange={(page: number) => setPage(page)}
-          />
-        </>
+        {state?.status === "fetching" ? (
+          <>
+            <div className="h-96 mx-auto w-full grid items-center justify-center content-center">
+              <Spinner size={"xl"} />
+            </div>
+          </>
+        ) : (
+          <>
+            <ManageUsersTable
+              delete_item_from_table={delete_item_from_table}
+              setPage={setPage}
+              page={page}
+              data={state}
+              auth_token={token}
+              videos={all_userss}
+            />
+            <>
+              <Pagination
+                className="flex flex-1 py-8 mx-auto"
+                currentPage={page}
+                totalCount={state?.data.meta?.total}
+                pageSize={PER_PAGE}
+                onPageChange={(page: number) => setPage(page)}
+              />
+            </>
+          </>
+        )}
       </div>
     </DashboardLayout>
   );
