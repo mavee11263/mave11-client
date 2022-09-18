@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import VideoPlayer from "../../components/VideoPlayer/VideoPlayer";
 import HomeLayout from "../../layouts/HomeLayout";
 import dynamic from "next/dynamic";
