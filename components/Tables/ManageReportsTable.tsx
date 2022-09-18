@@ -25,6 +25,7 @@ import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
 import { Store } from "../../Context/Store";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import ReusableModal from "../Modals/ReusableModal";
 
 interface Props {
   delete_item_from_table?: any;
@@ -47,7 +48,15 @@ function ManageReportsTable({
   reports,
   auth_token,
 }: Props) {
+  // for modal
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [modal_heading, setModalHeading] = useState("");
+  const [modal_body, setModalBody] = useState("");
+  const [modal_button, setModalButton] = useState<any>();
+  const [user_to_delete, setUserToDelete] = useState("");
+  const [video_name, setvideoName] = useState("");
+  const [video_id, setvideoId] = useState("");
+
   const [report_name, setReportName] = useState("");
   const [report_id, setReportsId] = useState("");
   const router = useRouter();
@@ -80,6 +89,8 @@ function ManageReportsTable({
     }
   };
 
+  const confirm_block_video = () => {};
+
   const change_status_handler = async (
     status: string,
     report_id: string,
@@ -107,10 +118,48 @@ function ManageReportsTable({
     setChangeStatus(false);
   };
 
-  const set_delete_item = (id: string, name: string) => {
+  const open_delete_modal = (user_id: any, user_name: string) => {
+    setModalHeading("Delete Report");
+    setUserToDelete(user_id);
+    setvideoId(user_id);
+    setvideoName(user_name);
+    setModalBody(`Are you sure you want to delete report?`);
+    // @ts-ignore
+    setModalButton(() => {
+      return (
+        <Button
+          onClick={() => confirm_delete_item(user_id)}
+          colorScheme="red"
+          isLoading={false}
+        >
+          Delete
+        </Button>
+      );
+    });
     onOpen();
-    setReportsId(id);
-    setReportName(name);
+  };
+
+  const open_block_modal = (user_id: any, user_name: string) => {
+    setModalHeading("Block Video");
+    setUserToDelete(user_id);
+    setvideoId(user_id);
+    setvideoName(user_name);
+    setModalBody(
+      `Are you sure you want to block video?. It will not show up on search and explore`
+    );
+    // @ts-ignore
+    setModalButton(() => {
+      return (
+        <Button
+          onClick={() => confirm_block_video()}
+          colorScheme="red"
+          isLoading={false}
+        >
+          Delete
+        </Button>
+      );
+    });
+    onOpen();
   };
 
   return (
@@ -190,7 +239,7 @@ function ManageReportsTable({
                         </td>
 
                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                        <div className="flex">
+                          <div className="flex">
                             <Menu size={"xs"}>
                               <MenuButton
                                 as={Button}
@@ -199,11 +248,29 @@ function ManageReportsTable({
                                 Actions
                               </MenuButton>
                               <MenuList>
-                                <MenuItem>View Video</MenuItem>
+                                <MenuItem
+                                  onClick={() =>
+                                    router.push(`/video/${video?.video}`)
+                                  }
+                                >
+                                  View Video
+                                </MenuItem>
                                 <MenuItem>View Channel</MenuItem>
-                                <MenuItem>Block Video</MenuItem>
+                                <MenuItem
+                                  onClick={() =>
+                                    open_block_modal(video?._id, video?.report)
+                                  }
+                                >
+                                  Block Video
+                                </MenuItem>
                                 <MenuDivider />
-                                <MenuItem>Delete Report</MenuItem>
+                                <MenuItem
+                                  onClick={() =>
+                                    open_delete_modal(video?._id, video?.report)
+                                  }
+                                >
+                                  Delete Report
+                                </MenuItem>
                               </MenuList>
                             </Menu>
                           </div>
@@ -215,38 +282,13 @@ function ManageReportsTable({
               </tbody>
             </table>
 
-            <Modal isOpen={isOpen} onClose={onClose} isCentered>
-              <ModalOverlay />
-              <ModalContent className=" ">
-                <ModalBody className="flex w-full   flex-col items-center ">
-                  <TrashIcon
-                    height={80}
-                    width={80}
-                    className="text-gray-800 dark:text-white "
-                  />
-                  <p className="my-4 text-center text-lg font-semibold text-gray-800 dark:text-white">
-                    Delete
-                  </p>
-                  <p className="text-center dark:text-white">
-                    Are you sure you want to delete video with name{" "}
-                    {report_name}?
-                  </p>
-                </ModalBody>
-
-                <ModalFooter className="">
-                  <Button colorScheme="blue" mr={3} onClick={onClose}>
-                    Close
-                  </Button>
-                  <Button
-                    onClick={() => confirm_delete_item(report_id)}
-                    colorScheme="red"
-                    isLoading={loading}
-                  >
-                    Delete
-                  </Button>
-                </ModalFooter>
-              </ModalContent>
-            </Modal>
+            <ReusableModal
+              onClose={onClose}
+              isOpen={isOpen}
+              heading={modal_heading}
+              body={modal_body}
+              modal_button={modal_button}
+            />
           </div>
         </div>
       </div>

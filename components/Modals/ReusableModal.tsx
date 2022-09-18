@@ -36,7 +36,7 @@ function ReusableModal({
           <p className="my-4 text-center text-lg font-semibold text-gray-800 ">
             {heading}
           </p>
-          <p className="text-center ">{body}?</p>
+          <p className="text-center ">{body}</p>
         </ModalBody>
 
         <ModalFooter className="">
