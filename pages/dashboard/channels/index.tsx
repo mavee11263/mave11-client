@@ -1,4 +1,4 @@
-import { Spinner, useDisclosure } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import Pagination from "../../../components/Pagination/Pagination";
 import ManageUsersTable from "../../../components/Tables/ManageUsersTable";
@@ -11,8 +11,7 @@ const PER_PAGE = 10;
 
 type Props = {};
 
-function Users({}: Props) {
-
+const ManageChannels = (props: Props) => {
   const [page, setPage] = useState(1);
   const [all_userss, setAllUsers] = useState<any>();
   const url = `${apiUrl}/api/admin/users?perPage=${PER_PAGE}?page=${page}`;
@@ -39,7 +38,7 @@ function Users({}: Props) {
       <div className="flex max-w-7xl mx-auto w-full px-2 flex-col">
         <div className="flex flex-col w-full ">
           <p className="text-center py-4 capitalize font-semibold text-3xl">
-            Manage All Users
+            Manage All Channels
           </p>
         </div>
         {state?.status === "fetching" ? (
@@ -72,6 +71,6 @@ function Users({}: Props) {
       </div>
     </DashboardLayout>
   );
-}
+};
 
-export default Users;
+export default ManageChannels;

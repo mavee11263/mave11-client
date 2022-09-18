@@ -20,7 +20,6 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
-import Pagination from "../Pagination/Pagination";
 import moment from "moment";
 import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
@@ -177,7 +176,7 @@ function AdminVideosTable({
                       <tr key={video.thumbnail + index}>
                         <td
                           className="whitespace-nowrap px-6 py-4"
-                          onClick={() => router.push(`/video/${"video?._id"}`)}
+                          onClick={() => router.push(`/video/${video?._id}`)}
                         >
                           <div className="flex items-center">
                             <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-100 ">
@@ -267,12 +266,18 @@ function AdminVideosTable({
                                 Actions
                               </MenuButton>
                               <MenuList>
-                                <MenuItem>View Video</MenuItem>
-                                <MenuItem>View Channel</MenuItem>
+                                <MenuItem onClick={() => router.push(`/video/${video?._id}`)}>View Video</MenuItem>
+                                <MenuItem onClick={() => router.push(`/video/${video?._id}`)}>View Channel</MenuItem>
                                 <MenuItem>Block Video</MenuItem>
 
                                 <MenuDivider />
-                                <MenuItem>Delete Video</MenuItem>
+                                <MenuItem
+                                  onClick={() =>
+                                    set_delete_item(video._id, video.title)
+                                  }
+                                >
+                                  Delete Video
+                                </MenuItem>
                               </MenuList>
                             </Menu>
                           </div>
@@ -291,12 +296,12 @@ function AdminVideosTable({
                   <TrashIcon
                     height={80}
                     width={80}
-                    className="text-gray-800 dark:text-white "
+                    className="text-gray-800  "
                   />
-                  <p className="my-4 text-center text-lg font-semibold text-gray-800 dark:text-white">
+                  <p className="my-4 text-center text-lg font-semibold text-gray-800 ">
                     Delete
                   </p>
-                  <p className="text-center dark:text-white">
+                  <p className="text-center ">
                     Are you sure you want to delete video with name {video_name}
                     ?
                   </p>

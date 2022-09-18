@@ -18,6 +18,7 @@ const navigation = [
     { name: 'Home', href: '/dashboard/home', icon: TemplateIcon, current: false },
     { name: "Videos", href: '/dashboard/videos', icon: VideoCameraIcon, current: false },
     { name: 'Users', href: '/dashboard/users', icon: UserGroupIcon, current: false },
+    { name: 'Channels', href: '/dashboard/channels', icon: UserGroupIcon, current: false },
     { name: 'Reports', href: '/dashboard/reports', icon: TrendingUpIcon, current: false },
     { name: 'Site Settings', href: '/dashboard/settings', icon: CogIcon },
 ]
