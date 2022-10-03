@@ -25,6 +25,7 @@ import axios from "axios";
 import { apiUrl } from "../../utils/apiUrl";
 import { Store } from "../../Context/Store";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import ReusableModal from "../Modals/ReusableModal";
 
 interface Props {
   delete_item_from_table?: any;
@@ -50,6 +51,11 @@ function AdminVideosTable({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [video_name, setvideoName] = useState("");
   const [video_id, setvideoId] = useState("");
+  // for modals 
+  const [modal_heading, setModalHeading] = useState("");
+  const [modal_body, setModalBody] = useState("");
+  const [modal_button, setModalButton] = useState<any>();
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
@@ -79,6 +85,28 @@ function AdminVideosTable({
       console.error(error);
     }
   };
+
+  const open_delete_modal = (user_id:any, user_name:string) => {
+    setModalHeading("Delete Item");
+    // setUserToDelete(user_id)
+    setvideoId(user_id);
+    setvideoName(user_name)
+    setModalBody(`Are you sure you want to delete item?`);
+    // @ts-ignore
+    setModalButton(() => {
+      return (
+        <Button
+          onClick={() => confirm_delete_item(user_id)}
+          colorScheme="red"
+          isLoading={false}
+        >
+          Delete
+        </Button>
+      );
+    });
+    onOpen()
+  };
+
 
   const change_status_handler = async (
     status: string,
@@ -273,7 +301,7 @@ function AdminVideosTable({
                                 <MenuDivider />
                                 <MenuItem
                                   onClick={() =>
-                                    set_delete_item(video._id, video.title)
+                                    open_delete_modal(video._id, video.title)
                                   }
                                 >
                                   Delete Video
@@ -289,7 +317,15 @@ function AdminVideosTable({
               </tbody>
             </table>
 
-            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+            <ReusableModal
+              onClose={onClose}
+              isOpen={isOpen}
+              heading={modal_heading}
+              body={modal_body}
+              modal_button={modal_button}
+            />
+
+            {/* <Modal isOpen={isOpen} onClose={onClose} isCentered>
               <ModalOverlay />
               <ModalContent className=" ">
                 <ModalBody className="flex w-full   flex-col items-center ">
@@ -320,7 +356,7 @@ function AdminVideosTable({
                   </Button>
                 </ModalFooter>
               </ModalContent>
-            </Modal>
+            </Modal> */}
           </div>
         </div>
       </div>

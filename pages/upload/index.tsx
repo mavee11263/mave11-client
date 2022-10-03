@@ -60,13 +60,13 @@ function Upload() {
   }, []);
 
   const sace_video = async () => {
-    const pictureFile = pictures_for_upload[0];
-    const thumbnail_name = thumbnails[2].split("/");
-    const item_name =
-      pictures_for_upload.length >= 1 ? pictureFile.name : thumbnail_name[3];
+    // const pictureFile = pictures_for_upload[0];
+    // const thumbnail_name = thumbnails[2].split("/");
+    // const item_name =
+    //   pictures_for_upload.length >= 1 ? pictureFile.name : thumbnail_name[3];
 
     // storage ref for manually selected thumbnail
-    const storageRef = ref(storage, `Thumbnails/${Date.now()}-${item_name}`);
+    // const storageRef = ref(storage, `Thumbnails/${Date.now()}-${item_name}`);
 
     try {
       if (!title) {
@@ -99,16 +99,16 @@ function Upload() {
         });
         return;
       }
-      if (!videoAsset) {
-        toast({
-          title: "Upload Video First",
-          status: "error",
-          position: "top-right",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      }
+      // if (!videoAsset) {
+      //   toast({
+      //     title: "Upload Video First",
+      //     status: "error",
+      //     position: "top-right",
+      //     duration: 9000,
+      //     isClosable: true,
+      //   });
+      //   return;
+      // }
 
       const handle_post_to_backend = async (downloadURL: any) => {
         const { data } = await axios.post(
@@ -117,8 +117,8 @@ function Upload() {
             title: title,
             description,
             category,
-            video_url: videoAsset,
-            picture_url: downloadURL,
+            video_url: 'videoAsset',
+            picture_url: 'downloadURL',
             tags: tags,
             duration: duration,
             status: video_status,
@@ -140,44 +140,47 @@ function Upload() {
         setLoading(false);
       };
 
-      setLoading(true);
+      // setLoading(true); 
 
-      // upload picture selected by user
-      const uploadTask = uploadBytesResumable(storageRef, pictureFile);
+      // remove below when on wifi
+      handle_post_to_backend('ss')
 
-      // upload picture auto generated
-      const anotherUploadTask = uploadString(
-        storageRef,
-        selected_thumbnail ? selected_thumbnail : thumbnails[2],
-        "data_url"
-      );
+      // // upload picture selected by user
+      // const uploadTask = uploadBytesResumable(storageRef, pictureFile);
 
-      if (pictures_for_upload.length >= 1) {
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const uploadProgress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setPIctureProgress(uploadProgress);
-          },
-          (error) => {
-            console.log(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then(
-              async (downloadURL) => {
-                handle_post_to_backend(downloadURL);
-              }
-            );
-          }
-        );
-      } else {
-        anotherUploadTask.then((snapshot) => {
-          getDownloadURL(snapshot.ref).then(async (url) => {
-            handle_post_to_backend(url);
-          });
-        });
-      }
+      // // upload picture auto generated
+      // const anotherUploadTask = uploadString(
+      //   storageRef,
+      //   selected_thumbnail ? selected_thumbnail : thumbnails[2],
+      //   "data_url"
+      // );
+
+      // if (pictures_for_upload.length >= 1) {
+      //   uploadTask.on(
+      //     "state_changed",
+      //     (snapshot) => {
+      //       const uploadProgress =
+      //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      //       setPIctureProgress(uploadProgress);
+      //     },
+      //     (error) => {
+      //       console.log(error);
+      //     },
+      //     () => {
+      //       getDownloadURL(uploadTask.snapshot.ref).then(
+      //         async (downloadURL) => {
+      //           handle_post_to_backend(downloadURL);
+      //         }
+      //       );
+      //     }
+      //   );
+      // } else {
+      //   anotherUploadTask.then((snapshot) => {
+      //     getDownloadURL(snapshot.ref).then(async (url) => {
+      //       handle_post_to_backend(url);
+      //     });
+      //   });
+      // }
     } catch (error) {
       console.log(getError(error));
       setLoading(false);
